@@ -1,5 +1,5 @@
 /** Written by Matt Erickson (ME) **/
-var DEBUG = true; //debug flag for helping figure out what is going on
+var DEBUG = false; //debug flag for helping figure out what is going on
 //One time inits
 var $GALAGA_CANVAS;
 var GALAGA_CANVAS;
@@ -287,9 +287,9 @@ function moveBadGuys() {
 
             //Check if bad guy hit the bottom
             if (DEBUG) {
-		console.log("BadGuy Bottom [" + badGuy.bottom + "] Canvas bottom [" + GALAGA_CANVAS.height + "]");
+		console.log("BadGuy Bottom [" + badGuy.bottom() + "] Canvas bottom [" + GALAGA_CANVAS.height + "]");
 	    }
-            if (badGuy.bottom > GALAGA_CANVAS.height) {
+            if (badGuy.bottom() > GALAGA_CANVAS.height) {
                 setEndGame("Bad guys hit the bottom of the GALAGA_CANVAS");
                 return false;
             }
