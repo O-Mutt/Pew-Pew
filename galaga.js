@@ -153,7 +153,8 @@ function doKeyAction() {
         processArrow([3,0]);
     } else if (pressedKeys[40]) { // down
         processArrow([0,3]);
-    } else if (pressedKeys[32]) { // space
+    }
+    if (pressedKeys[32]) { // space
         pressedKeys[32] = false;
         if (intervalLoop == 0) {
             setStartGame(5);
