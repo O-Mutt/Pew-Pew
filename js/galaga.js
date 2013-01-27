@@ -168,6 +168,7 @@ function ready() {
         pressedKeys[event.which] = true;
 
         console.log(event.which)
+        return false;
     });
 
     $(document).keyup(function(event) {
