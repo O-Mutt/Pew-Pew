@@ -41,6 +41,9 @@ var bulletsControl = {};
 
 var BARRIER_LIFE_LIMIT = 70;
 
+var luckyLife = 0;
+var LUCKY_LIFE_LIMIT = 300;
+
 /*document ready function */
 jQuery(document).ready(function($){
     //jquery GALAGA_CANVAS wrapper
@@ -164,24 +167,28 @@ function doKeyAction() {
             mouse.x = 50;
             redrawPlayerGalaga();
         } else {
-            if (bullets.length < 4 && barrierBullets.length == 0) {
+            if (luckyLife
+                    || (bullets.length < 4 && barrierBullets.length == 0)) {
                 bullets.push(new Bullet(player.x - 1, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0));
             }
         }
     } else if (pressedKeys[88]) { // X - Shot Gun
-        if (bullets.length  == 0 && barrierBullets.length == 0) {
+        if (luckyLife
+                || (bullets.length  == 0 && barrierBullets.length == 0)) {
             bullets.push(new Bullet(player.x - 15, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, -1));
             bullets.push(new Bullet(player.x - 5, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, -0.5));
             bullets.push(new Bullet(player.x  + 5, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0.5));
             bullets.push(new Bullet(player.x  + 15, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 1));
         }
     } else if (pressedKeys[90]) { // Z - Bomb
-        if (bullets.length == 0 && barrierBullets.length == 0) {
+        if (luckyLife
+                || (bullets.length == 0 && barrierBullets.length == 0)) {
             bullets.push(new Bullet(player.x  + 15, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0, "bomb"));
         }
 
     } else if (pressedKeys[67]) { // C - Barrier
-        if (barrierBullets.length == 0) {
+        if (luckyLife
+                || (barrierBullets.length == 0)) {
             barrierBullet = new Bullet(player.x - BULLETWIDTH * 20,
                     player.y - GUYOFFSET - 30, BULLETHEIGHT, BULLETWIDTH * 40);
             barrierBullet.life = BARRIER_LIFE_LIMIT;
@@ -260,6 +267,9 @@ function drawGalaga() {
     redrawBullets();
     checkLevelFinished();
     doKeyAction();
+    if (luckyLife > 0) {
+        luckyLife--;
+    }
 }
 
 /**
@@ -269,7 +279,12 @@ function badGuysTryFire() {
     jQuery.each(badGuys, function(index, badGuy) {
         //Chance to fire
         if (Math.floor(Math.random() * FIRECHANCEDENOMINATOR) > FIRECHANCENUMERATOR) {
-            badBullets.push(new Bullet(badGuy.x + (badGuy.width / 2), badGuy.bottom(), BULLETHEIGHT, BULLETWIDTH, 0));
+            var badBullet = new Bullet(badGuy.x + (badGuy.width / 2),
+                badGuy.bottom(), BULLETHEIGHT, BULLETWIDTH, 0);
+            if (Math.random() * 1000 % 100 < 30) {
+                badBullet.bulletType = "lucky";
+            }
+            badBullets.push(badBullet);
         }
     });
 }
@@ -281,6 +296,12 @@ function redrawPlayerGalaga(str) {
         player.y = 370;
     } else {
         player.y = mouse.y;
+    }
+    if (luckyLife > 0) {
+        GALAGA_CONTEXT.fillStyle = "GRAY";
+        GALAGA_CONTEXT.fillRect(0, 350, 400, 400); //X, Y, width, height
+        GALAGA_CONTEXT.fillStyle = "Black";
+        GALAGA_CONTEXT.fillText("GOD MODE!" + luckyLife, 20, 370);
     }
 
     GALAGA_CONTEXT.drawImage(player.img, player.x - GUYOFFSET, player.y - GUYOFFSET, player.height, player.width);
@@ -328,7 +349,11 @@ function collisionCheckBullets() {
 
     jQuery.each(badBullets, function(index, badBullet) {
         if (badBullet != undefined && intersect(badBullet)) {
-            setEndGame("Collision with bad bullet");
+            if (badBullet.bulletType == "lucky") {
+                luckyLife = LUCKY_LIFE_LIMIT;
+            } else if (luckyLife <= 0) {
+                setEndGame("Collision with bad bullet");
+            }
             return false;
         }
     });
@@ -425,7 +450,11 @@ function redrawBullets() {
     jQuery.each(badBullets, function(index, badBullet) {
         if (badBullet != undefined) {
             badBullet.y += 3; //Move bullet up
-            GALAGA_CONTEXT.fillStyle = "White";
+            if (badBullet.bulletType == "lucky") {
+                GALAGA_CONTEXT.fillStyle = "Green";
+            } else {
+                GALAGA_CONTEXT.fillStyle = "White";
+            }
             GALAGA_CONTEXT.fillRect(badBullet.x, badBullet.y, badBullet.width, badBullet.height); //X, Y, width, height
             if (badBullet.y > $GALAGA_CANVAS.height) {
                 badBullets.splice(index, 1);
