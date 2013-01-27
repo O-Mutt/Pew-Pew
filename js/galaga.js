@@ -32,12 +32,21 @@ var gameTypeClassic;
 //Multiple inits
 var player;
 var bullets = new Array(); //bullets fired by player
+var barrierBullets = new Array();
 var badGuys = new Array(); //the bad guys
 
 var bossFire = new Array();
 //Important interval handler!
 var intervalLoop = 0;
 var fakeGame = 0;
+
+var pressedKeys = {};
+var bulletsControl = {};
+
+var BARRIER_LIFE_LIMIT = 70;
+
+var luckyLife = 0;
+var LUCKY_LIFE_LIMIT = 300;
 
 /*document ready function */
 jQuery(document).ready(function($){
@@ -70,6 +79,16 @@ jQuery(document).ready(function($){
 	gameTypeClassic = true;
 	ready();
 });
+
+// diff is array for x diff and y diff.
+function processArrow(diff) {
+    if (pressedKeys[16]) {
+        bulletsControl = diff;
+    } else {
+        mouse.x += diff[0];
+        mouse.y += diff[1];
+    }
+}
 
 function ready() {
 
@@ -118,6 +137,23 @@ function ready() {
     jQuery($GALAGA_CANVAS).mousemove(function(event) {
         setMousePosition(event);
     });
+
+    $(document).keydown(function(event) {
+        if (event.which == 32 && intervalLoop == 0) {
+            setStartGame(5);
+            mouse.x = 50;
+            redrawPlayerGalaga();
+        }
+
+        pressedKeys[event.which] = true;
+
+        console.log(event.which)
+    });
+
+    $(document).keyup(function(event) {
+        pressedKeys[event.which] = false;
+    });
+
 }
 
 function shoot(){
@@ -127,6 +163,53 @@ function shoot(){
         }
     });
 }
+
+function doKeyAction() {
+    if (pressedKeys[37]) { // left
+        processArrow([-3,0]);
+    } else if (pressedKeys[38]) { // up
+        processArrow([0,-3]);
+    } else if (pressedKeys[39]) { // right
+        processArrow([3,0]);
+    } else if (pressedKeys[40]) { // down
+        processArrow([0,3]);
+    }
+    if (pressedKeys[32]) { // space
+        pressedKeys[32] = false;
+        if (intervalLoop == 0) {
+            setStartGame(5);
+            mouse.x = 50;
+            redrawPlayerGalaga();
+        } else {
+            if (luckyLife
+                    || (bullets.length < 4 && barrierBullets.length == 0)) {
+                bullets.push(new Bullet(player.x - 1, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0));
+            }
+        }
+    } else if (pressedKeys[88]) { // X - Shot Gun
+        if (luckyLife
+                || (bullets.length  == 0 && barrierBullets.length == 0)) {
+            bullets.push(new Bullet(player.x - 15, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, -1));
+            bullets.push(new Bullet(player.x - 5, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, -0.5));
+            bullets.push(new Bullet(player.x  + 5, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0.5));
+            bullets.push(new Bullet(player.x  + 15, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 1));
+        }
+    } else if (pressedKeys[90]) { // Z - Bomb
+        if (luckyLife
+                || (bullets.length == 0 && barrierBullets.length == 0)) {
+            bullets.push(new Bullet(player.x  + 15, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0, "bomb"));
+        }
+
+    } else if (pressedKeys[67]) { // C - Barrier
+        if (luckyLife
+                || (barrierBullets.length == 0)) {
+            barrierBullet = new Bullet(player.x - BULLETWIDTH * 20,
+                    player.y - GUYOFFSET - 30, BULLETHEIGHT, BULLETWIDTH * 40);
+            barrierBullet.life = BARRIER_LIFE_LIMIT;
+            barrierBullets.push(barrierBullet);
+        }
+    }
+};
 
 /**
  * Initiallizes the game
@@ -138,6 +221,7 @@ function initGalaga() {
     badGuys = [];
     player = null;
     bullets = [];
+    barrierBullets = [];
     badBullets = [];
 
     initPlayer(true);
@@ -178,7 +262,7 @@ function drawPlayerGalaga() {
     //Clean GALAGA_CANVAS
     GALAGA_CONTEXT.clearRect(0, 0, 400, 400);
     //Move player to mouse
-    redrawPlayerGalaga("Click To Start!");
+    redrawPlayerGalaga("Click or Space To Start!");
 }
 
 /**
@@ -196,6 +280,10 @@ function drawGalaga() {
     badGuysTryFire();
     redrawBullets();
     checkLevelFinished();
+    doKeyAction();
+    if (luckyLife > 0) {
+        luckyLife--;
+    }
 }
 
 /**
@@ -219,9 +307,14 @@ function badGuysTryFire() {
                 badGuy.startLaser();
                 // badGuy.shoot();
             }else{
-                badBullets.push(new Bullet(badGuy.x + (badGuy.width / 2), badGuy.bottom(), BULLETHEIGHT, BULLETWIDTH, 0));    
-            }
-        }
+            	var badBullet = new Bullet(badGuy.x + (badGuy.width / 2),
+                	badGuy.bottom(), BULLETHEIGHT, BULLETWIDTH, 0);
+            	if 	(Math.random() * 1000 % 100 < 30) {
+                	badBullet.bulletType = "lucky";
+            	}
+            	badBullets.push(badBullet);
+        	}
+	}
     });
 }
 
@@ -232,6 +325,12 @@ function redrawPlayerGalaga(str) {
         player.y = 370;
     } else {
         player.y = mouse.y;
+    }
+    if (luckyLife > 0) {
+        GALAGA_CONTEXT.fillStyle = "GRAY";
+        GALAGA_CONTEXT.fillRect(0, 350, 400, 400); //X, Y, width, height
+        GALAGA_CONTEXT.fillStyle = "Black";
+        GALAGA_CONTEXT.fillText("GOD MODE!" + luckyLife, 20, 370);
     }
 
     GALAGA_CONTEXT.drawImage(player.img, player.x - GUYOFFSET, player.y - GUYOFFSET, player.height, player.width);
@@ -261,7 +360,7 @@ function collisionCheckBullets() {
             if(badGuy.isFiredLaser && (badGuy.getLaserHeight() + badGuy.top()) > 380){
                 if(badGuy.left()+15 < player.right() && badGuy.left()+55 > player.left()){
                     setEndGame("player is killed by laser");
-                    return false;
+			         return false;
                 }
             }
 
@@ -271,29 +370,48 @@ function collisionCheckBullets() {
                     return false;
                 }
             });
-        }else{
-            jQuery.each(bullets, function(indexBullet, bullet) {
-                if ((bullet != undefined && badGuy != undefined) && intersectOther(badGuy, bullet)) {
-                    if (badGuy.hp == 1) {
-                        badGuy.hp--;
-                        playerScore += badGuy.points;
-                        badGuys.splice(indexGuy, 1);
-                        bullets.splice(indexBullet, 1);
-                        return false;
-                    } else {
-                        badGuy.hp--;
-                        bullets.splice(indexBullet, 1);
-                        return false;
-                    }
-                }
-            });
         }
+
+        jQuery.each(bullets, function(indexBullet, bullet) {
+            if ((bullet != undefined && badGuy != undefined) && intersectOther(badGuy, bullet)) {
+                if (bullet.bulletType == "bomb") {
+                    bullets.push(new Bullet(bullet.x, bullet.y, BULLETHEIGHT * 5, BULLETWIDTH * 30, 0, "bomb"));
+                }
+                if (badGuy.hp == 1) {
+                    badGuy.hp--;
+                    playerScore += badGuy.points;
+                    badGuys.splice(indexGuy, 1);
+                    bullets.splice(indexBullet, 1);
+                    return false;
+                } else {
+                    badGuy.hp--;
+                    bullets.splice(indexBullet, 1);
+                }
+            }
+        });
     });
 
     jQuery.each(badBullets, function(index, badBullet) {
         if (badBullet != undefined && intersect(badBullet)) {
-            setEndGame("Collision with bad bullet");
+            if (badBullet.bulletType == "lucky") {
+                luckyLife = LUCKY_LIFE_LIMIT;
+            } else if (luckyLife <= 0) {
+                setEndGame("Collision with bad bullet");
+            }
             return false;
+        }
+    });
+
+    jQuery.each(barrierBullets, function(indexBarrierBullet, barrierBullet) {
+        jQuery.each(badBullets, function(indexBadBullet, badBullet) {
+            if ((badBullet != undefined && barrierBullet != undefined)
+                    && intersectOther(badBullet, barrierBullet)) {
+                badBullets.splice(indexBadBullet, 1);
+                return false;
+            }
+        });
+        if (barrierBullet != undefined && barrierBullet.life-- < 0) {
+            barrierBullets.splice(indexBarrierBullet, 1);
         }
     });
 }
@@ -358,6 +476,11 @@ function redrawBullets() {
     jQuery.each(bullets, function(index, bullet) {
         if (bullet != undefined) {
             bullet.y -= 3; //Move bullet up
+            bullet.x += bullet.xdiff;
+
+            bullet.x += bulletsControl[0];
+            bullet.y += bulletsControl[1];
+
             GALAGA_CONTEXT.fillStyle = "White";
             GALAGA_CONTEXT.fillRect(bullet.x, bullet.y, bullet.width, bullet.height); //X, Y, width, height
             if (bullet.y < 0) {
@@ -365,12 +488,17 @@ function redrawBullets() {
             }
         }
     });
+    bulletsControl = [0,0];
 
     //Bad guy bullets
     jQuery.each(badBullets, function(index, badBullet) {
         if (badBullet != undefined) {
             badBullet.y += 3; //Move bullet up
-            GALAGA_CONTEXT.fillStyle = "White";
+            if (badBullet.bulletType == "lucky") {
+                GALAGA_CONTEXT.fillStyle = "Green";
+            } else {
+                GALAGA_CONTEXT.fillStyle = "White";
+            }
             GALAGA_CONTEXT.fillRect(badBullet.x, badBullet.y, badBullet.width, badBullet.height); //X, Y, width, height
             if (badBullet.y > $GALAGA_CANVAS.height) {
                 badBullets.splice(index, 1);
@@ -416,6 +544,15 @@ function redrawBullets() {
                 }
                 
             });
+	}
+});
+    //Barrier bullets
+
+    jQuery.each(barrierBullets, function(index, barrierBullet) {
+        if (barrierBullet != undefined) {
+            GALAGA_CONTEXT.fillStyle = "Blue";
+            GALAGA_CONTEXT.fillRect(barrierBullet.x, barrierBullet.y,
+                barrierBullet.width, barrierBullet.height); //X, Y, width, height
         }
     });
 }
@@ -487,11 +624,13 @@ function setMousePosition(event) {
 /**
  * Bullets fired
  */
-function Bullet(x, y, height, width) {
+function Bullet(x, y, height, width, xdiff, bulletType) {
     this.x = x;
     this.y = y;
     this.height = height;
     this.width = width;
+    this.xdiff = xdiff;
+    this.bulletType = bulletType;
 
     this.top = function() {
         return this.y;
