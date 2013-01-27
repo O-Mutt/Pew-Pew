@@ -3,6 +3,7 @@
 		<title>GDG Suwon - I'm a developer!</title>
 		<link href="css/bootstrap.css" type="spreadsheet">
 		<link href="css/bootstrap-reponsive.css" type="spreadsheet">
+		<link href='http://fonts.googleapis.com/css?family=Iceland' rel='stylesheet' type='text/css'>
 		<script type="text/javascript" src="js/jquery.min.js"></script>
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
@@ -21,30 +22,50 @@
 			font-style: normal;
 			font-weight: normal;
 			text-align: center;
-			padding : 70px 0 80px;
+			padding : 70px 0 30px;
+			font-family: 'Iceland', cursive;
+		}
+
+		.main_title{
+			font-size : 42px;
+		}
+
+		.main_description{
+			font-size : 20px;
 		}
 		</style>
 	</head>	
 	<body>
-		<!--div class="main">
+		<div class="main">
 			<div class="container main_text">
-				<h1>I'm a Developer in GDG Suwon!</h1>
-				<p>This is the parady event of "I'm a singer!".</p>
-
-			</div>
-		</div-->
-		<div class="container">
-			<div class="row">
-				<div class="span4 offset4">
-					<canvas id="galaga_canvas" width="400" height="400" style="background-color:black;"></canvas>
-					
+				<div class="row">
+					<div class="span12" align="center">
+						<h1 class="main_title">
+							GALAGA
+						</h1>
+						<p class="main_description">
+							I'm a Developer in GDG Suwon!
+							This is the parady event of "I'm a singer!".
+						</p>
+					</div>	
 				</div>
+				<div class="row">
+					<div class="span4 offset4">
+						<canvas id="galaga_canvas" width="400" height="400" style="background-color:black;"></canvas>
+						
+					</div>
+				</div>	
 			</div>
 		</div>
-		<div id="img_source" style="display:block;">
-			<img id="bad1" src="img/bad1.png">
-			<img id="bad2" src="img/bad2.png">
-			<img id="bad3" src="img/bad3.png">
+		<div class="container">
+			<p class="muted credit">
+				This "Galaga" source code is based on <a href="https://github.com/Mutmatt/galaga_html5">https://github.com/Mutmatt/galaga_html5</a>
+			</p>
+		</div>
+		<div id="img_source" style="display:none;">
+			<img id="bad1" src="img/bad2.png">
+			<img id="bad2" src="img/bad3.png">
+			<img id="bad3" src="img/bad1.png">
 			<img id="good" src="img/good.png">
 			<img id="suri" src="img/suri.png">
 			<img id="laser" src="img/laser1" width="40" height="24">
