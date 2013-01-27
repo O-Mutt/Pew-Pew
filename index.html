@@ -17,21 +17,25 @@
 		}
 
 		.main_text{
-			color:white;
 			font-variant: normal;
 			font-style: normal;
 			font-weight: normal;
 			text-align: center;
-			padding : 70px 0 30px;
+			padding : 10px 0 10px;
 			font-family: 'Iceland', cursive;
 		}
 
 		.main_title{
-			font-size : 42px;
+			font-size : 70px;
 		}
 
 		.main_description{
 			font-size : 20px;
+		}
+
+		.footer{
+			font-family: 'Iceland', cursive;	
+			font-size : 15px;
 		}
 		</style>
 	</head>	
@@ -40,13 +44,9 @@
 			<div class="container main_text">
 				<div class="row">
 					<div class="span12" align="center">
-						<h1 class="main_title">
+						<h1 class="main_title" style="color:white;">
 							GALAGA
-						</h1>
-						<p class="main_description">
-							I'm a Developer in GDG Suwon!
-							This is the parady event of "I'm a singer!".
-						</p>
+						</h1>						
 					</div>	
 				</div>
 				<div class="row">
@@ -55,10 +55,19 @@
 						
 					</div>
 				</div>	
+				<div class="row">
+					<div class="span4 offset4">
+						<p class="main_description" style="color:white;">
+							This game is produced during "<b style="color:red;">I'm a Developer!</b>" Event in <b style="color:blue;">GDG Suwon</b>.
+							<br>
+							This event is the parady of "I'm a singer!" on MBC.
+						</p>
+					</div>
+				</div>
 			</div>
 		</div>
-		<div class="container">
-			<p class="muted credit">
+		<div class="container" align="center">
+			<p class="muted credit footer">
 				This "Galaga" source code is based on <a href="https://github.com/Mutmatt/galaga_html5">https://github.com/Mutmatt/galaga_html5</a>
 			</p>
 		</div>
