@@ -67,6 +67,13 @@ jQuery(document).ready(function($){
 	ready();
 });
 
+// diff is array for x diff and y diff.
+function movePlayer(diff) {
+    mouse.x += diff[0];
+    mouse.y += diff[1];
+    redrawPlayerGalaga("");
+}
+
 function ready() {
 
     //Game wide options
@@ -111,6 +118,35 @@ function ready() {
     //Mouse listener
     jQuery($GALAGA_CANVAS).mousemove(function(event) {
         setMousePosition(event);
+    });
+
+    $(document).keydown(function(event) {
+        switch (event.which) {
+            case 37: // left
+                movePlayer([-3,0]);
+                break;
+            case 38: // up
+                movePlayer([0,-3]);
+                break;
+            case 39: // right
+                movePlayer([3,0]);
+                break;
+            case 40: // down
+                movePlayer([0,3]);
+                break;
+            case 32: // space. shoot!
+                if (intervalLoop == 0) {
+                    setStartGame(5);
+                    mouse.x = 50;
+                    redrawPlayerGalaga();
+                } else {
+                    if (bullets.length < 4) {
+                        bullets.push(new Bullet(player.x - 1, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0));
+                    }
+                }
+        }
+      console.log(event.which + " down!");
+
     });
 }
 
@@ -164,7 +200,7 @@ function drawPlayerGalaga() {
     //Clean GALAGA_CANVAS
     GALAGA_CONTEXT.clearRect(0, 0, 400, 400);
     //Move player to mouse
-    redrawPlayerGalaga("Click To Start!");
+    redrawPlayerGalaga("Click or Space To Start!");
 }
 
 /**
