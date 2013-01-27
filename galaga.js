@@ -29,6 +29,7 @@ var gameTypeClassic;
 //Multiple inits
 var player;
 var bullets = new Array(); //bullets fired by player
+var barrierBullets = new Array();
 var badGuys = new Array(); //the bad guys
 var badBullets = new Array(); //array of bullets fired from the bad guys
 //Important interval handler!
@@ -37,6 +38,8 @@ var fakeGame = 0;
 
 var pressedKeys = {};
 var bulletsControl = {};
+
+var BARRIER_LIFE_LIMIT = 70;
 
 /*document ready function */
 jQuery(document).ready(function($){
@@ -161,22 +164,29 @@ function doKeyAction() {
             mouse.x = 50;
             redrawPlayerGalaga();
         } else {
-            if (bullets.length < 4) {
+            if (bullets.length < 4 && barrierBullets.length == 0) {
                 bullets.push(new Bullet(player.x - 1, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0));
             }
         }
-    } else if (pressedKeys[88]) { // X
-        if (bullets.length  == 0) {
+    } else if (pressedKeys[88]) { // X - Shot Gun
+        if (bullets.length  == 0 && barrierBullets.length == 0) {
             bullets.push(new Bullet(player.x - 15, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, -1));
             bullets.push(new Bullet(player.x - 5, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, -0.5));
             bullets.push(new Bullet(player.x  + 5, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0.5));
             bullets.push(new Bullet(player.x  + 15, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 1));
         }
-    } else if (pressedKeys[90]) { // Z
-        if (bullets.length == 0) {
+    } else if (pressedKeys[90]) { // Z - Bomb
+        if (bullets.length == 0 && barrierBullets.length == 0) {
             bullets.push(new Bullet(player.x  + 15, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0, "bomb"));
         }
 
+    } else if (pressedKeys[67]) { // C - Barrier
+        if (barrierBullets.length == 0) {
+            barrierBullet = new Bullet(player.x - BULLETWIDTH * 20,
+                    player.y - GUYOFFSET - 30, BULLETHEIGHT, BULLETWIDTH * 40);
+            barrierBullet.life = BARRIER_LIFE_LIMIT;
+            barrierBullets.push(barrierBullet);
+        }
     }
 };
 
@@ -190,6 +200,7 @@ function initGalaga() {
     badGuys = [];
     player = null;
     bullets = [];
+    barrierBullets = [];
     badBullets = [];
 
     initPlayer(true);
@@ -321,6 +332,19 @@ function collisionCheckBullets() {
             return false;
         }
     });
+
+    jQuery.each(barrierBullets, function(indexBarrierBullet, barrierBullet) {
+        jQuery.each(badBullets, function(indexBadBullet, badBullet) {
+            if ((badBullet != undefined && barrierBullet != undefined)
+                    && intersectOther(badBullet, barrierBullet)) {
+                badBullets.splice(indexBadBullet, 1);
+                return false;
+            }
+        });
+        if (barrierBullet != undefined && barrierBullet.life-- < 0) {
+            barrierBullets.splice(indexBarrierBullet, 1);
+        }
+    });
 }
 
 function moveBadGuys() {
@@ -406,6 +430,15 @@ function redrawBullets() {
             if (badBullet.y > $GALAGA_CANVAS.height) {
                 badBullets.splice(index, 1);
             }
+        }
+    });
+
+    //Barrier bullets
+    jQuery.each(barrierBullets, function(index, barrierBullet) {
+        if (barrierBullet != undefined) {
+            GALAGA_CONTEXT.fillStyle = "Blue";
+            GALAGA_CONTEXT.fillRect(barrierBullet.x, barrierBullet.y,
+                barrierBullet.width, barrierBullet.height); //X, Y, width, height
         }
     });
 }
