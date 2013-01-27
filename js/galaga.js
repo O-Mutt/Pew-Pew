@@ -9,6 +9,9 @@ var bad1; //bad guy sprite 1
 var bad2; //bad guy sprite 2
 var bad3; //bad guy sprite 3
 var good; //the GOOD GUY!
+var boss;
+
+var laser;
 // CONSTANTS
 var GUYWIDTH = 20;
 var GUYHEIGHT = 20;
@@ -30,7 +33,8 @@ var gameTypeClassic;
 var player;
 var bullets = new Array(); //bullets fired by player
 var badGuys = new Array(); //the bad guys
-var badBullets = new Array(); //array of bullets fired from the bad guys
+
+var bossFire = new Array();
 //Important interval handler!
 var intervalLoop = 0;
 var fakeGame = 0;
@@ -77,6 +81,8 @@ function ready() {
     bad2 = document.getElementById("bad2");
     bad3 = document.getElementById("bad3");
     good = document.getElementById("good");
+    boss = document.getElementById("boss");
+    laser = document.getElementById("laser");
     //Sets up the pregame to show the good ship and message to start
     setPreGame();
 
@@ -114,6 +120,14 @@ function ready() {
     });
 }
 
+function shoot(){
+    jQuery.each(badGuys, function(index, badGuy){
+        if(badGuy instanceof Boss){
+            badGuy.shoot();
+        }
+    });
+}
+
 /**
  * Initiallizes the game
  */
@@ -128,7 +142,7 @@ function initGalaga() {
 
     initPlayer(true);
 
-    if (level % 5 != 0) {
+    if (level % 3 != 0) {
         for (var i = 0; i < 10; i++) {
             badGuys.push(new Guy(i * 35, 0, bad1, .5, 20, 20, level * 20, 1));
         }
@@ -140,7 +154,7 @@ function initGalaga() {
         }
     } else {
         FIRECHANCENUMERATOR -= .5;
-        badGuys.push(new Guy(1 * 35, 0, bad1, .5, 50, 50, level * 100, 10));
+        badGuys.push(new Boss(1 * 35, 0, boss, .5, 50, 50, level * 100, 10));
     }
 
     intervalLoop = setInterval(drawGalaga, 20);
@@ -187,11 +201,26 @@ function drawGalaga() {
 /**
  * Gives the bad guys a chance to fire
  */
+
+var isBossSuriFired = false;
+
 function badGuysTryFire() {
     jQuery.each(badGuys, function(index, badGuy) {
         //Chance to fire
+        if(badGuy instanceof Boss && !isBossSuriFired){
+            badGuy.shoot();
+            setInterval("shoot()",1000);    
+            isBossSuriFired = true;
+        }
+
         if (Math.floor(Math.random() * FIRECHANCEDENOMINATOR) > FIRECHANCENUMERATOR) {
-            badBullets.push(new Bullet(badGuy.x + (badGuy.width / 2), badGuy.bottom(), BULLETHEIGHT, BULLETWIDTH, 0));
+            if(badGuy instanceof Boss){
+                console.log("boss fire!");
+                badGuy.startLaser();
+                // badGuy.shoot();
+            }else{
+                badBullets.push(new Bullet(badGuy.x + (badGuy.width / 2), badGuy.bottom(), BULLETHEIGHT, BULLETWIDTH, 0));    
+            }
         }
     });
 }
@@ -228,21 +257,37 @@ function redrawPlayerGalaga(str) {
 
 function collisionCheckBullets() {
     jQuery.each(badGuys, function(indexGuy, badGuy) {
-        jQuery.each(bullets, function(indexBullet, bullet) {
-            if ((bullet != undefined && badGuy != undefined) && intersectOther(badGuy, bullet)) {
-                if (badGuy.hp == 1) {
-                    badGuy.hp--;
-                    playerScore += badGuy.points;
-                    badGuys.splice(indexGuy, 1);
-                    bullets.splice(indexBullet, 1);
-                    return false;
-                } else {
-                    badGuy.hp--;
-                    bullets.splice(indexBullet, 1);
+        if(badGuy instanceof Boss){
+            if(badGuy.isFiredLaser && (badGuy.getLaserHeight() + badGuy.top()) > 380){
+                if(badGuy.left()+15 < player.right() && badGuy.left()+55 > player.left()){
+                    setEndGame("player is killed by laser");
                     return false;
                 }
             }
-        });
+
+            jQuery.each(badGuy.suriArr, function(index, badBullet) {
+                if (badBullet != undefined && intersect(badBullet)) {
+                    setEndGame("Collision with bad suri");
+                    return false;
+                }
+            });
+        }else{
+            jQuery.each(bullets, function(indexBullet, bullet) {
+                if ((bullet != undefined && badGuy != undefined) && intersectOther(badGuy, bullet)) {
+                    if (badGuy.hp == 1) {
+                        badGuy.hp--;
+                        playerScore += badGuy.points;
+                        badGuys.splice(indexGuy, 1);
+                        bullets.splice(indexBullet, 1);
+                        return false;
+                    } else {
+                        badGuy.hp--;
+                        bullets.splice(indexBullet, 1);
+                        return false;
+                    }
+                }
+            });
+        }
     });
 
     jQuery.each(badBullets, function(index, badBullet) {
@@ -330,6 +375,47 @@ function redrawBullets() {
             if (badBullet.y > $GALAGA_CANVAS.height) {
                 badBullets.splice(index, 1);
             }
+        }
+    });
+
+    jQuery.each(badGuys, function(index, badGuy){
+        if(badGuy instanceof Boss){
+            if(badGuy.isFiredLaser){
+
+                var startLaser = badGuy.top();
+                var endLaser = (badGuy.top() + badGuy.increaseLaserHeight());
+//                console.log("laser fire-->"+endLaser);
+                
+
+                if(endLaser >= 2000){
+                    badGuy.stopLaser();
+                } else{
+                    if(endLaser >= 400){
+                        endLaser = 400;
+                    }
+                    for(start = startLaser;start<=endLaser;start++){
+                        GALAGA_CONTEXT.drawImage(laser, badGuy.x - GUYOFFSET+15, start - GUYOFFSET+60, 40, 24);    
+                    }
+                }
+                
+            }
+
+            jQuery.each(badGuy.suriArr, function(index, suri){
+                try{
+                    suri.move();
+
+                    if(suri.right()<0 || suri.left()>400 || suri.top() > 400){
+                        badGuy.suriArr.splice(index, 1);
+                       console.log("suri removed->"+index);
+                    }else{
+//                        console.log("suri draw->"+index+"["+suri.left()+","+suri.top()+"]");
+                        GALAGA_CONTEXT.drawImage(suri.img, suri.left(), suri.top(), 15, 15);    
+                    }
+                }catch(e){
+                    console.log("suri error->"+suri);
+                }
+                
+            });
         }
     });
 }
