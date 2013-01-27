@@ -10,7 +10,7 @@ var bad2; //bad guy sprite 2
 var bad3; //bad guy sprite 3
 var good; //the GOOD GUY!
 var boss;
-
+var explosion; //the GOOD GUY!
 var laser;
 // CONSTANTS
 var GUYWIDTH = 20;
@@ -25,6 +25,23 @@ var PLAYERLIVES = 5;
 var playerScore = 0;
 var level = 1;
 var lives;
+
+var sound0 = $('#sound0')[0]
+var sound1 = $('#sound1')[0]
+var sound2 = $('#sound2')[0]
+var sound3 = $('#sound3')[0]
+var sound4 = $('#sound4')[0]
+var sound5 = $('#sound5')[0]
+var sound6 = $('#sound6')[0]
+var sound7 = $('#sound7')[0]
+var sound8 = $('#sound8')[0]
+var sound9 = $('#sound9')[0]
+var sound10 = $('#sound10')[0]
+var sound11 = $('#sound11')[0]
+var sound12 = $('#sound12')[0]
+var sound13 = $('#sound13')[0]
+var sound14 = $('#sound14')[0]
+
 
 //options
 var gameTypeClassic;
@@ -102,8 +119,10 @@ function ready() {
     good = document.getElementById("good");
     boss = document.getElementById("boss");
     laser = document.getElementById("laser");
+    explosion = document.getElementById("explosion");
     //Sets up the pregame to show the good ship and message to start
     setPreGame();
+    sound9.play();
 
   // do nothing in the event handler except canceling the event
   GALAGA_CANVAS.ondragstart = function(e) {
@@ -127,6 +146,7 @@ function ready() {
       } else {
           if (bullets.length < 4) {
               bullets.push(new Bullet(player.x - 1, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0));
+                sound11.play();
           }
       }
       return false;
@@ -236,6 +256,7 @@ function initGalaga() {
         for (var i = 0; i < 10; i++) {
             badGuys.push(new Guy(i * 35, 60, bad3, .5, 20, 20, level * 5, 1));
         }
+        sound0.play();
     } else {
         FIRECHANCENUMERATOR -= .5;
         badGuys.push(new Boss(1 * 35, 0, boss, .5, 50, 50, level * 100, 10));
@@ -346,6 +367,9 @@ function redrawPlayerGalaga(str) {
     if (player != undefined && player.x != undefined) {
         jQuery.each(badGuys, function(index, badGuy) {
             if (intersect(badGuy)) {
+                GALAGA_CONTEXT.drawImage(explosion, player.x - GUYOFFSET, player.y - GUYOFFSET, 32, 32);
+                sound7.play();
+
                 setEndGame("Collision in Redraw Player");
                 return false;
             }
@@ -366,6 +390,9 @@ function collisionCheckBullets() {
 
             jQuery.each(badGuy.suriArr, function(index, badBullet) {
                 if (badBullet != undefined && intersect(badBullet)) {
+                    GALAGA_CONTEXT.drawImage(explosion, player.x - GUYOFFSET, player.y - GUYOFFSET, 32, 32);
+                    sound7.play();
+
                     setEndGame("Collision with bad suri");
                     return false;
                 }
@@ -381,6 +408,7 @@ function collisionCheckBullets() {
                     badGuy.hp--;
                     playerScore += badGuy.points;
                     badGuys.splice(indexGuy, 1);
+                    GALAGA_CONTEXT.drawImage(explosion, badGuy.x, badGuy.y, 32, 32);
                     bullets.splice(indexBullet, 1);
                     return false;
                 } else {
@@ -453,6 +481,7 @@ function moveBadGuys() {
 		console.log("BadGuy Bottom [" + badGuy.bottom() + "] Canvas bottom [" + GALAGA_CANVAS.height + "]");
 	    }
             if (badGuy.bottom() > GALAGA_CANVAS.height) {
+                sound7.play();
                 setEndGame("Bad guys hit the bottom of the GALAGA_CANVAS");
                 return false;
             }
@@ -592,6 +621,7 @@ function setEndGame(str) {
         clearInterval(intervalLoop);
         intervalLoop = 0;
         setPreGame();
+        sound8.play();
     }
 }
 
