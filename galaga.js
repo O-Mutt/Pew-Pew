@@ -144,6 +144,20 @@ function ready() {
                         bullets.push(new Bullet(player.x - 1, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0));
                     }
                 }
+                break;
+            case 88: // X. shot gun!
+                if (bullets.length  == 0) {
+                        bullets.push(new Bullet(player.x - 15, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, -1));
+                        bullets.push(new Bullet(player.x - 5, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, -0.5));
+                        bullets.push(new Bullet(player.x  + 5, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0.5));
+                        bullets.push(new Bullet(player.x  + 15, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 1));
+                }
+                break;
+            case 90: // Z. bomb!
+                if (bullets.length == 0) {
+                    bullets.push(new Bullet(player.x  + 15, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0, "bomb"));
+                }
+
         }
       console.log(event.which + " down!");
 
@@ -266,6 +280,9 @@ function collisionCheckBullets() {
     jQuery.each(badGuys, function(indexGuy, badGuy) {
         jQuery.each(bullets, function(indexBullet, bullet) {
             if ((bullet != undefined && badGuy != undefined) && intersectOther(badGuy, bullet)) {
+                if (bullet.bulletType == "bomb") {
+                    bullets.push(new Bullet(bullet.x, bullet.y, BULLETHEIGHT * 5, BULLETWIDTH * 30, 0, "bomb"));
+                }
                 if (badGuy.hp == 1) {
                     badGuy.hp--;
                     playerScore += badGuy.points;
@@ -349,6 +366,7 @@ function redrawBullets() {
     jQuery.each(bullets, function(index, bullet) {
         if (bullet != undefined) {
             bullet.y -= 3; //Move bullet up
+            bullet.x += bullet.xdiff;
             GALAGA_CONTEXT.fillStyle = "White";
             GALAGA_CONTEXT.fillRect(bullet.x, bullet.y, bullet.width, bullet.height); //X, Y, width, height
             if (bullet.y < 0) {
@@ -437,11 +455,13 @@ function setMousePosition(event) {
 /**
  * Bullets fired
  */
-function Bullet(x, y, height, width) {
+function Bullet(x, y, height, width, xdiff, bulletType) {
     this.x = x;
     this.y = y;
     this.height = height;
     this.width = width;
+    this.xdiff = xdiff;
+    this.bulletType = bulletType;
 
     this.top = function() {
         return this.y;
