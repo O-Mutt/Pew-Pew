@@ -35,6 +35,9 @@ var badBullets = new Array(); //array of bullets fired from the bad guys
 var intervalLoop = 0;
 var fakeGame = 0;
 
+var pressedKeys = {};
+var bulletsControl = {};
+
 /*document ready function */
 jQuery(document).ready(function($){
     //jquery GALAGA_CANVAS wrapper
@@ -68,10 +71,13 @@ jQuery(document).ready(function($){
 });
 
 // diff is array for x diff and y diff.
-function movePlayer(diff) {
-    mouse.x += diff[0];
-    mouse.y += diff[1];
-    redrawPlayerGalaga("");
+function processArrow(diff) {
+    if (pressedKeys[16]) {
+        bulletsControl = diff;
+    } else {
+        mouse.x += diff[0];
+        mouse.y += diff[1];
+    }
 }
 
 function ready() {
@@ -121,48 +127,57 @@ function ready() {
     });
 
     $(document).keydown(function(event) {
-        switch (event.which) {
-            case 37: // left
-                movePlayer([-3,0]);
-                break;
-            case 38: // up
-                movePlayer([0,-3]);
-                break;
-            case 39: // right
-                movePlayer([3,0]);
-                break;
-            case 40: // down
-                movePlayer([0,3]);
-                break;
-            case 32: // space. shoot!
-                if (intervalLoop == 0) {
-                    setStartGame(5);
-                    mouse.x = 50;
-                    redrawPlayerGalaga();
-                } else {
-                    if (bullets.length < 4) {
-                        bullets.push(new Bullet(player.x - 1, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0));
-                    }
-                }
-                break;
-            case 88: // X. shot gun!
-                if (bullets.length  == 0) {
-                        bullets.push(new Bullet(player.x - 15, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, -1));
-                        bullets.push(new Bullet(player.x - 5, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, -0.5));
-                        bullets.push(new Bullet(player.x  + 5, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0.5));
-                        bullets.push(new Bullet(player.x  + 15, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 1));
-                }
-                break;
-            case 90: // Z. bomb!
-                if (bullets.length == 0) {
-                    bullets.push(new Bullet(player.x  + 15, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0, "bomb"));
-                }
-
+        if (event.which == 32 && intervalLoop == 0) {
+            setStartGame(5);
+            mouse.x = 50;
+            redrawPlayerGalaga();
         }
-      console.log(event.which + " down!");
 
+        pressedKeys[event.which] = true;
+
+        console.log(event.which)
     });
+
+    $(document).keyup(function(event) {
+        pressedKeys[event.which] = false;
+    });
+
 }
+
+function doKeyAction() {
+    if (pressedKeys[37]) { // left
+        processArrow([-3,0]);
+    } else if (pressedKeys[38]) { // up
+        processArrow([0,-3]);
+    } else if (pressedKeys[39]) { // right
+        processArrow([3,0]);
+    } else if (pressedKeys[40]) { // down
+        processArrow([0,3]);
+    } else if (pressedKeys[32]) { // space
+        pressedKeys[32] = false;
+        if (intervalLoop == 0) {
+            setStartGame(5);
+            mouse.x = 50;
+            redrawPlayerGalaga();
+        } else {
+            if (bullets.length < 4) {
+                bullets.push(new Bullet(player.x - 1, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0));
+            }
+        }
+    } else if (pressedKeys[88]) { // X
+        if (bullets.length  == 0) {
+            bullets.push(new Bullet(player.x - 15, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, -1));
+            bullets.push(new Bullet(player.x - 5, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, -0.5));
+            bullets.push(new Bullet(player.x  + 5, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0.5));
+            bullets.push(new Bullet(player.x  + 15, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 1));
+        }
+    } else if (pressedKeys[90]) { // Z
+        if (bullets.length == 0) {
+            bullets.push(new Bullet(player.x  + 15, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0, "bomb"));
+        }
+
+    }
+};
 
 /**
  * Initiallizes the game
@@ -232,6 +247,7 @@ function drawGalaga() {
     badGuysTryFire();
     redrawBullets();
     checkLevelFinished();
+    doKeyAction();
 }
 
 /**
@@ -367,6 +383,10 @@ function redrawBullets() {
         if (bullet != undefined) {
             bullet.y -= 3; //Move bullet up
             bullet.x += bullet.xdiff;
+
+            bullet.x += bulletsControl[0];
+            bullet.y += bulletsControl[1];
+
             GALAGA_CONTEXT.fillStyle = "White";
             GALAGA_CONTEXT.fillRect(bullet.x, bullet.y, bullet.width, bullet.height); //X, Y, width, height
             if (bullet.y < 0) {
@@ -374,6 +394,7 @@ function redrawBullets() {
             }
         }
     });
+    bulletsControl = [0,0];
 
     //Bad guy bullets
     jQuery.each(badBullets, function(index, badBullet) {
