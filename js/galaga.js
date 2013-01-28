@@ -283,6 +283,7 @@ function initGalaga() {
     } else {
         FIRECHANCENUMERATOR -= .5;
         badGuys.push(new Boss(1 * 35, 0, boss, .5, 50, 50, level * 100, 10));
+    }
     if (!isGalagaMerged) {
         var idx = Math.floor(Math.random() * 100) % badGuys.length;
         badGuys[idx].isSpider = true;
