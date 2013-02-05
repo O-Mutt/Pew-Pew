@@ -168,7 +168,7 @@ function ready() {
               } else {
               bullets.push(new Bullet(player.x - 1, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0));
               }
-                sound11.play();
+              sound11.play();
           }
       }
       return false;
@@ -224,9 +224,18 @@ function doKeyAction() {
             mouse.x = 50;
             redrawPlayerGalaga();
         } else {
+            var maxBulletsNum = 4;
+            if (isGalagaMerged)
+                maxBulletsNum *= numOfGalaga;
             if (luckyLife
-                    || (bullets.length < 4 && barrierBullets.length == 0)) {
-                bullets.push(new Bullet(player.x - 1, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0));
+                || (bullets.length < maxBulletsNum && barrierBullets.length == 0) ){
+                if (isGalagaMerged) {
+                    bullets.push(new Bullet(player.x - 1 - GUYOFFSET, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0));
+                    bullets.push(new Bullet(player.x + 1 + GUYOFFSET, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0));
+                }else {
+                    bullets.push(new Bullet(player.x - 1, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0));
+                }
+                sound11.play();
             }
         }
     } else if (pressedKeys[88]) { // X - Shot Gun
@@ -252,7 +261,7 @@ function doKeyAction() {
             barrierBullets.push(barrierBullet);
         }
     }
-};
+}
 
 /**
  * Initiallizes the game
