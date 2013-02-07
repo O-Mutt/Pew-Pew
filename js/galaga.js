@@ -78,6 +78,9 @@ var tmpYPos = 370;
 var oriPosX;
 var oriPosY;
 var vim;
+var tempVimImgY = 0;
+var maxVimImgY = 40;
+
 /*document ready function */
 jQuery(document).ready(function($){
     //jquery GALAGA_CANVAS wrapper
@@ -168,7 +171,7 @@ function ready() {
               } else {
               bullets.push(new Bullet(player.x - 1, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0));
               }
-                sound11.play();
+              sound11.play();
           }
       }
       return false;
@@ -186,10 +189,12 @@ function ready() {
             mouse.x = 50;
             redrawPlayerGalaga();
         }
+        if (!isCapturing){
+            pressedKeys[event.which] = true;
+            console.log(event.which)
+        }
 
-        pressedKeys[event.which] = true;
 
-        console.log(event.which)
         return false;
     });
 
@@ -224,9 +229,18 @@ function doKeyAction() {
             mouse.x = 50;
             redrawPlayerGalaga();
         } else {
+            var maxBulletsNum = 4;
+            if (isGalagaMerged)
+                maxBulletsNum *= numOfGalaga;
             if (luckyLife
-                    || (bullets.length < 4 && barrierBullets.length == 0)) {
-                bullets.push(new Bullet(player.x - 1, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0));
+                || (bullets.length < maxBulletsNum && barrierBullets.length == 0) ){
+                if (isGalagaMerged) {
+                    bullets.push(new Bullet(player.x - 1 - GUYOFFSET, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0));
+                    bullets.push(new Bullet(player.x + 1 + GUYOFFSET, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0));
+                }else {
+                    bullets.push(new Bullet(player.x - 1, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0));
+                }
+                sound11.play();
             }
         }
     } else if (pressedKeys[88]) { // X - Shot Gun
@@ -252,7 +266,7 @@ function doKeyAction() {
             barrierBullets.push(barrierBullet);
         }
     }
-};
+}
 
 /**
  * Initiallizes the game
@@ -319,6 +333,7 @@ function drawPlayerGalaga() {
  * clears the GALAGA_CANVAS and calls a bunch of helper methods to redraw and check collions.
  * This method is where most of the "heavy lifting" is done
  */
+var sound2PlayCount = 0;
 function drawGalaga() {
     //Clean GALAGA_CANVAS
     GALAGA_CONTEXT.clearRect(0, 0, 400, 400);
@@ -338,10 +353,22 @@ function drawGalaga() {
             checkGalagaCaptured();
             if (isCaptured) {
                 goBackSpider();
+                sound2PlayCount =0;
             } else {
-                GALAGA_CONTEXT.drawImage(vim, spider.x - 24, spider.y + 20, 70, 30);
+                if (sound2PlayCount <= 2){
+                    sound2.play();
+                    sound2PlayCount++;
+                }
+
+                if(tempVimImgY <= maxVimImgY){
+                    GALAGA_CONTEXT.drawImage(vim, spider.x - 24, spider.y + 20, 70, tempVimImgY);
+                    tempVimImgY += 1;
+                }else{
+                    GALAGA_CONTEXT.drawImage(vim, spider.x - 24, spider.y + 20, 70, maxVimImgY);
+                }
             }
         }
+
     }
     redrawBullets();
     checkLevelFinished();
@@ -351,15 +378,18 @@ function drawGalaga() {
     }
 }
 function goBackSpider() {
-    spider.x = oriPosX;
-    spider.y = oriPosY;
-    isSpiderMove = false;
-    isViming = false;
-    player.x = GALAGA_CANVAS.width/2;
-    player.y = 370;
+    if( spider.y > oriPosY ){
+        spider.y -= 2;
+    }else{
+        isSpiderMove = false;
+        isViming = false;
+        player.x = GALAGA_CANVAS.width/2;
+        player.y = 370;
+    }
+
 }
 function checkGalagaCaptured() {
-    if (player.x <= spider.x + 10 && player.x >= spider.x - 10) {
+    if (player.x <= spider.x + 20 && player.x >= spider.x - 20) {
         isCapturing = true;
     }
 }
@@ -411,10 +441,10 @@ function redrawPlayerGalaga(str) {
         GALAGA_CONTEXT.fillText("GOD MODE!" + luckyLife, 20, 370);
     }
     if (isCapturing) {
-        tmpYPos -= 1;
+        tmpYPos -= 2;
         GALAGA_CONTEXT.drawImage(player.img, spider.x, tmpYPos - GUYOFFSET, player.height, player.width);
 
-        if (tmpYPos <= spider.y+3 && tmpYPos >= spider.y-3) {
+        if ( tmpYPos <= spider.y-(spider.height/2) ) {
             isCapturing = false;
             isCaptured = true;
         }
@@ -478,7 +508,7 @@ function collisionCheckBullets() {
                 if (badGuy.hp == 1) {
                     badGuy.hp--;
                     playerScore += badGuy.points;
-                    if (badGuy.isSpider) {
+                    if ( isCaptured && badGuy.isSpider) {
                         isGalagaMerged = true;
                         numOfGalaga = 2;
                         isCaptured = false;
@@ -500,7 +530,13 @@ function collisionCheckBullets() {
             if (badBullet.bulletType == "lucky") {
                 luckyLife = LUCKY_LIFE_LIMIT;
             } else if (luckyLife <= 0) {
-                setEndGame("Collision with bad bullet");
+                if( numOfGalaga >1 ){
+                    numOfGalaga--;
+                    isGalagaMerged = false;
+                }else{
+                    setEndGame("Collision with bad bullet");
+                }
+
             }
             return false;
         }
