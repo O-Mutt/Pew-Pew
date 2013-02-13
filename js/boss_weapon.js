@@ -51,11 +51,16 @@ function Boss(x, y, img, velocity, height, width, points, hp) {
     	this.laserLength = 0;
     }
 
+    var skipIdx = Math.floor(Math.random() * 100) % 11;
     this.shoot = function(){
 //    	console.log("suri fire!");
 		for(i=(-1*SURI_NUMBER);i<=SURI_NUMBER;i++){
-    		this.suriArr.push(new Suri(this.x+(this.width/2), this.y+this.height, i, SURI_NUMBER));
+            if(i === skipIdx){
+                // do something if the i is skipIdx
+            }else{
+                this.suriArr.push(new Suri(this.x+(this.width/2), this.y+this.height, i, SURI_NUMBER));
 //    		console.log("suri added->"+i);
+            }
     	}
     }
 }
@@ -83,14 +88,14 @@ function Suri(x, y, idx, suriNumber){
 		return this.posX;
 	}
 	this.right = function(){
-		return this.posX + 15;
+		return this.posX + 13;
 	}
 	this.top = function(){
 		return this.posY;
 	}
 
 	this.bottom = function(){
-		return this.posY + 15;
+		return this.posY + 13;
 	}
 } 
 
