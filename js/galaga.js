@@ -196,7 +196,7 @@ function ready() {
         }
         if (!isCapturing){
             pressedKeys[event.which] = true;
-            console.log(event.which)
+            // console.log(event.which)
         }
         return false;
     });
@@ -351,6 +351,7 @@ var sound2PlayCount = 0;
 function drawGalaga() {
     //Clean GALAGA_CANVAS
     GALAGA_CONTEXT.clearRect(0, 0, 400, 400);
+    // console.log("->"+isSpiderMove+"->"+isGalagaMerging);
     //Move player to mouse
     redrawPlayerGalaga("");
     if (!isViming)
@@ -401,37 +402,41 @@ function drawGalaga() {
         luckyLife--;
     }
 }
+function completeStandBy(){
+    console.log("completed merging.");
+    isGalagaMerging = false;
+    isGalagaMerged = true;
+    numOfGalaga = 2;
+}
+
 function standByGalaga(){
-    function completeStandBy(){
-        isGalagaMerging = false;
-        isGalagaMerged = true;
-        numOfGalaga = 2;
-    }
     if( clonePlayer.y <= player.y ){
         clonePlayer.y +=2;
     }
-    if( clonePlayer.x < player.x + player.width ){ // player is on the right
-        if(!stopThere){
-            clonePlayer.x +=2;
-        }
-        if( clonePlayer.x > player.x + player.width ){
-            stopThere=true;
-        }
-        if( clonePlayer.y >= player.y && clonePlayer.x >= player.x+ player.width ){
-            completeStandBy();
-            stopThere=false;
-        }
-    }else if ( player.x + player.width < clonePlayer.x ){ // player is on the left
+    if( clonePlayer.x < (player.x + player.width/2) ){ // player is on the right
         if(!stopThere){
             clonePlayer.x -=2;
         }
-        if( clonePlayer.x < player.x + player.width ){
+        if( clonePlayer.x > (player.x + player.width) ){
             stopThere=true;
         }
-        if( clonePlayer.y >= player.y && clonePlayer.x <= player.x+ player.width ){
+        if( clonePlayer.y >= player.y && player.x >= (clonePlayer.x+ clonePlayer.width) ){
             completeStandBy();
             stopThere=false;
         }
+    }else if ( (player.x + player.width/2) < clonePlayer.x ){ // player is on the left
+        if(!stopThere){
+            clonePlayer.x +=2;
+        }
+        if( (clonePlayer.x + clonePlayer.width) < player.x ){
+            stopThere=true;
+        }
+        if( clonePlayer.y >= player.y && (player.x + player.width) <= clonePlayer.x ){
+            completeStandBy();
+            stopThere=false;
+        }
+    }else{
+        console.log("??");
     }
 }
 
@@ -512,9 +517,9 @@ function redrawPlayerGalaga(str) {
 
     }else if (isGalagaMerging){
         GALAGA_CONTEXT.drawImage(player.img, player.x - GUYOFFSET, player.y - GUYOFFSET, player.height, player.width);
-        if(!clonePlayer){
-            clonePlayer = new Guy(spider.x, spider.y-(spider.height/2), good, 0, GUYWIDTH, GUYHEIGHT, 0, 5);
-        }
+        // if(!clonePlayer){
+        //     clonePlayer = new Guy(spider.x, spider.y-(spider.height/2), good, 0, GUYWIDTH, GUYHEIGHT, 0, 5);
+        // }
         GALAGA_CONTEXT.drawImage(player.img, clonePlayer.x - GUYOFFSET, clonePlayer.y - GUYOFFSET, clonePlayer.height, clonePlayer.width);
     }else if (isGalagaMerged) {
             GALAGA_CONTEXT.drawImage(player.img, player.x - GUYOFFSET*2, player.y - GUYOFFSET, player.height, player.width);
@@ -594,6 +599,9 @@ function collisionCheckBullets() {
                         isGalagaMerging = true;
                         isGalagaMerged = false;
                         isCaptured = false;
+                        if(!clonePlayer){
+                            clonePlayer = new Guy(spider.x, spider.y-(spider.height/2), good, 0, GUYWIDTH, GUYHEIGHT, 0, 5);
+                        }
                         if(clonePlayer){
                             clonePlayer.x = spider.x;
                             clonePlayer.y = spider.y-(spider.height/2);
@@ -861,6 +869,7 @@ function setPostLevel() {
     intervalLoop = 0;
     setPreGame();
     delete clonePlayer;
+    console.log("set PostLevel");
 }
 
 function setMousePosition(event) {
