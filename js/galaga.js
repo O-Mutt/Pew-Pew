@@ -204,7 +204,7 @@ function ready() {
         setMousePosition(event);
     });
 
-    $(document).keydown(function(event) {
+    jQuery(document).keydown(function(event) {
         if (event.which == 32 && intervalLoop == 0) {
             setStartGame(5);
             mouse.x = 50;
@@ -217,7 +217,7 @@ function ready() {
         return false;
     });
 
-    $(document).keyup(function(event) {
+    jQuery(document).keyup(function(event) {
         pressedKeys[event.which] = false;
     });
 }
@@ -287,6 +287,7 @@ function doKeyAction() {
         }
     }
 }
+
 function selectSpider(){
     do{
         var idx = Math.floor(Math.random() * 100) % badGuys.length;
