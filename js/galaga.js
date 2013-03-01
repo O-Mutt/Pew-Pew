@@ -1,4 +1,9 @@
-/** Written by Matt Erickson (ME) **/
+/**
+ * Copyright (c) 2012, Matthew Erickson (Matt@MattErickson.ME)
+ * All rights reserved.
+ * 
+ * Please see copyright.txt for full license details
+ **/
 var DEBUG = false; //debug flag for helping figure out what is going on
 //One time inits
 var $GALAGA_CANVAS;

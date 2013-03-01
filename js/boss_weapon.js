@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2012, Matthew Erickson (Matt@MattErickson.ME)
+ * All rights reserved.
+ * 
+ * Please see copyright.txt for full license details
+ **/
 function Boss(x, y, img, velocity, height, width, points, hp) {
 	var SURI_NUMBER = 5;
 
