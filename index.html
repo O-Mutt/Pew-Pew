@@ -1,0 +1,174 @@
+<html>
+	<head>
+        <meta charset="utf-8" />
+		<title>GDG Suwon - I'm a developer!</title>
+		<link href="css/bootstrap.css" type="spreadsheet">
+		<link href="css/bootstrap-reponsive.css" type="spreadsheet">
+		<link href='http://fonts.googleapis.com/css?family=Iceland' rel='stylesheet' type='text/css'>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<style>
+		.main{
+			background-image: url(img/galaga.png);
+			background-position: top center;
+			background-repeat: no-repeat;
+			background-size: cover;
+			text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+		}
+
+		.main_text{
+			font-variant: normal;
+			font-style: normal;
+			font-weight: normal;
+			text-align: center;
+			padding : 10px 0 10px;
+			font-family: 'Iceland', cursive;
+		}
+
+		.main_title{
+			font-size : 70px;
+		}
+
+		.main_description{
+			font-size : 20px;
+		}
+
+		.footer{
+			font-family: 'Iceland', cursive;				
+		}
+		</style>
+	</head>	
+	<body>
+		<div class="main">
+			<div class="container main_text">
+				<div class="row">
+					<div class="span12" align="center">
+						<h1 class="main_title" style="color:white;">
+							GALAGA
+						</h1>						
+					</div>	
+				</div>
+				<div class="row">
+					<div class="span4 offset4">
+						<canvas id="galaga_canvas" width="400" height="400" style="background-color:black;"></canvas>
+						
+					</div>
+				</div>	
+				<div class="row">
+					<div class="span4 offset4">
+						<p class="main_description" style="color:white;">
+							This game is produced during "<b style="color:red;">I'm a Developer!</b>" Event in <b style="color:blue;">GDG Suwon</b>.
+							<br>
+							This event is the parady of "I'm a singer!" on MBC.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container footer" align="center">
+			<h1 class="text-info">Key Buttons</h1>
+			<p style="font-size : 15px;">
+				<b style="color:red;">Arrow Key</b> : Move <br>
+				"<b style="color:red;">space</b>" : Bullet <br>
+				"<b style="color:red;">z</b>" : Bomb <br>
+				"<b style="color:red;">x</b>" : Shutgun <br>
+				"<b style="color:red;">c</b>" : Shild <br>
+				"<b style="color:red;">shift</b>" + "<b style="color:red;">arrow</b>" : Homming a.k.a 'torpedo number 1' of North Korea. <br>
+			</p>
+			<h1 class="text-info">CREDITS</h1>
+			<p style="font-size : 15px;">
+				Weapon Ugrade : <a href="https://plus.google.com/111302679105358219806/about" target="_blank">SeongJae Park</a><br>
+				Sound Effect : <a href="https://plus.google.com/106958385030616827332/about" target="_blank">Haebin Yoon</a><br>
+				Recover The Original Motion : <a href="https://plus.google.com/111516089306509884557/about" target="_blank">JongYoon Lim</a><br>
+				Boss Stage : <a href="https://plus.google.com/107621265594457706915/about" target="_blank">Lee WonJae</a><br>
+			</p>
+			<p class="muted credit" style="font-size : 15px;">
+				This "Galaga" source code is based on <a href="https://github.com/Mutmatt/galaga_html5">https://github.com/Mutmatt/galaga_html5</a>
+			</p>
+		</div>
+		<div id="img_source" style="display:none;">
+			<img id="bad1" src="img/bad2.png">
+			<img id="bad2" src="img/bad3.png">
+			<img id="bad3" src="img/bad1.png">
+			<img id="good" src="img/good.png">
+			<img id="suri" src="img/suri.png">
+			<img id="vim" src="img/vim.png">
+			<img id="laser" src="img/laser1" width="40" height="24">
+			<img id="boss" src="img/bc.png" width="90" height="70">
+			<img id="explosion" src="img/explosion1.png">
+		</div>
+        <audio id="sound0">
+            <source src="media/galaga0.mp3"></source>
+            <source src="media/galaga0.wav"></source>
+            Your browser isn't invited for super fun audio time.
+        </audio>
+        <audio id="sound1">
+            <source src="media/galaga1.mp3"></source>
+            <source src="media/galaga1.wav"></source>
+            Your browser isn't invited for super fun audio time.
+        </audio>
+        <audio id="sound2">
+            <source src="media/galaga2.mp3"></source>
+            <source src="media/galaga2.wav"></source>
+            Your browser isn't invited for super fun audio time.
+        </audio>
+        <audio id="sound3">
+            <source src="media/galaga3.mp3"></source>
+            <source src="media/galaga3.wav"></source>
+            Your browser isn't invited for super fun audio time.
+        </audio>
+        <audio id="sound4">
+            <source src="media/galaga4.mp3"></source>
+            <source src="media/galaga4.wav"></source>
+            Your browser isn't invited for super fun audio time.
+        </audio>
+        <audio id="sound5">
+            <source src="media/galaga5.mp3"></source>
+            <source src="media/galaga5.wav"></source>
+            Your browser isn't invited for super fun audio time.
+        </audio>
+        <audio id="sound6">
+            <source src="media/galaga6.mp3"></source>
+            <source src="media/galaga6.wav"></source>
+            Your browser isn't invited for super fun audio time.
+        </audio>
+        <audio id="sound7">
+            <source src="media/galaga7.mp3"></source>
+            <source src="media/galaga7.wav"></source>
+            Your browser isn't invited for super fun audio time.
+        </audio>
+        <audio id="sound8">
+            <source src="media/galaga8.mp3"></source>
+            <source src="media/galaga8.wav"></source>
+            Your browser isn't invited for super fun audio time.
+        </audio>
+        <audio id="sound9">
+            <source src="media/galaga9.mp3"></source>
+            <source src="media/galaga9.wav"></source>
+            Your browser isn't invited for super fun audio time.
+        </audio>
+        <audio id="sound11">
+            <source src="media/galaga11.mp3"></source>
+            <source src="media/galaga11.wav"></source>
+            Your browser isn't invited for super fun audio time.
+        </audio>
+        <audio id="sound12">
+            <source src="media/galaga12.mp3"></source>
+            <source src="media/galaga12.wav"></source>
+            Your browser isn't invited for super fun audio time.
+        </audio>
+        <audio id="sound13">
+            <source src="media/galaga13.mp3"></source>
+            <source src="media/galaga13.wav"></source>
+            Your browser isn't invited for super fun audio time.
+        </audio>
+        <audio id="sound14">
+            <source src="media/galaga14.mp3"></source>
+            <source src="media/galaga14.wav"></source>
+            Your browser isn't invited for super fun audio time.
+        </audio>
+
+		<script type="text/javascript" src="js/boss_weapon.js"></script>
+		<script type="text/javascript" src="js/galaga.js"></script>
+	</body>
+</html>
