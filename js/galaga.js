@@ -89,9 +89,9 @@ var maxVimImgY = 40;
 /*document ready function */
 jQuery(document).ready(function($){
     //jquery GALAGA_CANVAS wrapper
-    $GALAGA_CANVAS = jQuery("#galaga_canvas");
+    $GALAGA_CANVAS = $("#galaga_canvas")[0];
     //html GALAGA_CANVAS object
-    GALAGA_CANVAS = $GALAGA_CANVAS.get(0);
+    GALAGA_CANVAS = $GALAGA_CANVAS[0];
     //html5 context of the GALAGA_CANVAS
     GALAGA_CONTEXT = GALAGA_CANVAS.getContext("2d");
 
