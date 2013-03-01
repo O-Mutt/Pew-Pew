@@ -27,21 +27,21 @@ var level = 1;
 var lives;
 var stopThere = false;
 
-var sound0 = $('#sound0')[0]
-var sound1 = $('#sound1')[0]
-var sound2 = $('#sound2')[0]
-var sound3 = $('#sound3')[0]
-var sound4 = $('#sound4')[0]
-var sound5 = $('#sound5')[0]
-var sound6 = $('#sound6')[0]
-var sound7 = $('#sound7')[0]
-var sound8 = $('#sound8')[0]
-var sound9 = $('#sound9')[0]
-var sound10 = $('#sound10')[0]
-var sound11 = $('#sound11')[0]
-var sound12 = $('#sound12')[0]
-var sound13 = $('#sound13')[0]
-var sound14 = $('#sound14')[0]
+var sound0;
+var sound1;
+var sound2;
+var sound3;
+var sound4;
+var sound5;
+var sound6;
+var sound7;
+var sound8;
+var sound9;
+var sound10;
+var sound11;
+var sound12;
+var sound13;
+var sound14;
 
 
 //options
@@ -95,6 +95,22 @@ jQuery(document).ready(function($){
     //html5 context of the GALAGA_CANVAS
     GALAGA_CONTEXT = GALAGA_CANVAS.getContext("2d");
 
+    //Can't access jquery $ outside of scope
+    sound0 = $('#sound0')[0];
+    sound1 = $('#sound1')[0];
+    sound2 = $('#sound2')[0];
+    sound3 = $('#sound3')[0];
+    sound4 = $('#sound4')[0];
+    sound5 = $('#sound5')[0];
+    sound6 = $('#sound6')[0];
+    sound7 = $('#sound7')[0];
+    sound8 = $('#sound8')[0];
+    sound9 = $('#sound9')[0];
+    sound10 = $('#sound10')[0];
+    sound11 = $('#sound11')[0];
+    sound12 = $('#sound12')[0];
+    sound13 = $('#sound13')[0];
+    sound14 = $('#sound14')[0];
 
 
    /* jQuery("#classicOrFree").dialog({
