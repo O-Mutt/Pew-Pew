@@ -209,7 +209,7 @@ function ready() {
         setMousePosition(event);
     });
 
-    jQuery(document).keydown(function(event) {
+    jQuery($GALAGA_CANVAS).keydown(function(event) {
         if (event.which == 32 && intervalLoop == 0) {
             setStartGame(5);
             mouse.x = 50;
@@ -222,7 +222,7 @@ function ready() {
         return false;
     });
 
-    jQuery(document).keyup(function(event) {
+    jQuery($GALAGA_CANVAS).keyup(function(event) {
         pressedKeys[event.which] = false;
     });
 }
