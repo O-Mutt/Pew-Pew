@@ -165,7 +165,6 @@ function ready() {
     vim = document.getElementById("vim");
     //Sets up the pregame to show the good ship and message to start
     setPreGame();
-    sound9.play();
 
     // do nothing in the event handler except canceling the event
     GALAGA_CANVAS.ondragstart = function(e) {
@@ -185,7 +184,8 @@ function ready() {
       e.preventDefault();
 
       if (intervalLoop == 0) {
-          setStartGame(5);
+        sound9.play();
+        setStartGame(5);
       } else {
           var maxBulletsNum = 4;
           if (isGalagaMerged)
