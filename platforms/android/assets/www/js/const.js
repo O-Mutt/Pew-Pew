@@ -9,7 +9,13 @@
 	//One time inits
 	var GALAGA_CONTEXT;
 	var mouse;
-	var bad1;bad2;bad3;good;boss;explosion;laser;
+	var bad1;
+	var bad2;
+	var bad3;
+	var good;
+	var boss;
+	var explosion;
+	var laser;
 	// CONSTANTS
 	var GUYWIDTH = 20;
 	var GUYHEIGHT = 20;
@@ -19,23 +25,30 @@
 	var BULLETWIDTH = 2;
 	var GUYOFFSET = GUYWIDTH / 2;//player sprite positioned a mouse in center of the image
 	var PLAYERLIVES = 5;
-	//Game counters
-	var playerScore = 0;
-	var level = 1;
-	var lives;
-	var stopThere = false;
 
 	var canvasHeight;
 	var canvasWidth;
 
-	var sound0;sound1;sound2;sound3;sound4;sound5;sound6;sound7;sound8;sound9;sound10;sound11;sound12;sound13;sound14;
+	var sound0;
+	var sound1;
+	var sound2;
+	var sound3;
+	var sound4;
+	var sound5;
+	var sound6;
+	var sound7;
+	var sound8;
+	var sound9;
+	var sound10;
+	var sound11;
+	var sound12;
+	var sound13;
+	var sound14;
 
 	//options
 	var gameTypeClassic;
 
 	//Multiple inits
-	var player;
-	var clonePlayer;
 	var bullets = new Array();//bullets fired by player
 	var barrierBullets = new Array();
 	var badGuys = new Array();//the bad guys
@@ -66,4 +79,14 @@
 	var vim;
 	var tempVimImgY = 0;
 	var maxVimImgY = 40;
-}
+};
+
+var Game = function(){
+	var player;
+	var clonePlayer;
+	//Game counters
+	var playerScore = 0;
+	var level = 1;
+	var lives;
+	var stopThere = false;
+};

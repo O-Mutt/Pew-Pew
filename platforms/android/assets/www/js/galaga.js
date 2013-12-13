@@ -82,7 +82,7 @@ function ready() {
             mouse.x = 50;
             redrawPlayerGalaga();
         }
-        if (!isCapturing){
+        if (!Constants.isCapturing){
             pressedKeys[event.which] = true;
             // console.log(event.which)
         }
@@ -103,7 +103,7 @@ function shoot(){
 }
 
 function doKeyAction() {
-    if(!isGalagaMerging && !isCapturing){
+    if(!Constants.isGalagaMerging && !Constants.isCapturing){
         if (pressedKeys[37]) { // left
             if(mouse.x >= player.width) processArrow([-4,0]);
         } else if (pressedKeys[38]) { // up
@@ -251,7 +251,7 @@ function drawGalaga() {
             if (isCaptured) {
                 goBackSpider();
                 sound2PlayCount =0;
-            }else if(isCapturing){
+            }else if(Constants.isCapturing){
                 if(tempVimImgY >= 0){
                     sound3.play();
                     Constants.GALAGA_CONTEXT.drawImage(vim, spider.x - 24, spider.y + 20, 70, tempVimImgY);
@@ -282,7 +282,7 @@ function drawGalaga() {
 
 function checkGalagaCaptured() {
     if (player.x <= spider.x + 20 && player.x >= spider.x - 20) {
-        isCapturing = true;
+        Constants.isCapturing = true;
     }
 }
 
@@ -325,7 +325,7 @@ function collisionCheckBullets() {
                 if(badGuy.left()+15 < player.right() && badGuy.left()+55 > player.left()){
                     if( isGalagaMerged ){
                         numOfGalaga--;
-                        isGalagaMerged = false;
+                        Constants.isGalagaMerged = false;
                     }else{
                         setEndGame("player is killed by laser");
                     }
@@ -339,7 +339,7 @@ function collisionCheckBullets() {
                     sound7.play();
                     if( isGalagaMerged ){
                         numOfGalaga--;
-                        isGalagaMerged = false;
+                        Constants.isGalagaMerged = false;
                     }else{
                         setEndGame("Collision with bad suri");
                     }
@@ -357,9 +357,9 @@ function collisionCheckBullets() {
                     badGuy.hp--;
                     playerScore += badGuy.points;
                     if ( isCaptured && badGuy.isSpider) {
-                        isGalagaMerging = true;
-                        isGalagaMerged = false;
-                        isCaptured = false;
+                        Constants.isGalagaMerging = true;
+                        Constants.isGalagaMerged = false;
+                        Constants.isCaptured = false;
                         if(!clonePlayer){
                             clonePlayer = new Guy(spider.x, spider.y-(spider.height/2), good, 0, GUYWIDTH, GUYHEIGHT, 0, 5);
                         }

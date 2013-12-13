@@ -79,9 +79,9 @@
 	var vim;
 	var tempVimImgY = 0;
 	var maxVimImgY = 40;
-}
+};
 
-var Game = {
+var Game = function(){
 	var player;
 	var clonePlayer;
 	//Game counters
@@ -89,4 +89,4 @@ var Game = {
 	var level = 1;
 	var lives;
 	var stopThere = false;
-}
+};
