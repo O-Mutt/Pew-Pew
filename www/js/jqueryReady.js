@@ -5,12 +5,14 @@
  * Please see copyright.txt for full license details
  **/
  /*document ready function */
-jQuery(document).ready(function($){
-    //jquery GALAGA_CANVAS wrapper
-    $GALAGA_CANVAS = $("#galaga_canvas");
-    //html GALAGA_CANVAS object
-    GALAGA_CANVAS = $GALAGA_CANVAS[0];
-    //html5 context of the GALAGA_CANVAS
+$(document).ready(function () {
+    PrepGame();
+});
+
+function PrepGame() {
+	//html $(GALAGA_CANVAS) object
+    GALAGA_CANVAS = FastCanvas.create();
+    //html5 context of the $(GALAGA_CANVAS)
     GALAGA_CONTEXT = GALAGA_CANVAS.getContext("2d");
 
     //Can't access jquery $ outside of scope
@@ -50,4 +52,4 @@ jQuery(document).ready(function($){
     });*/
 	gameTypeClassic = true;
 	ready();
-});
+}

@@ -6,17 +6,9 @@
  **/
  var DEBUG = false; //debug flag for helping figure out what is going on
 //One time inits
-var $GALAGA_CANVAS;
-var GALAGA_CANVAS;
 var GALAGA_CONTEXT;
 var mouse;
-var bad1; //bad guy sprite 1
-var bad2; //bad guy sprite 2
-var bad3; //bad guy sprite 3
-var good; //the GOOD GUY!
-var boss;
-var explosion; //the GOOD GUY!
-var laser;
+var bad1, bad2, bad3, good, boss, explosion, laser;
 // CONSTANTS
 var GUYWIDTH = 20;
 var GUYHEIGHT = 20;
@@ -32,22 +24,7 @@ var level = 1;
 var lives;
 var stopThere = false;
 
-var sound0;
-var sound1;
-var sound2;
-var sound3;
-var sound4;
-var sound5;
-var sound6;
-var sound7;
-var sound8;
-var sound9;
-var sound10;
-var sound11;
-var sound12;
-var sound13;
-var sound14;
-
+var sound0, sound1, sound2, sound3, sound4, sound5, sound6, sound7, sound8, sound9, sound10, sound11, sound12, sound13, sound14;
 
 //options
 var gameTypeClassic;

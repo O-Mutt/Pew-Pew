@@ -21,32 +21,44 @@ function ready() {
     lives = PLAYERLIVES;
 
     //page images
-    bad1 = document.getElementById("bad1");
-    bad2 = document.getElementById("bad2");
-    bad3 = document.getElementById("bad3");
-    good = document.getElementById("good");
-    boss = document.getElementById("boss");
-    laser = document.getElementById("laser");
-    explosion = document.getElementById("explosion");
-    vim = document.getElementById("vim");
+    bad1 = FastCanvas.createImage();
+	bad1.onload = function() {
+		FastCanvas.render();
+	}
+	bad1.src = "img/bad1.png";
+    bad2 = FastCanvas.createImage();
+	bad2.src = "img/bad1.png";
+    bad3 = FastCanvas.createImage();
+	bad3.src = "img/bad1.png";
+    good = FastCanvas.createImage();
+	good.src = "img/good.png";
+    boss = FastCanvas.createImage();
+	boss.src = "img/bc.png";
+    laser = FastCanvas.createImage();
+	laser.src = "img/laser.png";
+    explosion = FastCanvas.createImage();
+	explosion.src = "img/explosion.png";
+    vim = FastCanvas.createImage();
+	vim.src = "img/vim.png";
     //Sets up the pregame to show the good ship and message to start
     setPreGame();
+	
 
     // do nothing in the event handler except canceling the event
-    GALAGA_CANVAS.ondragstart = function(e) {
+    $(GALAGA_CANVAS).ondragstart = function(e) {
     if (e && e.preventDefault) { e.preventDefault(); }
     if (e && e.stopPropagation) { e.stopPropagation(); }
     return false;
     };
 
 // do nothing in the event handler except canceling the event
-    GALAGA_CANVAS.onselectstart = function(e) {
+    $(GALAGA_CANVAS).onselectstart = function(e) {
     if (e && e.preventDefault) { e.preventDefault(); }
     if (e && e.stopPropagation) { e.stopPropagation(); }
     return false;
     };
     
-    $GALAGA_CANVAS.on('click', function(e) {
+    $(GALAGA_CANVAS).on('click', function(e) {
       e.preventDefault();
 
       if (intervalLoop == 0) {
@@ -71,11 +83,11 @@ function ready() {
     });
     
     //Mouse listener
-    jQuery($GALAGA_CANVAS).mousemove(function(event) {
+    $(GALAGA_CANVAS).mousemove(function(event) {
         setMousePosition(event);
     });
 
-    jQuery($GALAGA_CANVAS).keydown(function(event) {
+    $(GALAGA_CANVAS).keydown(function(event) {
         if (event.which == 32 && intervalLoop == 0) {
             setStartGame(5);
             mouse.x = 50;
@@ -88,7 +100,7 @@ function ready() {
         return false;
     });
 
-    jQuery($GALAGA_CANVAS).keyup(function(event) {
+    $(GALAGA_CANVAS).keyup(function(event) {
         pressedKeys[event.which] = false;
     });
 }
@@ -210,22 +222,22 @@ function initPlayer(isGame) {
 }
 
 /**
- * clears the GALAGA_CANVAS and redraws the player
+ * clears the $(GALAGA_CANVAS) and redraws the player
  */
 function drawPreGalaga() {
-    //Clean GALAGA_CANVAS
+    //Clean $(GALAGA_CANVAS)
     GALAGA_CONTEXT.clearRect(0, 0, 400, 400);
     //Move player to mouse
     redrawPlayerGalaga("Click or Space To Start!");
 }
 
 /**
- * clears the GALAGA_CANVAS and calls a bunch of helper methods to redraw and check collisions.
+ * clears the $(GALAGA_CANVAS) and calls a bunch of helper methods to redraw and check collisions.
  * This method is where most of the "heavy lifting" is done
  */
 var sound2PlayCount = 0;
 function drawGalaga() {
-    //Clean GALAGA_CANVAS
+    //Clean $(GALAGA_CANVAS)
     GALAGA_CONTEXT.clearRect(0, 0, 400, 400);
     // console.log("->"+isSpiderMove+"->"+isGalagaMerging);
     //Move player to mouse
@@ -414,7 +426,7 @@ function moveBadGuys() {
     var isWall = false;
     jQuery.each(badGuys, function(index, badGuy) {
         vel = badGuy.vel;
-        if ((badGuy.x + badGuy.width) > $GALAGA_CANVAS.width() && badGuy.direction) { //moving right hit a wall?
+        if ((badGuy.x + badGuy.width) > $(GALAGA_CANVAS).width() && badGuy.direction) { //moving right hit a wall?
             isWall = true;
             badGuy.x += badGuy.velocity;
         } else if (badGuy.x < 0 && !badGuy.direction) { //moving left hit a wall?
@@ -429,7 +441,7 @@ function moveBadGuys() {
         }
         if (badGuy.isSpider) {
             if (!isSpiderMove && !isCaptured) {
-                if (badGuy.y > GALAGA_CANVAS.height/4) {
+                if (badGuy.y > $(GALAGA_CANVAS).height/4) {
                     isSpiderMove = true;
                     spider = badGuy;
                     oriPosX = badGuy.x;
@@ -457,11 +469,11 @@ function moveBadGuys() {
 
             //Check if bad guy hit the bottom
             if (DEBUG) {
-		console.log("BadGuy Bottom [" + badGuy.bottom() + "] Canvas bottom [" + GALAGA_CANVAS.height + "]");
+		console.log("BadGuy Bottom [" + badGuy.bottom() + "] Canvas bottom [" + $(GALAGA_CANVAS).height + "]");
 	    }
-            if (badGuy.bottom() > GALAGA_CANVAS.height) {
+            if (badGuy.bottom() > $(GALAGA_CANVAS).height) {
                 sound7.play();
-                setEndGame("Bad guys hit the bottom of the GALAGA_CANVAS");
+                setEndGame("Bad guys hit the bottom of the $(GALAGA_CANVAS)");
                 return false;
             }
         });
@@ -470,7 +482,7 @@ function moveBadGuys() {
 }
 
 function setMousePosition(event) {
-    var rect = GALAGA_CANVAS.getBoundingClientRect();
+    var rect = $(GALAGA_CANVAS).getBoundingClientRect();
     mouse.x = event.clientX - rect.left;
     mouse.y = event.clientY - rect.top;
 }

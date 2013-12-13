@@ -24,13 +24,13 @@ function goBackSpider() {
     }else{
         isSpiderMove = false;
         isViming = false;
-        player.x = GALAGA_CANVAS.width/2;
+        player.x = $(GALAGA_CANVAS).width/2;
         player.y = 370;
     }
 }
 
 function moveSpider() {
-    if (spider.y < (GALAGA_CANVAS.height*4)/5) {
+    if (spider.y < ($(GALAGA_CANVAS).height*4)/5) {
         spider.y += 2;
     } else {
         isViming = true;

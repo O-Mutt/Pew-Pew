@@ -109,7 +109,7 @@ function redrawBullets() {
                 GALAGA_CONTEXT.fillStyle = "White";
             }
             GALAGA_CONTEXT.fillRect(badBullet.x, badBullet.y, badBullet.width, badBullet.height); //X, Y, width, height
-            if (badBullet.y > $GALAGA_CANVAS.height) {
+            if (badBullet.y > $(GALAGA_CANVAS).height) {
                 badBullets.splice(index, 1);
             }
         }
