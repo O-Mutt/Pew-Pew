@@ -49,6 +49,6 @@
     <gap:splash gap:platform="winphone" src="res/screen/windows-phone/screen-portrait.jpg" />
     <access origin="http://127.0.0.1*" />
 	<!-- plugins -->
-	<gap:plugin name="org.apache.cordova.vibration" />
+	<!--<gap:plugin name="org.apache.cordova.vibration" />-->
 	<gap:plugin name="com.adobe.plugins.fastcanvas" />
 </widget>
