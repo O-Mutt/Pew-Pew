@@ -18,28 +18,17 @@ function processArrow(diff) {
 function ready() {
 
     //Game wide options
-    lives = PLAYERLIVES;
+    lives = Constants.PLAYERLIVES;
 
     //page images
-    bad1 = FastCanvas.createImage();
-	bad1.onload = function() {
-		FastCanvas.render();
-	}
-	bad1.src = "img/bad1.png";
-    bad2 = FastCanvas.createImage();
-	bad2.src = "img/bad1.png";
-    bad3 = FastCanvas.createImage();
-	bad3.src = "img/bad1.png";
-    good = FastCanvas.createImage();
-	good.src = "img/good.png";
-    boss = FastCanvas.createImage();
-	boss.src = "img/bc.png";
-    laser = FastCanvas.createImage();
-	laser.src = "img/laser.png";
-    explosion = FastCanvas.createImage();
-	explosion.src = "img/explosion.png";
-    vim = FastCanvas.createImage();
-	vim.src = "img/vim.png";
+    bad1 = document.getElementById("bad1");
+    bad2 = document.getElementById("bad2");
+    bad3 = document.getElementById("bad3");
+    good = document.getElementById("good");
+    boss = document.getElementById("boss");
+    laser = document.getElementById("laser");
+    explosion = document.getElementById("explosion");
+    vim = document.getElementById("vim");
     //Sets up the pregame to show the good ship and message to start
     setPreGame();
 	
@@ -70,10 +59,10 @@ function ready() {
               maxBulletsNum *= numOfGalaga;
           if (bullets.length < maxBulletsNum) {
               if (isGalagaMerged) {
-                  bullets.push(new Bullet(player.x - 1 - GUYOFFSET, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0));
-                  bullets.push(new Bullet(player.x + 1 + GUYOFFSET, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0));
+                  bullets.push(new Bullet(player.x - 1 - Constants.GUYOFFSET, player.y - Constants.GUYOFFSET, Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0));
+                  bullets.push(new Bullet(player.x + 1 + Constants.GUYOFFSET, player.y - Constants.GUYOFFSET, Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0));
               } else {
-              bullets.push(new Bullet(player.x - 1, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0));
+              bullets.push(new Bullet(player.x - 1, player.y - Constants.GUYOFFSET, Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0));
               }
               sound11.play();
           }
@@ -93,7 +82,7 @@ function ready() {
             mouse.x = 50;
             redrawPlayerGalaga();
         }
-        if (!isCapturing){
+        if (!Constants.isCapturing){
             pressedKeys[event.which] = true;
             // console.log(event.which)
         }
@@ -106,7 +95,7 @@ function ready() {
 }
 
 function shoot(){
-    jQuery.each(badGuys, function(index, badGuy){
+    jQuery.each(Constants.badGuys, function(index, badGuy){
         if(badGuy instanceof Boss){
             badGuy.shoot();
         }
@@ -114,7 +103,7 @@ function shoot(){
 }
 
 function doKeyAction() {
-    if(!isGalagaMerging && !isCapturing){
+    if(!Constants.isGalagaMerging && !Constants.isCapturing){
         if (pressedKeys[37]) { // left
             if(mouse.x >= player.width) processArrow([-4,0]);
         } else if (pressedKeys[38]) { // up
@@ -138,10 +127,10 @@ function doKeyAction() {
             if (luckyLife
                 || (bullets.length < maxBulletsNum && barrierBullets.length == 0) ){
                 if (isGalagaMerged) {
-                    bullets.push(new Bullet(player.x - 1 - GUYOFFSET, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0));
-                    bullets.push(new Bullet(player.x + 1 + GUYOFFSET, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0));
+                    bullets.push(new Bullet(player.x - 1 - Constants.GUYOFFSET, player.y - Constants.GUYOFFSET, Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0));
+                    bullets.push(new Bullet(player.x + 1 + Constants.GUYOFFSET, player.y - Constants.GUYOFFSET, Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0));
                 }else {
-                    bullets.push(new Bullet(player.x - 1, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0));
+                    bullets.push(new Bullet(player.x - 1, player.y - Constants.GUYOFFSET, Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0));
                 }
                 sound11.play();
             }
@@ -149,22 +138,22 @@ function doKeyAction() {
     } else if (pressedKeys[88]) { // X - Shot Gun
         if (luckyLife
                 || (bullets.length  == 0 && barrierBullets.length == 0)) {
-            bullets.push(new Bullet(player.x - 15, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, -1));
-            bullets.push(new Bullet(player.x - 5, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, -0.5));
-            bullets.push(new Bullet(player.x  + 5, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0.5));
-            bullets.push(new Bullet(player.x  + 15, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 1));
+            bullets.push(new Bullet(player.x - 15, player.y - Constants.GUYOFFSET, Constants.BULLETHEIGHT, Constants.BULLETWIDTH, -1));
+            bullets.push(new Bullet(player.x - 5, player.y - Constants.GUYOFFSET, Constants.BULLETHEIGHT, Constants.BULLETWIDTH, -0.5));
+            bullets.push(new Bullet(player.x  + 5, player.y - Constants.GUYOFFSET, Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0.5));
+            bullets.push(new Bullet(player.x  + 15, player.y - Constants.GUYOFFSET, Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 1));
         }
     } else if (pressedKeys[90]) { // Z - Bomb
         if (luckyLife
                 || (bullets.length == 0 && barrierBullets.length == 0)) {
-            bullets.push(new Bullet(player.x  + 15, player.y - GUYOFFSET, BULLETHEIGHT, BULLETWIDTH, 0, "bomb"));
+            bullets.push(new Bullet(player.x  + 15, player.y - Constants.GUYOFFSET, Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0, "bomb"));
         }
 
     } else if (pressedKeys[67]) { // C - Barrier
         if (luckyLife
                 || (barrierBullets.length == 0)) {
-            barrierBullet = new Bullet(player.x - BULLETWIDTH * 20,
-                    player.y - GUYOFFSET - 30, BULLETHEIGHT, BULLETWIDTH * 40);
+            barrierBullet = new Bullet(player.x - Constants.BULLETWIDTH * 20,
+                    player.y - Constants.GUYOFFSET - 30, Constants.BULLETHEIGHT, Constants.BULLETWIDTH * 40);
             barrierBullet.life = BARRIER_LIFE_LIMIT;
             barrierBullets.push(barrierBullet);
         }
@@ -177,10 +166,10 @@ function doKeyAction() {
  * Initializes the game
  */
 function initGalaga() {
-	if (GALAGA_CONTEXT != undefined) {
-		GALAGA_CONTEXT.clearRect(0, 0, 400, 400);
+	if (Constants.GALAGA_CONTEXT != undefined) {
+		Constants.GALAGA_CONTEXT.clearRect(0, 0, 400, 400);
 	}
-    badGuys = [];
+    Constants.badGuys = [];
     player = null;
     bullets = [];
     barrierBullets = [];
@@ -190,18 +179,18 @@ function initGalaga() {
 //Guy(x, y, img, velocity, height, width, points, hp, isSpider, type)
     if (level % 3 != 0) {
         for (var i = 0; i < 10; i++) {
-            badGuys.push(new Guy(i * 35, 0, bad1, .5, 20, 20, level * 20, 1, false, 'bad1'));
+            Constants.badGuys.push(new Guy(i * 35, 0, bad1, .5, 20, 20, level * 20, 1, false, 'bad1'));
         }
         for ( i = 0; i < 10; i++) {
-            badGuys.push(new Guy(i * 35, 30, bad2, .5, 20, 20, level * 10, 1, false, null));
+            Constants.badGuys.push(new Guy(i * 35, 30, bad2, .5, 20, 20, level * 10, 1, false, null));
         }
         for ( i = 0; i < 10; i++) {
-            badGuys.push(new Guy(i * 35, 60, bad3, .5, 20, 20, level * 5, 1, false, null));
+            Constants.badGuys.push(new Guy(i * 35, 60, bad3, .5, 20, 20, level * 5, 1, false, null));
         }
         sound0.play();
     } else {
-        FIRECHANCENUMERATOR -= .5;
-        badGuys.push(new Boss(1 * 35, 0, boss, .5, 50, 50, level * 100, 10));
+        Constants.FIRECHANCENUMERATOR -= .5;
+        Constants.badGuys.push(new Boss(1 * 35, 0, boss, .5, 50, 50, level * 100, 10));
     }
     if (!isGalagaMerged) {
         selectSpider();
@@ -215,7 +204,7 @@ function initGalaga() {
  */
 function initPlayer(isGame) {
     mouse = new Mouse();
-    player = new Guy(0, 0, good, 0, GUYWIDTH, GUYHEIGHT, 0, 5);
+    Constants.player = new Guy(0, 0, good, 0, Constants.GUYWIDTH, Constants.GUYHEIGHT, 0, 5);
     if (!isGame) {
         fakeGame = setInterval(drawPreGalaga, 20);
     }
@@ -226,7 +215,7 @@ function initPlayer(isGame) {
  */
 function drawPreGalaga() {
     //Clean $(GALAGA_CANVAS)
-    GALAGA_CONTEXT.clearRect(0, 0, 400, 400);
+    Constants.GALAGA_CONTEXT.clearRect(0, 0, 400, 400);
     //Move player to mouse
     redrawPlayerGalaga("Click or Space To Start!");
 }
@@ -238,7 +227,7 @@ function drawPreGalaga() {
 var sound2PlayCount = 0;
 function drawGalaga() {
     //Clean $(GALAGA_CANVAS)
-    GALAGA_CONTEXT.clearRect(0, 0, 400, 400);
+    Constants.GALAGA_CONTEXT.clearRect(0, 0, 400, 400);
     // console.log("->"+isSpiderMove+"->"+isGalagaMerging);
     //Move player to mouse
     redrawPlayerGalaga("");
@@ -262,10 +251,10 @@ function drawGalaga() {
             if (isCaptured) {
                 goBackSpider();
                 sound2PlayCount =0;
-            }else if(isCapturing){
+            }else if(Constants.isCapturing){
                 if(tempVimImgY >= 0){
                     sound3.play();
-                    GALAGA_CONTEXT.drawImage(vim, spider.x - 24, spider.y + 20, 70, tempVimImgY);
+                    Constants.GALAGA_CONTEXT.drawImage(vim, spider.x - 24, spider.y + 20, 70, tempVimImgY);
                     tempVimImgY -= 1;
                 }
             }else {
@@ -274,10 +263,10 @@ function drawGalaga() {
                     sound2PlayCount++;
                 }
                 if(tempVimImgY <= maxVimImgY){
-                    GALAGA_CONTEXT.drawImage(vim, spider.x - 24, spider.y + 20, 70, tempVimImgY);
+                    Constants.GALAGA_CONTEXT.drawImage(vim, spider.x - 24, spider.y + 20, 70, tempVimImgY);
                     tempVimImgY += 1;
                 }else{
-                    GALAGA_CONTEXT.drawImage(vim, spider.x - 24, spider.y + 20, 70, maxVimImgY);
+                    Constants.GALAGA_CONTEXT.drawImage(vim, spider.x - 24, spider.y + 20, 70, maxVimImgY);
                 }
             }
         }
@@ -293,7 +282,7 @@ function drawGalaga() {
 
 function checkGalagaCaptured() {
     if (player.x <= spider.x + 20 && player.x >= spider.x - 20) {
-        isCapturing = true;
+        Constants.isCapturing = true;
     }
 }
 
@@ -304,7 +293,7 @@ function checkGalagaCaptured() {
 var isBossSuriFired = false;
 
 function badGuysTryFire() {
-    jQuery.each(badGuys, function(index, badGuy) {
+    $.each(Constants.badGuys, function(index, badGuy) {
         //Chance to fire
         if(badGuy instanceof Boss && !isBossSuriFired){
             badGuy.shoot();
@@ -319,7 +308,7 @@ function badGuysTryFire() {
                 // badGuy.shoot();
             }else{
             	var badBullet = new Bullet(badGuy.x + (badGuy.width / 2),
-                	badGuy.bottom(), BULLETHEIGHT, BULLETWIDTH, 0);
+                	badGuy.bottom(), Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0);
             	if 	(Math.random() * 1000 % 100 < 20) {
                 	badBullet.bulletType = "lucky";
             	}
@@ -330,13 +319,13 @@ function badGuysTryFire() {
 }
 
 function collisionCheckBullets() {
-    jQuery.each(badGuys, function(indexGuy, badGuy) {
+    jQuery.each(Constants.badGuys, function(indexGuy, badGuy) {
         if(badGuy instanceof Boss){
             if(badGuy.isFiredLaser && (badGuy.getLaserHeight() + badGuy.top()) > 380){
                 if(badGuy.left()+15 < player.right() && badGuy.left()+55 > player.left()){
                     if( isGalagaMerged ){
                         numOfGalaga--;
-                        isGalagaMerged = false;
+                        Constants.isGalagaMerged = false;
                     }else{
                         setEndGame("player is killed by laser");
                     }
@@ -346,11 +335,11 @@ function collisionCheckBullets() {
 
             jQuery.each(badGuy.suriArr, function(index, badBullet) {
                 if (badBullet != undefined && intersect(badBullet)) {
-                    GALAGA_CONTEXT.drawImage(explosion, player.x - GUYOFFSET, player.y - GUYOFFSET, 32, 32);
+                    Constants.GALAGA_CONTEXT.drawImage(explosion, player.x - Constants.GUYOFFSET, player.y - Constants.GUYOFFSET, 32, 32);
                     sound7.play();
                     if( isGalagaMerged ){
                         numOfGalaga--;
-                        isGalagaMerged = false;
+                        Constants.isGalagaMerged = false;
                     }else{
                         setEndGame("Collision with bad suri");
                     }
@@ -362,15 +351,15 @@ function collisionCheckBullets() {
         jQuery.each(bullets, function(indexBullet, bullet) {
             if ((bullet != undefined && badGuy != undefined) && intersectOther(badGuy, bullet)) {
                 if (bullet.bulletType == "bomb") {
-                    bullets.push(new Bullet(bullet.x, bullet.y, BULLETHEIGHT * 5, BULLETWIDTH * 30, 0, "bomb"));
+                    bullets.push(new Bullet(bullet.x, bullet.y, Constants.BULLETHEIGHT * 5, Constants.BULLETWIDTH * 30, 0, "bomb"));
                 }
                 if (badGuy.hp == 1) {
                     badGuy.hp--;
                     playerScore += badGuy.points;
                     if ( isCaptured && badGuy.isSpider) {
-                        isGalagaMerging = true;
-                        isGalagaMerged = false;
-                        isCaptured = false;
+                        Constants.isGalagaMerging = true;
+                        Constants.isGalagaMerged = false;
+                        Constants.isCaptured = false;
                         if(!clonePlayer){
                             clonePlayer = new Guy(spider.x, spider.y-(spider.height/2), good, 0, GUYWIDTH, GUYHEIGHT, 0, 5);
                         }
@@ -381,8 +370,8 @@ function collisionCheckBullets() {
                     }else if (!isCaptured && badGuy.isSpider && (isSpiderCount <= isSpiderMaxCount) ){
                         selectSpider();
                     }
-                    badGuys.splice(indexGuy, 1);
-                    GALAGA_CONTEXT.drawImage(explosion, badGuy.x, badGuy.y, 32, 32);
+                    Constants.badGuys.splice(indexGuy, 1);
+                    Constants.GALAGA_CONTEXT.drawImage(explosion, badGuy.x, badGuy.y, 32, 32);
                     bullets.splice(indexBullet, 1);
                     return false;
                 } else {
@@ -424,7 +413,7 @@ function collisionCheckBullets() {
 
 function moveBadGuys() {
     var isWall = false;
-    jQuery.each(badGuys, function(index, badGuy) {
+    jQuery.each(Constants.badGuys, function(index, badGuy) {
         vel = badGuy.vel;
         if ((badGuy.x + badGuy.width) > $(GALAGA_CANVAS).width() && badGuy.direction) { //moving right hit a wall?
             isWall = true;
@@ -449,13 +438,13 @@ function moveBadGuys() {
                 }
             }
             if (isCaptured) {
-                GALAGA_CONTEXT.drawImage(player.img, badGuy.x, badGuy.y - GUYOFFSET*2, player.height, player.width);
+                Constants.GALAGA_CONTEXT.drawImage(player.img, badGuy.x, badGuy.y - Constants.GUYOFFSET*2, player.height, player.width);
             }
         }
     });
 
     if (isWall) { //hit a wall, gotta reset and move back the other way
-        jQuery.each(badGuys, function(index, badGuy) {
+        jQuery.each(Constants.badGuys, function(index, badGuy) {
             badGuy.velocity = badGuy.velocity + .1;
             if (badGuy.direction) {
                 badGuy.y += 15;
@@ -482,7 +471,7 @@ function moveBadGuys() {
 }
 
 function setMousePosition(event) {
-    var rect = $(GALAGA_CANVAS).getBoundingClientRect();
+    var rect = GALAGA_CANVAS.getBoundingClientRect();
     mouse.x = event.clientX - rect.left;
     mouse.y = event.clientY - rect.top;
 }
