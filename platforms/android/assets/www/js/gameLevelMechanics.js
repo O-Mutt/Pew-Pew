@@ -50,6 +50,7 @@ function setStartGame() {
 }
 
 function setPreGame() {
+	if (Constants.DEBUG) console.log("Set pre");
     initPlayer(false);
 }
 

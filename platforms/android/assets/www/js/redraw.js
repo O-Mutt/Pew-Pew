@@ -5,58 +5,58 @@
  * Please see copyright.txt for full license details
  **/
  function redrawPlayerGalaga(str) {
-    if(!Constants.isCapturing && !Constants.isGalagaMerging){
-        if(mouse.x < player.width) player.x = player.width;
-        else if(mouse.x > 400- player.width) player.x = 400- player.width;
-        else player.x = mouse.x;
+    if(!Constants.isCapturing && !Global.isGalagaMerging){
+        if(Global.mouse.x < Game.player.width) Game.player.x = Game.player.width;
+        else if(Global.mouse.x > 400- Game.player.width) Game.player.x = 400- Game.player.width;
+        else Game.player.x = Global.mouse.x;
     }
-    if (gameTypeClassic) {
-        player.y = Constants.canvasHeight - 20;
+    if (Options.gameTypeClassic) {
+        Game.player.y = Constants.canvasHeight - 20;
     } else {
-        player.y = mouse.y;
+        Game.player.y = Global.mouse.y;
     }
-    if (luckyLife > 0) {
+    if (Global.luckLife > 0) {
         Constants.GALAGA_CONTEXT.fillStyle = "GRAY";
         Constants.GALAGA_CONTEXT.fillRect(0, 350, Constants.canvasWidth, Constants.canvasHeight); //X, Y, width, height
         Constants.GALAGA_CONTEXT.fillStyle = "Black";
-        Constants.GALAGA_CONTEXT.fillText("GOD MODE!" + luckyLife, 20, Constants.canvasHeight - 30);
+        Constants.GALAGA_CONTEXT.fillText("GOD MODE!" + Global.luckLife, 20, Constants.canvasHeight - 30);
     }
     if (Constants.isCapturing) {
         tmpYPos -= 2;
-        Constants.GALAGA_CONTEXT.drawImage(player.img, spider.x, tmpYPos - GUYOFFSET, player.height, player.width);
+        Constants.GALAGA_CONTEXT.drawImage(Game.player.img, spider.x, tmpYPos - Constants.GUYOFFSET, Game.player.height, Game.player.width);
         if ( tmpYPos <= spider.y-(spider.height/2) ) {
             Constants.isCapturing = false;
             isCaptured = true;
         }
 
-    }else if (Constants.isGalagaMerging){
-        Constants.GALAGA_CONTEXT.drawImage(player.img, player.x - GUYOFFSET, player.y - GUYOFFSET, player.height, player.width);
+    }else if (Global.isGalagaMerging){
+        Constants.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.x - Constants.GUYOFFSET, Game.player.y - Constants.GUYOFFSET, Game.player.height, Game.player.width);
         // if(!clonePlayer){
         //     clonePlayer = new Guy(spider.x, spider.y-(spider.height/2), good, 0, GUYWIDTH, GUYHEIGHT, 0, 5);
         // }
-        Constants.GALAGA_CONTEXT.drawImage(player.img, clonePlayer.x - GUYOFFSET, clonePlayer.y - GUYOFFSET, clonePlayer.height, clonePlayer.width);
-    }else if (isGalagaMerged) {
-            Constants.GALAGA_CONTEXT.drawImage(player.img, player.x - GUYOFFSET*2, player.y - GUYOFFSET, player.height, player.width);
-            Constants.GALAGA_CONTEXT.drawImage(player.img, player.x, player.y - GUYOFFSET, player.height, player.width);
+        Constants.GALAGA_CONTEXT.drawImage(Game.player.img, clonePlayer.x - Constants.GUYOFFSET, clonePlayer.y - Constants.GUYOFFSET, clonePlayer.height, clonePlayer.width);
+    }else if (Global.isGalagaMerged) {
+            Constants.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.x - Constants.GUYOFFSET*2, Game.player.y - Constants.GUYOFFSET, Game.player.height, Game.player.width);
+            Constants.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.x, Game.player.y - Constants.GUYOFFSET, Game.player.height, Game.player.width);
     }else{
-            Constants.GALAGA_CONTEXT.drawImage(player.img, player.x - GUYOFFSET, player.y - GUYOFFSET, player.height, player.width);
+            Constants.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.x - Constants.GUYOFFSET, Game.player.y - Constants.GUYOFFSET, Game.player.height, Game.player.width);
     }
 
 
 
     Constants.GALAGA_CONTEXT.fillStyle = "White";
-    Constants.GALAGA_CONTEXT.fillText("PlayerScore: [" + playerScore + "] Level: [" + level + "] " + str, 20, Constants.canvasHeight - 10);
-    for (var i = 1; i < lives; i++) {
-        Constants.GALAGA_CONTEXT.drawImage(player.img, Constants.canvasWidth - (i * 17), Constants.canvasHeight - 20, 15, 15);
+    Constants.GALAGA_CONTEXT.fillText("PlayerScore: [" + Game.playerScore + "] Level: [" + Game.level + "] " + str, 20, Constants.canvasHeight - 10);
+    for (var i = 1; i < Game.lives; i++) {
+        Constants.GALAGA_CONTEXT.drawImage(Game.player.img, Constants.canvasWidth - (i * 17), Constants.canvasHeight - 20, 15, 15);
     }
-    if (DEBUG) {
-        //Write other things about the player
+    if (Constants.DEBUG) {
+        //Write other things about the Game.player
     }
 
-    if (player != undefined && player.x != undefined) {
-        $.each(badGuys, function(index, badGuy) {
+    if (Game.player != undefined && Game.player.x != undefined && Global.badGuys) {
+        $.each(Global.badGuys, function(index, badGuy) {
             if (intersect(badGuy)) {
-                Constants.GALAGA_CONTEXT.drawImage(explosion, player.x - GUYOFFSET, player.y - GUYOFFSET, 32, 32);
+                Constants.GALAGA_CONTEXT.drawImage(explosion, Game.player.x - Constants.GUYOFFSET, Game.player.y - Constants.GUYOFFSET, 32, 32);
                 sound7.play();
                 if( isGalagaMerged ){
                     numOfGalaga--;
@@ -71,8 +71,8 @@
 }
 
 function redrawBadGuys() {
-    $.each(badGuys, function(index, badGuy) {
-        if (DEBUG) {
+    $.each(Global.badGuys, function(index, badGuy) {
+        if (Constants.DEBUG) {
             Constants.GALAGA_CONTEXT.fillStyle = "White";
             Constants.GALAGA_CONTEXT.fillText("HP: [" + badGuy.hp + "]", badGuy.x, badGuy.y - 2);
         }
@@ -115,7 +115,7 @@ function redrawBullets() {
         }
     });
 
-    $.each(badGuys, function(index, badGuy){
+    $.each(Global.badGuys, function(index, badGuy){
         if(badGuy instanceof Boss){
             if(badGuy.isFiredLaser){
 
@@ -131,7 +131,7 @@ function redrawBullets() {
                         endLaser = 400;
                     }
                     for(start = startLaser;start<=endLaser;start++){
-                        Constants.GALAGA_CONTEXT.drawImage(laser, badGuy.x - GUYOFFSET+15, start - GUYOFFSET+60, 40, 24);    
+                        Constants.GALAGA_CONTEXT.drawImage(laser, badGuy.x - Constants.GUYOFFSET+15, start - Constants.GUYOFFSET+60, 40, 24);    
                     }
                 }
                 

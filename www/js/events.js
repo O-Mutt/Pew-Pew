@@ -1,5 +1,6 @@
 var Events = {
-	initListeners: function() {	
+	initListeners: function() {
+		if (Constants.DEBUG) console.log($(GALAGA_CANVAS));
 		this.initDragStart();
 		this.initOnSelect();
 		this.initClick();
@@ -21,26 +22,26 @@ var Events = {
 	initDragStart: function() {	
 		if (Constants.DEBUG) console.log("Init drag");
 		// do nothing in the event handler except cancelling the event
-		$(GALAGA_CANVAS).ondragstart = function(e) {
+		$.on('dragstart', $(GALAGA_CANVAS), function(e) {
 		if (e && e.preventDefault) { e.preventDefault(); }
 		if (e && e.stopPropagation) { e.stopPropagation(); }
 		return false;
-		};
+		});
 	},
 	
 	initOnSelect: function() {
 		if (Constants.DEBUG) console.log("Init select");
 		// do nothing in the event handler except cancelling the event
-		$(GALAGA_CANVAS).onselectstart = function(e) {
+		$.on('selectstart', $(GALAGA_CANVAS), function(e) {
 		if (e && e.preventDefault) { e.preventDefault(); }
 		if (e && e.stopPropagation) { e.stopPropagation(); }
 		return false;
-		};
+		});
     },
 	
 	initClick: function() {
 		if (Constants.DEBUG) console.log("Init click");
-		$(GALAGA_CANVAS).on('click', function(e) {
+		$.on('click', $(GALAGA_CANVAS), function(e) {
 		  e.preventDefault();
 
 		  if (Global.intervalLoop == 0) {
@@ -67,14 +68,14 @@ var Events = {
 	mouseMove: function() {
 		if (Constants.DEBUG) console.log("Init move");
 		//Mouse listener
-		$(GALAGA_CANVAS).mousemove(function(event) {
+		$.on('mousemove', $(GALAGA_CANVAS), function(event) {
 			setMousePosition(event);
 		});
 	},
 
 	keyDown: function() {
 		if (Constants.DEBUG) console.log("Init key down");
-		$(GALAGA_CANVAS).keydown(function(event) {
+		$.on('keydown', $(GALAGA_CANVAS), function(event) {
 			if (event.which == 32 && Global.intervalLoop == 0) {
 				setStartGame(5);
 				Global.mouse.x = 50;
@@ -90,7 +91,7 @@ var Events = {
 	
 	keyUp: function() {
 		if (Constants.DEBUG) console.log("Init key up");
-		$(GALAGA_CANVAS).keyup(function(event) {
+		$.on('keyup', $(GALAGA_CANVAS), function(event) {
 			Game.pressedKeys[event.which] = false;
 		});
 	},
