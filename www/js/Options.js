@@ -1,3 +1,4 @@
-var Options = function(){
+
+var Options = new function(){
 	var gameTypeClassic;
 };

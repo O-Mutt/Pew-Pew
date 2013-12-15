@@ -1,54 +1,55 @@
-var Global = function() {
+function Global() {
 	//Multiple inits
-	var bullets = new Array();//bullets fired by player
-	var barrierBullets = new Array();
-	var badGuys = new Array();//the bad guys
-	var bossFire = new Array();	//Important interval handler!
-	var intervalLoop = 0;
-	var fakeGame = 0;
-	var bulletsControl = {};	
-	var luckyLife = 0;
+	this.bullets = new Array();////bullets fired by player
+	this.barrierBullets = new Array();
+	this.badGuys = new Array(); //the bad guys
+	this.bossFire = new Array(); //Important interval handler!
+	this.intervalLoop = 0;
+	this.fakeGame = 0;
+	this.bulletsControl = {};	
+	this.Global.luckyLife = 0;
 	// for capture
-	var isCaptured = false;
-	var isCapturing = false;
-	var isGalagaMerged = false;
-	var isGalagaMerging = false;
-	var numOfGalaga = 1;
-	var isSpiderMove = false;
-	var hasSpider = false;
-	var spider;
-	var spiderCount = 0;
-	var isViming = false;
-	var oriPosX;
-	var oriPosY;
-	var vim;
+	this.isCaptured = false;
+	this.isCapturing = false;
+	this.isGalagaMerged = false;
+	this.isGalagaMerging = false;
+	this.numOfGalaga = 1;
+	this.isSpiderMove = false;
+	this.hasSpider = false;
+	this.Global.spider;
+	this.spiderCount = 0;
+	this.isViming = false;
+	this.oriPosX;
+	this.oriPosY;
+	this.vim;
 	
-	var canvasHeight;
-	var canvasWidth;
+	this.canvasHeight;
+	this.canvasWidth;
 
-	var sound0;
-	var sound1;
-	var sound2;
-	var sound3;
-	var sound4;
-	var sound5;
-	var sound6;
-	var sound7;
-	var sound8;
-	var sound9;
-	var sound10;
-	var sound11;
-	var sound12;
-	var sound13;
-	var sound14;
+	this.sound0;
+	this.sound1;
+	this.sound2;
+	this.sound3;
+	this.sound4;
+	this.sound5;
+	this.sound6;
+	this.sound7;
+	this.sound8;
+	this.sound9;
+	this.sound10;
+	this.sound11;
+	this.sound12;
+	this.sound13;
+	this.sound14;
 	
-	var GALAGA_CONTEXT;
-	var mouse;
-	var bad1;
-	var bad2;
-	var bad3;
-	var good;
-	var boss;
-	var explosion;
-	var laser;
+	this.GALAGA_CANVAS;
+	this.GALAGA_CONTEXT;
+	this.mouse;
+	this.bad1;
+	this.bad2;
+	this.bad3;
+	this.good;
+	this.boss;
+	this.explosion;
+	this.laser;
 };

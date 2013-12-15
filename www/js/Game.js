@@ -1,28 +1,24 @@
-var Game = function() {
-	var pressedKeys = {};
-	var player;
-	var playerLives = 5;
-	var clonePlayer;
+
+var Game = new function(){
+	this.pressedKeys = {};
+	this.player;
+	this.playerLives = 5;
+	this.clonePlayer;
 	//Game counters
-	var playerScore = 0;
-	var level = 1;
-	var lives;
-	var stopThere = false;
-};
-Game = {
-	Ready: function() {
+	this.playerScore = 0;
+	this.level = 1;
+	this.lives;
+	this.stopThere = false;
+	this.Ready = function() {
+		//html $(Global.GALAGA_CANVAS) object
+		Global.GALAGA_CANVAS = document.createElement("canvas");
+		Global.GALAGA_CANVAS.id = "Global.GALAGA_CANVAS";
+		Global.GALAGA_CANVAS.display = "block";
+		Global.GALAGA_CANVAS.style.background = "black";
+		$("body").append(Global.GALAGA_CANVAS);
+		//html5 context of the $(Global.GALAGA_CANVAS)
+		Global.GALAGA_CONTEXT = Global.GALAGA_CANVAS.getContext("2d");
 		Events.SizeChanged();
-		//html $(GALAGA_CANVAS) object
-		GALAGA_CANVAS = document.createElement("canvas");
-		GALAGA_CANVAS.id = "GALAGA_CANVAS";
-		GALAGA_CANVAS.display = "block";
-		if (Constants.DEBUG) console.log("Canvas height [" + Global.canvasHeight + "] width [" + Global.canvasWidth + "]");
-		GALAGA_CANVAS.height = Global.canvasHeight;
-		GALAGA_CANVAS.width = Global.canvasWidth;
-		GALAGA_CANVAS.backgroundColor = "black";
-		$("body").append(GALAGA_CANVAS);
-		//html5 context of the $(GALAGA_CANVAS)
-		Constants.GALAGA_CONTEXT = GALAGA_CANVAS.getContext("2d");
 		
 		//Can't access jquery $ outside of scope
 		Global.sound0 = $('#sound0')[0];

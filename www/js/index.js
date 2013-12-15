@@ -16,6 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+ 
 var app = {
     // Application Constructor
     initialize: function() {
@@ -33,6 +34,10 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-		Game.Ready();
+		try {
+			Game.Ready();
+		} catch(e) {
+			console.log(e);
+		}
     }
 };

@@ -4,19 +4,25 @@
  * 
  * Please see copyright.txt for full license details
  **/
+
 /************* Helper methods *************/
 /**
  * Intersection of an object with the player
  */
 function intersect(obj) {
-    if (DEBUG) {
+    if (Constants.DEBUG) {
         //console.log("Top [" + obj.top() + "] Bottom [" + obj.bottom() + "] Right [" + obj.right() + "] Left [" + obj.left() + "]");
     }
-    if (isGalagaMerged)
-//        GALAGA_CONTEXT.drawImage(player.img, player.x - GUYOFFSET*2, player.y - GUYOFFSET, player.height, player.width);
-//        GALAGA_CONTEXT.drawImage(player.img, player.x, player.y - GUYOFFSET, player.height, player.width);
-        return (obj.left() >= player.x - player.width && player.x + player.width >= obj.right() && obj.top() <= player.y + GUYOFFSET && player.y <= obj.bottom());
-    return (obj.left() <= player.x + GUYOFFSET && player.x <= obj.right() && obj.top() <= player.y + GUYOFFSET && player.y <= obj.bottom());
+	
+	if (obj) {
+		if (Global.isGalagaMerged) {
+	//        Global.GALAGA_CONTEXT.drawImage(player.img, player.x - Constants.GUYOFFSET*2, player.y - Constants.GUYOFFSET, player.height, player.width);
+	//        Global.GALAGA_CONTEXT.drawImage(player.img, player.x, player.y - Constants.GUYOFFSET, player.height, player.width);
+				return (obj.left() >= Game.player.x - Game.player.width && Game.player.x + Game.player.width >= obj.right() && obj.top() <= Game.player.y + GUYOFFSET && Game.player.y <= obj.bottom());
+		}
+		return (obj.left() <= Game.player.x + Constants.GUYOFFSET && Game.player.x <= obj.right() && obj.top() <= Game.player.y + Constants.GUYOFFSET && Game.player.y <= obj.bottom());
+	}
+	return false;
 }
 
 /**

@@ -4,6 +4,7 @@
  * 
  * Please see copyright.txt for full license details
  **/
+
 function Boss(x, y, img, velocity, height, width, points, hp) {
 	var SURI_NUMBER = 5;
 
@@ -39,7 +40,7 @@ function Boss(x, y, img, velocity, height, width, points, hp) {
     	if(this.isFiredLaser){
     		this.laserLength += 10;
     		return this.laserLength;
-    	}else{
+    	} else {
     		return 0;
     	}
     }
@@ -63,7 +64,7 @@ function Boss(x, y, img, velocity, height, width, points, hp) {
 		for(i=(-1*SURI_NUMBER);i<=SURI_NUMBER;i++){
             if(i === skipIdx){
                 // do something if the i is skipIdx
-            }else{
+            } else {
                 this.suriArr.push(new Suri(this.x+(this.width/2), this.y+this.height, i, SURI_NUMBER));
 //    		console.log("suri added->"+i);
             }

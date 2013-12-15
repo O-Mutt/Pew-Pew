@@ -4,35 +4,36 @@
  * 
  * Please see copyright.txt for full license details
  **/
+
  function selectSpider(){
     do{
-        var idx = Math.floor(Math.random() * 100) % badGuys.length;
-        if(badGuys[idx].type){
-            var type = badGuys[idx].cusType();
-            var a = badGuys[idx].top();
+        var idx = Math.floor(Math.random() * 100) % Global.badGuys.length;
+        if(Global.badGuys[idx].type){
+            var type = Global.badGuys[idx].cusType();
+            var a = Global.badGuys[idx].top();
         }
-        //badGuys[idx].height ;
-        //badGuys[idx].width += 2;
-//        alert(badGuys.length + '   '+idx+ '   '+type+ '   '+a )
+        //Global.badGuys[idx].height ;
+        //Global.badGuys[idx].width += 2;
+//        alert(Global.badGuys.length + '   '+idx+ '   '+type+ '   '+a )
     }while(type != 'bad1');
-    badGuys[idx].isSpider = true;
+    Global.badGuys[idx].isSpider = true;
 }
 
 function goBackSpider() {
-    if( spider.y > oriPosY ){
-        spider.y -= 2;
-    }else{
-        isSpiderMove = false;
-        isViming = false;
-        player.x = $(GALAGA_CANVAS).width/2;
-        player.y = 370;
+    if( Global.spider.y > oriPosY ){
+        Global.spider.y -= 2;
+    } else {
+        Global.isSpiderMove = false;
+        Global.isViming = false;
+        Game.player.x = $(Global.GALAGA_CANVAS).width/2;
+        Game.player.y = 370;
     }
 }
 
 function moveSpider() {
-    if (spider.y < ($(GALAGA_CANVAS).height*4)/5) {
-        spider.y += 2;
+    if (Global.spider.y < ($(Global.GALAGA_CANVAS).height*4)/5) {
+        Global.spider.y += 2;
     } else {
-        isViming = true;
+        Game.isViming = true;
     }
 }

@@ -391,7 +391,7 @@ FastContext2D.prototype.drawImage = function(
 	}else if (numArgs <= 5){
 		// drawImage(image, dx,dy,dw,dh); position and size (s becomes d)
 		this._drawCommands = this._drawCommands.concat("d" + image._id + ",0,0," + image.width + "," + image.height + "," + sx + "," + sy + "," + sw + "," + sh + ";");
-	}else{
+	} else {
 		// [full]; all arguments, source and destination
 		this._drawCommands = this._drawCommands.concat("d" + image._id + "," + sx + "," + sy + "," + sw + "," + sh + "," + dx + "," + dy + "," + dw + "," + dh + ";");
 	}
@@ -518,7 +518,7 @@ FastCanvas.create = function(forceFallback){
 		if (!forceFallback && FastCanvas._isAvailable()){
 			FastCanvas._instance = FastCanvas._createFastCanvas();
 			FastCanvas.isFast = true;
-		}else{
+		} else {
 			FastCanvas._instance = FastCanvas._createHTMLCanvas();
 			FastCanvas.isFast = false;
 		}
@@ -736,7 +736,7 @@ FastCanvas.setBackgroundColor = function (color) {
 			// could not determine the color from the DOM
 			return;
 		}
-	}else{
+	} else {
 	
 		var colorType = typeof(color);
 		
@@ -765,14 +765,14 @@ FastCanvas.setBackgroundColor = function (color) {
 			}else if (numChars !== 6){
 				throw new TypeError("Hexadecimal color values must be exactly 3 or 6 characters long");
 			}
-		}else{
+		} else {
 			throw new TypeError("Value color must be numeric or hexadecimal string");
 		}
 	}
 	
 	if (FastCanvas.isFast){
 		FastCanvas._toNative(null, null, 'FastCanvas', 'setBackgroundColor', [color]);
-	}else{
+	} else {
 		// assigning to HTML fallback requires the hash (#)
 		// (fast canvas color filtering stripped it)
 		FastCanvas._instance.style.backgroundColor = "#" + color;
