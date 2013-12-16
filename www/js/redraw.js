@@ -7,9 +7,14 @@
 
  function redrawPlayerGalaga(str) {	
     if(!Constants.isCapturing && !Global.isGalagaMerging){
-        if(Global.mouse.x < Game.player.width) Game.player.x = Game.player.width;
-        else if(Global.mouse.x > Global.GALAGA_CANVAS.width - Game.player.width) Game.player.x = Global.GALAGA_CANVAS.width - Game.player.width;
-        else Game.player.x = Global.mouse.x;
+		console.log("derp");
+        if(Global.mouse.x < Game.player.scaledWidth) {
+			Game.player.x = Game.player.scaledWidth;
+		} else if(Global.mouse.x > Global.GALAGA_CANVAS.width - Game.player.scaledWidth) {
+			Game.player.x = Global.GALAGA_CANVAS.width - Game.player.scaledWidth;
+		} else {
+			Game.player.x = Global.mouse.x;
+		}
     }
     if (Options.gameTypeClassic) {
         Game.player.y = Global.GALAGA_CANVAS.height - 20;
@@ -24,23 +29,24 @@
     }
     if (Constants.isCapturing) {
         tmpYPos -= 2;
-        Global.GALAGA_CONTEXT.drawImage(Game.player.img, Global.spider.x, tmpYPos - Game.player.offset(), Game.player.height, Game.player.width);
+        Global.GALAGA_CONTEXT.drawImage(Game.player.img, Global.spider.x, tmpYPos - Game.player.offset(), Game.player.scaledHeight, Game.player.scaledWidth);
         if ( tmpYPos <= Global.spider.y-(Global.spider.height/2) ) {
             Constants.isCapturing = false;
             isCaptured = true;
         }
 
     } else if (Global.isGalagaMerging) {
-        Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.x - Game.player.offset(), Game.player.y - Game.player.offset(), Game.player.height, Game.player.width);
+        Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.x - Game.player.offset(), Game.player.y - Game.player.offset(), Game.player.scaledHeight, Game.player.scaledWidth);
         // if(!clonePlayer){
-        //     clonePlayer = new Guy(Global.spider.x, Global.spider.y-(Global.spider.height/2), good, 0, GUYWIDTH, GUYHEIGHT, 0, 5);
+        //     clonePlayer = new Guy(Global.spider.x, Global.spider.y-(Global.spider.height/2), good, 0, Constants.GUYWIDTH, Constants.GUYHEIGHT, 0, 5);
         // }
-        Global.GALAGA_CONTEXT.drawImage(Game.player.img, clonePlayer.x - Game.player.offset(), clonePlayer.y - Game.player.offset(), clonePlayer.height, clonePlayer.width);
+        Global.GALAGA_CONTEXT.drawImage(Game.player.img, clonePlayer.x - Game.player.offset(), clonePlayer.y - Game.player.offset(), cloneplayer.scaledHeight, cloneplayer.scaledWidth);
     } else if (Global.isGalagaMerged) {
-		Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.x - Game.player.offset()*2, Game.player.y - Game.player.offset(), Game.player.height, Game.player.width);
-		Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.x, Game.player.y - Game.player.offset(), Game.player.height, Game.player.width);
+		Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.x - Game.player.offset()*2, Game.player.y - Game.player.offset(), Game.player.scaledHeight, Game.player.scaledWidth);
+		Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.x, Game.player.y - Game.player.offset(), Game.player.scaledHeight, Game.player.scaledWidth);
     } else {
-		Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.x - Game.player.offset(), Game.player.y - Game.player.offset(), Game.player.height, Game.player.width);
+		//console.log(Game.player);
+		Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.x - Game.player.offset(), Game.player.y - Game.player.offset(), Game.player.scaledHeight, Game.player.scaledWidth);
     }
 
 
@@ -71,7 +77,7 @@
 }
 
 function redrawBadGuys() {
-	console.log("redraw badGuys");
+	if (Constants.REDRAW_LOGGING) console.log("redraw badGuys");
     $.each(Global.badGuys, function(index, badGuy) {
         if (Constants.DEBUG) {
             Global.GALAGA_CONTEXT.fillStyle = "White";
@@ -82,7 +88,7 @@ function redrawBadGuys() {
 }
 
 function redrawBullets() {
-	console.log("redraw bullets");
+	if (Constants.REDRAW_LOGGING) console.log("redraw bullets");
     redrawPlayerBullets();
     redrawBadGuyBullets();
     redrawBarrierBullets();

@@ -44,8 +44,14 @@ function Guy(x, y, img, velocity, height, width, points, hp, isSpider, type) {
     this.y = y;
     this.img = img;
     this.velocity = velocity;
-    this.width = width * Global.scalingX();
-    this.height = height * Global.scalingY();
+    this.width = width;
+	this.scaledWidth = function() {
+		return this.width * Global.scalingX();
+	}
+	this.height = height;
+	this.scaledHeight = function() {
+		return this.height * Global.scalingY();
+	}
     this.direction = true; //true is right, false is left
     this.points = points;
     this.hp = hp;

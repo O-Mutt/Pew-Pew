@@ -49,7 +49,7 @@ var Events = {
 			console.log("click loop [" + Global.intervalLoop + "]");	
 			if (Global.intervalLoop == 0) {
 				Global.sound9.play();
-				setStartGame(5);
+				Game.Start();
 			  } else {
 				  var maxBulletsNum = 4;
 				  if (Global.isGalagaMerged)
@@ -80,7 +80,7 @@ var Events = {
 		console.log("Init key down");
 		$(Global.GALAGA_CANVAS).on('keydown', function(event) {
 			if (event.which == 32 && Global.intervalLoop == 0) {
-				setStartGame(5);
+				Game.Start();
 				Global.mouse.x = 50;
 				redrawPlayerGalaga();
 			}

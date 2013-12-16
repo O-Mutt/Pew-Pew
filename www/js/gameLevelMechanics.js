@@ -44,17 +44,6 @@ function setEndGame(str) {
     }
 }
 
-function setStartGame() {
-    clearInterval(Global.fakeGame); //Clear the pregame
-    Global.fakeGame = 0; //Remove pregame interval id
-    initGalaga(); //init the game!
-}
-
-function setPreGame() {
-	console.log("Set pre");
-    initPlayer(false);
-}
-
 function setPostLevel() {
     Game.level++;
     Global.badBullets.length = 0;
@@ -70,25 +59,25 @@ function standByGalaga(){
     if( Game.clonePlayer.y <= Game.player.y ){
         Game.clonePlayer.y +=2;
     }
-    if( Game.clonePlayer.x < (Game.player.x + Game.player.width/2) ){ // Game.player is on the right
+    if( Game.clonePlayer.x < (Game.player.x + Game.player.scaledWidth/2) ){ // Game.player is on the right
         if(!stopThere){
             Game.clonePlayer.x -=2;
         }
-        if( Game.clonePlayer.x > (Game.player.x + Game.player.width) ){
+        if( Game.clonePlayer.x > (Game.player.x + Game.player.scaledWidth) ){
             stopThere=true;
         }
-        if( Game.clonePlayer.y >= Game.player.y && Game.player.x >= (Game.clonePlayer.x+ Game.clonePlayer.width) ){
+        if( Game.clonePlayer.y >= Game.player.y && Game.player.x >= (Game.clonePlayer.x+ Game.cloneplayer.scaledWidth) ){
             completeStandBy();
             stopThere=false;
         }
-    }else if ( (Game.player.x + Game.player.width/2) < Game.clonePlayer.x ){ // Game.player is on the left
+    }else if ( (Game.player.x + Game.player.scaledWidth/2) < Game.clonePlayer.x ){ // Game.player is on the left
         if(!stopThere){
             Game.clonePlayer.x +=2;
         }
-        if( (Game.clonePlayer.x + Game.clonePlayer.width) < Game.player.x ){
+        if( (Game.clonePlayer.x + Game.cloneplayer.scaledWidth) < Game.player.x ){
             stopThere=true;
         }
-        if( Game.clonePlayer.y >= Game.player.y && (Game.player.x + Game.player.width) <= Game.clonePlayer.x ){
+        if( Game.clonePlayer.y >= Game.player.y && (Game.player.x + Game.player.scaledWidth) <= Game.clonePlayer.x ){
             completeStandBy();
             stopThere=false;
         }

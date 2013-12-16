@@ -1,6 +1,6 @@
 var Game = new function(){
 	this.pressedKeys = {};
-	this.player;
+	var player;
 	this.playerLives = 5;
 	this.clonePlayer;
 	//Game counters
@@ -71,6 +71,15 @@ var Game = new function(){
 		Global.explosion = document.getElementById("explosion");
 		Global.vim = document.getElementById("vim");
 		//Sets up the pregame to show the good ship and message to start
-		setPreGame();
+		this.InitForTitleScreen();
+	},
+	this.InitForTitleScreen = function() {
+		console.log("Set pre");
+		initPlayer(false);
+	}
+	this.Start = function() {
+	    clearInterval(Global.fakeGame); //Clear the pregame
+		Global.fakeGame = 0; //Remove pregame interval id
+		initGalaga(); //init the game!
 	}
 };

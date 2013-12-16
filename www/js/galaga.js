@@ -27,11 +27,11 @@ function shoot(){
 function doKeyAction() {
     if(!Constants.isGalagaMerging && !Constants.isCapturing){
         if (Game.pressedKeys[37]) { // left
-            if(Global.mouse.x >= Game.player.width) processArrow([-4,0]);
+            if(Global.mouse.x >= Game.player.scaledWidth) processArrow([-4,0]);
         } else if (Game.pressedKeys[38]) { // up
             processArrow([0,-3]);
         } else if (Game.pressedKeys[39]) { // right
-            if (Global.mouse.x <= 400- Game.player.width) processArrow([4,0]);
+            if (Global.mouse.x <= 400- Game.player.scaledWidth) processArrow([4,0]);
         } else if (Game.pressedKeys[40]) { // down
             Game.processArrow([0,3]);
         }
@@ -39,7 +39,7 @@ function doKeyAction() {
     if (Game.pressedKeys[32]) { // space
         Game.pressedKeys[32] = false;
         if (Global.intervalLoop == 0) {
-            setStartGame(5);
+            Game.Start();
             Global.mouse.x = 50;
             redrawPlayerGalaga();
         } else {
@@ -127,7 +127,7 @@ function initGalaga() {
 function initPlayer(isGame) {
 	if(Constants.DEBUG) console.log("Init Player, real game [" + isGame + "]");
     Global.mouse = new Mouse();
-    Game.player = new Guy(0, 0, Global.good, 0, Constants.GUYWIDTH, Constants.GUYHEIGHT, 0, 5);
+    Game.player = new Guy(0, 0, Global.good, 0, Constants.GUYWIDTH, Constants.GUYWIDTH, 0, 5, false, "");
     if (!isGame) {
         Global.fakeGame = setInterval(drawPreGalaga, 20);
     }
@@ -283,7 +283,7 @@ function collisionCheckBullets() {
                         Global.isGalagaMerged = false;
                         Global.isCaptured = false;
                         if(!Game.clonePlayer){
-                            Game.clonePlayer = new Guy(Global.spider.x, Global.spider.y-(Global.spider.height/2), good, 0, GUYWIDTH, GUYHEIGHT, 0, 5);
+                            Game.clonePlayer = new Guy(Global.spider.x, Global.spider.y-(Global.spider.height/2), good, 0, Constants.GUYWIDTH, Constants.GUYHEIGHT, 0, 5);
                         }
                         if(Game.clonePlayer){
                             Game.clonePlayer.x = Global.spider.x;
@@ -360,7 +360,7 @@ function moveBadGuys() {
                 }
             }
             if (Global.isCaptured) {
-                Global.GALAGA_CONTEXT.drawImage(Game.player.img, badGuy.x, badGuy.y - Game.player.offset()*2, Game.player.height, Game.player.width);
+                Global.GALAGA_CONTEXT.drawImage(Game.player.img, badGuy.x, badGuy.y - Game.player.offset()*2, Game.player.scaledHeight, Game.player.scaledWidth);
             }
         }
     });
