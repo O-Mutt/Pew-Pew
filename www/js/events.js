@@ -106,17 +106,17 @@ function HandleMouseMove(event) {
     Global.mouse.y = event.clientY - rect.top;
     if(!Global.isCapturing && !Global.isGalagaMerging){
 		//console.log("derp");
-        if (Global.mouse.x < Game.player.scaledWidth()) {
+        if (Global.mouse.x < Game.player.width) {
 			console.log("Mouse is less than scaled width?");
-			Game.player.x = Game.player.scaledWidth();
-		} else if (Global.mouse.x > Global.GALAGA_CANVAS.width - Game.player.scaledWidth()) {
-			Game.player.x = Global.GALAGA_CANVAS.width - Game.player.scaledWidth();
+			Game.player.x = Game.player.width;
+		} else if (Global.mouse.x > Global.GALAGA_CANVAS.width - Game.player.width) {
+			Game.player.x = Global.GALAGA_CANVAS.width - Game.player.width;
 		} else {
 			Game.player.x = Global.mouse.x;
 		}
     }
     if (Options.gameTypeClassic) {
-        Game.player.y = Global.GALAGA_CANVAS.height - Game.player.scaledHeight();
+        Game.player.y = Global.GALAGA_CANVAS.height - Game.player.height;
     } else {
         Game.player.y = Global.mouse.y;
     }

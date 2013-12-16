@@ -5,52 +5,40 @@
  * Please see copyright.txt for full license details
  **/
 
- function redrawPlayerGalaga(str) {	
-    if(!Constants.isCapturing && !Global.isGalagaMerging){
-        if(Global.mouse.x < Game.player.width) Game.player.x = Game.player.width;
-        else if(Global.mouse.x > Global.canvasWidth - Game.player.width) Game.player.x = Global.canvasWidth - Game.player.width;
-        else Game.player.x = Global.mouse.x;
-    }
-    if (Options.gameTypeClassic) {
-		if (Constants.DEBUG) console.log("reset player.y [ " + Global.canvasHeight - 20 + "]");
-        Game.player.y = Global.canvasHeight - 20;
-    } else {
-        Game.player.y = Global.mouse.y;
-    }
+ function redrawPlayerGalaga(str) {
     if (Global.luckLife > 0) {
         Global.GALAGA_CONTEXT.fillStyle = "GRAY";
-        Global.GALAGA_CONTEXT.fillRect(0, 350, Global.canvasWidth, Global.canvasHeight); //X, Y, width, height
+        Global.GALAGA_CONTEXT.fillRect(0, 350, Global.GALAGA_CANVAS.width, Global.GALAGA_CANVAS.height); //X, Y, width, height
         Global.GALAGA_CONTEXT.fillStyle = "Black";
-        Global.GALAGA_CONTEXT.fillText("GOD MODE!" + Global.luckLife, 20, Global.canvasHeight - 30);
+        Global.GALAGA_CONTEXT.fillText("GOD MODE!" + Global.luckLife, 20, Global.GALAGA_CANVAS.height - Game.player.scaledHeight());
     }
     if (Constants.isCapturing) {
         tmpYPos -= 2;
-        Global.GALAGA_CONTEXT.drawImage(Game.player.img, Global.spider.x, tmpYPos - Constants.GUYOFFSET, Game.player.height, Game.player.width);
+        Global.GALAGA_CONTEXT.drawImage(Game.player.img, Global.spider.x, tmpYPos - Game.player.offset(), Game.player.scaledWidth(), Game.player.scaledHeight());
         if ( tmpYPos <= Global.spider.y-(Global.spider.height/2) ) {
             Constants.isCapturing = false;
             isCaptured = true;
         }
 
     } else if (Global.isGalagaMerging) {
-        Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.x - Constants.GUYOFFSET, Game.player.y - Constants.GUYOFFSET, Game.player.height, Game.player.width);
+        Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.centerX(), Game.player.centerY(), Game.player.scaledWidth(), Game.player.scaledHeight());
         // if(!clonePlayer){
-        //     clonePlayer = new Guy(Global.spider.x, Global.spider.y-(Global.spider.height/2), good, 0, GUYWIDTH, GUYHEIGHT, 0, 5);
+        //     clonePlayer = new Guy(Global.spider.x, Global.spider.y-(Global.spider.height/2), good, 0, Constants.GUYWIDTH, Constants.GUYHEIGHT, 0, 5);
         // }
-        Global.GALAGA_CONTEXT.drawImage(Game.player.img, clonePlayer.x - Constants.GUYOFFSET, clonePlayer.y - Constants.GUYOFFSET, clonePlayer.height, clonePlayer.width);
+        Global.GALAGA_CONTEXT.drawImage(Game.player.img, clonePlayer.centerX(), clonePlayer.centerY(), cloneplayer.scaledWidth(), cloneplayer.scaledHeight());
     } else if (Global.isGalagaMerged) {
-		Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.x - Constants.GUYOFFSET*2, Game.player.y - Constants.GUYOFFSET, Game.player.height, Game.player.width);
-		Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.x, Game.player.y - Constants.GUYOFFSET, Game.player.height, Game.player.width);
+		Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.x - Game.player.offset() * 2, Game.player.y - Game.player.offset(), Game.player.scaledWidth(), Game.player.scaledHeight());
+		Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.centerX(), Game.player.centerY(), Game.player.scaledWidth(), Game.player.scaledHeight());
     } else {
-		if (Constants.DEBUG) console.log("redraw player");
-		Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.x - Constants.GUYOFFSET, Game.player.y - Constants.GUYOFFSET, Game.player.height, Game.player.width);
+		Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.centerX(), Game.player.centerY(),  Game.player.scaledWidth(), Game.player.scaledHeight());
     }
 
 
 
     Global.GALAGA_CONTEXT.fillStyle = "White";
-    Global.GALAGA_CONTEXT.fillText("PlayerScore: [" + Game.playerScore + "] Level: [" + Game.level + "] " + str, 20, Global.canvasHeight - 10);
+    Global.GALAGA_CONTEXT.fillText("PlayerScore: [" + Game.playerScore + "] Level: [" + Game.level + "] " + str, 20, Global.GALAGA_CANVAS.height - 10);
     for (var i = 1; i < Game.lives; i++) {
-        Global.GALAGA_CONTEXT.drawImage(Game.player.img, Global.canvasWidth - (i * 17), Global.canvasHeight - 20, 15, 15);
+        Global.GALAGA_CONTEXT.drawImage(Game.player.img, Global.GALAGA_CANVAS.width - (i * 17), Global.GALAGA_CANVAS.height - 20, 15, 15);
     }
     if (Constants.DEBUG) {
         //Write other things about the Game.player
@@ -59,8 +47,8 @@
     if (Game.player != undefined && Game.player.x != undefined && Global.badGuys) {
         $.each(Global.badGuys, function(index, badGuy) {
             if (intersect(badGuy)) {
-                Global.GALAGA_CONTEXT.drawImage(explosion, Game.player.x - Constants.GUYOFFSET, Game.player.y - Constants.GUYOFFSET, 32, 32);
-                Global.sound7.play();
+                Global.GALAGA_CONTEXT.drawImage(explosion, Game.player.x - Game.player.offset(), Game.player.y - Game.player.offset(), Game.player.scaledWidth(), Game.player.scaledHeight());
+                Global.playSound(Global.sound7);
                 if( Global.isGalagaMerged ){
                     Global.numOfGalaga--;
                     Global.isGalagaMerged = false;
@@ -73,7 +61,7 @@
 }
 
 function redrawBadGuys() {
-	if (Constants.DEBUG) console.log("redraw badGuys");
+	if (Constants.REDRAW_LOGGING) console.log("redraw badGuys");
     $.each(Global.badGuys, function(index, badGuy) {
         if (Constants.DEBUG) {
             Global.GALAGA_CONTEXT.fillStyle = "White";
@@ -84,7 +72,7 @@ function redrawBadGuys() {
 }
 
 function redrawBullets() {
-	if (Constants.DEBUG) console.log("redraw bullets");
+	if (Constants.REDRAW_LOGGING) console.log("redraw bullets");
     redrawPlayerBullets();
     redrawBadGuyBullets();
     redrawBarrierBullets();
@@ -92,9 +80,9 @@ function redrawBullets() {
 
 function redrawBadGuyBullets() {
 	//Bad guy bullets
-    $.each(badBullets, function(index, badBullet) {
+    $.each(Global.badBullets, function(index, badBullet) {
         if (badBullet != undefined) {
-            badBullet.y += 3+ (level * 0.1);  //Move bullet up
+            badBullet.y += 3+ (Game.level * 0.1);  //Move bullet up
             if (badBullet.bulletType == "lucky") {
                 Global.GALAGA_CONTEXT.fillStyle = "Green";
             } else {
@@ -102,7 +90,7 @@ function redrawBadGuyBullets() {
             }
             Global.GALAGA_CONTEXT.fillRect(badBullet.x, badBullet.y, badBullet.width, badBullet.height); //X, Y, width, height
             if (badBullet.y > $(Global.GALAGA_CANVAS).height) {
-                badBullets.splice(index, 1);
+                Global.badBullets.splice(index, 1);
             }
         }
     });
@@ -124,7 +112,7 @@ function redrawBadGuyBullets() {
                         endLaser = 400;
                     }
                     for(start = startLaser;start<=endLaser;start++){
-                        Global.GALAGA_CONTEXT.drawImage(laser, badGuy.x - Constants.GUYOFFSET+15, start - Constants.GUYOFFSET+60, 40, 24);    
+                        Global.GALAGA_CONTEXT.drawImage(laser, badGuy.x - badGuy.offset() + 15, start - badGuy.offset() + 60, 40, 24);    
                     }
                 }
                 
@@ -134,7 +122,7 @@ function redrawBadGuyBullets() {
                 try{
                     suri.move();
 
-                    if(suri.right() < 0 || suri.left() > Global.canvasWidth || suri.top() > Global.canvasHeight){
+                    if(suri.right() < 0 || suri.left() > Global.GALAGA_CANVAS.width || suri.top() > Global.GALAGA_CANVAS.height){
                         badGuy.suriArr.splice(index, 1);
                        console.log("suri removed -> " + index);
                     } else {
@@ -163,7 +151,7 @@ function redrawBarrierBullets() {
 function redrawPlayerBullets() {
 	$.each(Global.bullets, function(index, bullet) {
         if (bullet != undefined) {
-            bullet.y -= 3 + (level * 0.1); //Move bullet up
+            bullet.y -= 3 + (Game.level * 0.1); //Move bullet up
             bullet.x += bullet.xdiff;
 
             bullet.x += bulletsControl[0];
@@ -172,7 +160,7 @@ function redrawPlayerBullets() {
             Global.GALAGA_CONTEXT.fillStyle = "White";
             Global.GALAGA_CONTEXT.fillRect(bullet.x, bullet.y, bullet.width, bullet.height); //X, Y, width, height
             if (bullet.y < 0) {
-                bullets.splice(index, 1);
+                Global.bullets.splice(index, 1);
             }
         }
     });

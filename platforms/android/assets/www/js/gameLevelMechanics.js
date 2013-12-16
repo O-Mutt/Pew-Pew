@@ -24,7 +24,7 @@ function setEndGame(str) {
         Global.badBullets.length = 0;
         clearInterval(Global.intervalLoop);
         Global.intervalLoop = 0;
-        setPreGame();
+        Game.InitForTitleScreen();
     } else {
         if (Constants.DEBUG) {
             alert("Game Over! because [" + str + "]");
@@ -39,20 +39,9 @@ function setEndGame(str) {
         Global.badBullets.length = 0;
         clearInterval(Global.intervalLoop);
         Global.intervalLoop = 0;
-        setPreGame();
-        Global.sound8.play();
+        Game.InitForTitleScreen();
+        Global.playSound(Global.sound8);
     }
-}
-
-function setStartGame() {
-    clearInterval(Global.fakeGame); //Clear the pregame
-    Global.fakeGame = 0; //Remove pregame interval id
-    initGalaga(); //init the game!
-}
-
-function setPreGame() {
-	if (Constants.DEBUG) console.log("Set pre");
-    initPlayer(false);
 }
 
 function setPostLevel() {
@@ -61,34 +50,34 @@ function setPostLevel() {
     Global.bullets.length = 0;
     clearInterval(Global.intervalLoop);
     Global.intervalLoop = 0;
-    setPreGame();
+    Game.InitForTitleScreen();
     delete Game.clonePlayer;
-    if (Constants.DEBUG) console.log("set PostLevel");
+    console.log("set PostLevel");
 }
 
 function standByGalaga(){
     if( Game.clonePlayer.y <= Game.player.y ){
         Game.clonePlayer.y +=2;
     }
-    if( Game.clonePlayer.x < (Game.player.x + Game.player.width/2) ){ // Game.player is on the right
+    if( Game.clonePlayer.x < (Game.player.x + Game.player.scaledWidth()/2) ){ // Game.player is on the right
         if(!stopThere){
             Game.clonePlayer.x -=2;
         }
-        if( Game.clonePlayer.x > (Game.player.x + Game.player.width) ){
+        if( Game.clonePlayer.x > (Game.player.x + Game.player.scaledWidth()) ){
             stopThere=true;
         }
-        if( Game.clonePlayer.y >= Game.player.y && Game.player.x >= (Game.clonePlayer.x+ Game.clonePlayer.width) ){
+        if( Game.clonePlayer.y >= Game.player.y && Game.player.x >= (Game.clonePlayer.x+ Game.cloneplayer.scaledWidth()) ){
             completeStandBy();
             stopThere=false;
         }
-    }else if ( (Game.player.x + Game.player.width/2) < Game.clonePlayer.x ){ // Game.player is on the left
+    }else if ( (Game.player.x + Game.player.scaledWidth()/2) < Game.clonePlayer.x ){ // Game.player is on the left
         if(!stopThere){
             Game.clonePlayer.x +=2;
         }
-        if( (Game.clonePlayer.x + Game.clonePlayer.width) < Game.player.x ){
+        if( (Game.clonePlayer.x + Game.cloneplayer.scaledWidth()) < Game.player.x ){
             stopThere=true;
         }
-        if( Game.clonePlayer.y >= Game.player.y && (Game.player.x + Game.player.width) <= Game.clonePlayer.x ){
+        if( Game.clonePlayer.y >= Game.player.y && (Game.player.x + Game.player.scaledWidth()) <= Game.clonePlayer.x ){
             completeStandBy();
             stopThere=false;
         }
@@ -99,7 +88,7 @@ function standByGalaga(){
 
 function completeStandBy(){
     console.log("completed merging.");
-    isGalagaMerging = false;
-    isGalagaMerged = true;
+    Global.isGalagaMerging = false;
+    Global.isGalagaMerged = true;
     Global.numOfGalaga = 2;
 }

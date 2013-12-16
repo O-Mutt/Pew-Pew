@@ -1,27 +1,23 @@
-
 var Game = new function(){
 	this.pressedKeys = {};
-	this.player;
 	this.playerLives = 5;
 	this.clonePlayer;
+	this.player = new Object();
 	//Game counters
 	this.playerScore = 0;
 	this.level = 1;
 	this.lives;
 	this.stopThere = false;
 	this.Ready = function() {
-		Events.SizeChanged();
 		//html $(Global.GALAGA_CANVAS) object
 		Global.GALAGA_CANVAS = document.createElement("canvas");
 		Global.GALAGA_CANVAS.id = "GALAGA_CANVAS";
 		Global.GALAGA_CANVAS.display = "block";
-		if (Constants.DEBUG) console.log("Canvas height [" + Global.canvasHeight + "] width [" + Global.canvasWidth + "]");
-		Global.GALAGA_CANVAS.height = Global.canvasHeight;
-		Global.GALAGA_CANVAS.width = Global.canvasWidth;
-		Global.GALAGA_CANVAS.background = "black";
+		Global.GALAGA_CANVAS.style.background = "black";
 		$("body").append(Global.GALAGA_CANVAS);
 		//html5 context of the $(Global.GALAGA_CANVAS)
 		Global.GALAGA_CONTEXT = Global.GALAGA_CANVAS.getContext("2d");
+		Events.SizeChanged();
 		
 		//Can't access jquery $ outside of scope
 		Global.sound0 = $('#sound0')[0];
@@ -75,6 +71,16 @@ var Game = new function(){
 		Global.explosion = document.getElementById("explosion");
 		Global.vim = document.getElementById("vim");
 		//Sets up the pregame to show the good ship and message to start
-		setPreGame();
+		this.InitForTitleScreen();
+	},
+	this.InitForTitleScreen = function() {
+		console.log("Set pre");
+		initPlayer(false);
+	}
+	this.Start = function() {
+	    clearInterval(Global.fakeGame); //Clear the pregame
+		Global.fakeGame = 0; //Remove pregame interval id
+		initGalaga(); //init the game!
 	}
 };
+var player;

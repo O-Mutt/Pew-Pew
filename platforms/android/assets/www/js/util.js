@@ -10,17 +10,17 @@
  * Intersection of an object with the player
  */
 function intersect(obj) {
-    if (Constants.DEBUG) {
-        //console.log("Top [" + obj.top() + "] Bottom [" + obj.bottom() + "] Right [" + obj.right() + "] Left [" + obj.left() + "]");
+    if (Constants.REDRAW_LOGGING) {
+        console.log("Top [" + obj.top() + "] Bottom [" + obj.bottom() + "] Right [" + obj.right() + "] Left [" + obj.left() + "]");
     }
 	
 	if (obj) {
 		if (Global.isGalagaMerged) {
-	//        Global.GALAGA_CONTEXT.drawImage(player.img, player.x - Constants.GUYOFFSET*2, player.y - Constants.GUYOFFSET, player.height, player.width);
-	//        Global.GALAGA_CONTEXT.drawImage(player.img, player.x, player.y - Constants.GUYOFFSET, player.height, player.width);
-				return (obj.left() >= Game.player.x - Game.player.width && Game.player.x + Game.player.width >= obj.right() && obj.top() <= Game.player.y + GUYOFFSET && Game.player.y <= obj.bottom());
+	//        Global.GALAGA_CONTEXT.drawImage(player.img, player.x - Game.player.offset()*2, player.y - Game.player.offset(), player.scaledHeight, player.scaledWidth());
+	//        Global.GALAGA_CONTEXT.drawImage(player.img, player.x, player.y - Game.player.offset(), player.scaledHeight, player.scaledWidth());
+				return (obj.left() >= Game.player.left() && Game.player.right() >= obj.right() && obj.top() <= Game.player.top() && Game.player.y <= obj.bottom());
 		}
-		return (obj.left() <= Game.player.x + Constants.GUYOFFSET && Game.player.x <= obj.right() && obj.top() <= Game.player.y + Constants.GUYOFFSET && Game.player.y <= obj.bottom());
+		return (obj.left() <= Game.player.right() && Game.player.left() <= obj.right() && obj.top() <= Game.player.bottom() && Game.player.top() <= obj.bottom());
 	}
 	return false;
 }
