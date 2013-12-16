@@ -5,48 +5,32 @@
  * Please see copyright.txt for full license details
  **/
 
- function redrawPlayerGalaga(str) {	
-    if(!Constants.isCapturing && !Global.isGalagaMerging){
-		console.log("derp");
-        if(Global.mouse.x < Game.player.scaledWidth) {
-			Game.player.x = Game.player.scaledWidth;
-		} else if(Global.mouse.x > Global.GALAGA_CANVAS.width - Game.player.scaledWidth) {
-			Game.player.x = Global.GALAGA_CANVAS.width - Game.player.scaledWidth;
-		} else {
-			Game.player.x = Global.mouse.x;
-		}
-    }
-    if (Options.gameTypeClassic) {
-        Game.player.y = Global.GALAGA_CANVAS.height - 20;
-    } else {
-        Game.player.y = Global.mouse.y;
-    }
+ function redrawPlayerGalaga(str) {
     if (Global.luckLife > 0) {
         Global.GALAGA_CONTEXT.fillStyle = "GRAY";
         Global.GALAGA_CONTEXT.fillRect(0, 350, Global.GALAGA_CANVAS.width, Global.GALAGA_CANVAS.height); //X, Y, width, height
         Global.GALAGA_CONTEXT.fillStyle = "Black";
-        Global.GALAGA_CONTEXT.fillText("GOD MODE!" + Global.luckLife, 20, Global.GALAGA_CANVAS.height - 30);
+        Global.GALAGA_CONTEXT.fillText("GOD MODE!" + Global.luckLife, 20, Global.GALAGA_CANVAS.height - Game.player.scaledHeight());
     }
     if (Constants.isCapturing) {
         tmpYPos -= 2;
-        Global.GALAGA_CONTEXT.drawImage(Game.player.img, Global.spider.x, tmpYPos - Game.player.offset(), Game.player.scaledHeight, Game.player.scaledWidth);
+        Global.GALAGA_CONTEXT.drawImage(Game.player.img, Global.spider.x, tmpYPos - Game.player.offset(), Game.player.scaledWidth(), Game.player.scaledHeight());
         if ( tmpYPos <= Global.spider.y-(Global.spider.height/2) ) {
             Constants.isCapturing = false;
             isCaptured = true;
         }
 
     } else if (Global.isGalagaMerging) {
-        Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.x - Game.player.offset(), Game.player.y - Game.player.offset(), Game.player.scaledHeight, Game.player.scaledWidth);
+        Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.centerX(), Game.player.centerY(), Game.player.scaledWidth(), Game.player.scaledHeight());
         // if(!clonePlayer){
         //     clonePlayer = new Guy(Global.spider.x, Global.spider.y-(Global.spider.height/2), good, 0, Constants.GUYWIDTH, Constants.GUYHEIGHT, 0, 5);
         // }
-        Global.GALAGA_CONTEXT.drawImage(Game.player.img, clonePlayer.x - Game.player.offset(), clonePlayer.y - Game.player.offset(), cloneplayer.scaledHeight, cloneplayer.scaledWidth);
+        Global.GALAGA_CONTEXT.drawImage(Game.player.img, clonePlayer.centerX(), clonePlayer.centerY(), cloneplayer.scaledWidth(), cloneplayer.scaledHeight());
     } else if (Global.isGalagaMerged) {
-		Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.x - Game.player.offset()*2, Game.player.y - Game.player.offset(), Game.player.scaledHeight, Game.player.scaledWidth);
-		Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.x, Game.player.y - Game.player.offset(), Game.player.scaledHeight, Game.player.scaledWidth);
+		Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.x - Game.player.offset() * 2, Game.player.y - Game.player.offset(), Game.player.scaledWidth(), Game.player.scaledHeight());
+		Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.centerX(), Game.player.centerY(), Game.player.scaledWidth(), Game.player.scaledHeight());
     } else {
-		//console.log(Game.player);
-		Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.x - Game.player.offset(), Game.player.y - Game.player.offset(), Game.player.scaledHeight, Game.player.scaledWidth);
+		Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.centerX(), Game.player.centerY(),  Game.player.scaledWidth(), Game.player.scaledHeight());
     }
 
 
@@ -63,8 +47,8 @@
     if (Game.player != undefined && Game.player.x != undefined && Global.badGuys) {
         $.each(Global.badGuys, function(index, badGuy) {
             if (intersect(badGuy)) {
-                Global.GALAGA_CONTEXT.drawImage(explosion, Game.player.x - Game.player.offset(), Game.player.y - Game.player.offset(), 32, 32);
-                Global.sound7.play();
+                Global.GALAGA_CONTEXT.drawImage(explosion, Game.player.x - Game.player.offset(), Game.player.y - Game.player.offset(), Game.player.scaledWidth(), Game.player.scaledHeight());
+                Global.playSound(Global.sound7);
                 if( Global.isGalagaMerged ){
                     Global.numOfGalaga--;
                     Global.isGalagaMerged = false;

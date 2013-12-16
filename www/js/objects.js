@@ -46,11 +46,11 @@ function Guy(x, y, img, velocity, height, width, points, hp, isSpider, type) {
     this.velocity = velocity;
     this.width = width;
 	this.scaledWidth = function() {
-		return this.width * Global.scalingX();
+		return this.width * Global.scaling();
 	}
 	this.height = height;
 	this.scaledHeight = function() {
-		return this.height * Global.scalingY();
+		return this.height * Global.scaling();
 	}
     this.direction = true; //true is right, false is left
     this.points = points;
@@ -62,18 +62,21 @@ function Guy(x, y, img, velocity, height, width, points, hp, isSpider, type) {
         return this.y;
     };
     this.bottom = function() {
-        return this.y + this.height;
+        return this.y + this.scaledHeight();
     };
     this.left = function() {
         return this.x;
     };
     this.right = function() {
-        return this.x + this.width;
+        return this.x + this.scaledWidth();
     };
+	this.centerX = function() {
+		return this.x - (this.scaledWidth() / 2);
+	};
+	this.centerY = function() {
+		return this.y - (this.scaledHeight() / 2);
+	};
     this.cusType = function() {
         return this.type;
     };
-	this.offset = function() {
-		return this.width / 2;
-	}
 } /************* End Objects *************/

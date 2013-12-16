@@ -1,8 +1,8 @@
 var Game = new function(){
 	this.pressedKeys = {};
-	var player;
 	this.playerLives = 5;
 	this.clonePlayer;
+	this.player = new Object();
 	//Game counters
 	this.playerScore = 0;
 	this.level = 1;
@@ -11,7 +11,7 @@ var Game = new function(){
 	this.Ready = function() {
 		//html $(Global.GALAGA_CANVAS) object
 		Global.GALAGA_CANVAS = document.createElement("canvas");
-		Global.GALAGA_CANVAS.id = "Global.GALAGA_CANVAS";
+		Global.GALAGA_CANVAS.id = "GALAGA_CANVAS";
 		Global.GALAGA_CANVAS.display = "block";
 		Global.GALAGA_CANVAS.style.background = "black";
 		$("body").append(Global.GALAGA_CANVAS);
@@ -83,3 +83,4 @@ var Game = new function(){
 		initGalaga(); //init the game!
 	}
 };
+var player;

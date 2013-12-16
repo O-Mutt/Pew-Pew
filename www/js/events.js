@@ -45,26 +45,26 @@ var Events = {
 		console.log("Init click");
 		$(Global.GALAGA_CANVAS).on('click', function(e) {
 			e.preventDefault();
-			
-			console.log("click loop [" + Global.intervalLoop + "]");	
+	
 			if (Global.intervalLoop == 0) {
-				Global.sound9.play();
+				Global.playSound(Global.sound9);
 				Game.Start();
-			  } else {
-				  var maxBulletsNum = 4;
-				  if (Global.isGalagaMerged)
-					  maxBulletsNum *= Global.numOfGalaga;
-				  if (Global.bullets && Global.bullets.length < maxBulletsNum) {
-					  if (Global.isGalagaMerged) {
-						  Global.bullets.push(new Bullet(Game.player.x - 1 - Game.player.offset(), Game.player.y - Game.player.offset(), Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0));
-						  Global.bullets.push(new Bullet(Game.player.x + 1 + Game.player.offset(), Game.player.y - Game.player.offset(), Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0));
-					  } else {
-						Global.bullets.push(new Bullet(Game.player.x - 1, Game.player.y - Game.player.offset(), Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0));
-					  }
-					  Global.sound11.play();
-				  }
-			  }
-			  return false;
+			} else {
+				var maxBulletsNum = 4;
+				if (Global.isGalagaMerged) {
+					maxBulletsNum *= Global.numOfGalaga;
+				}
+				if (Global.bullets && Global.bullets.length < maxBulletsNum) {
+					if (Global.isGalagaMerged) {
+						Global.bullets.push(new Bullet(Game.player.x, Game.player.centerY(), Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0));
+						Global.bullets.push(new Bullet(Game.player.x, Game.player.centerY(), Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0));
+					} else {
+						Global.bullets.push(new Bullet(Game.player.x - 1, Game.player.centerY(), Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0));
+					}
+					Global.playSound(Global.sound11);
+				}
+			}
+			return false;
 		});
 	},
     
@@ -72,7 +72,7 @@ var Events = {
 		console.log("Init move");
 		//Mouse listener
 		$(Global.GALAGA_CANVAS).on('mousemove', function(event) {
-			setMousePosition(event);
+			HandleMouseMove(event);
 		});
 	},
 
@@ -97,5 +97,27 @@ var Events = {
 		$(Global.GALAGA_CANVAS).on('keyup', function(event) {
 			Game.pressedKeys[event.which] = false;
 		});
-	},
+	}
+}
+
+function HandleMouseMove(event) {
+    var rect = Global.GALAGA_CANVAS.getBoundingClientRect();
+    Global.mouse.x = event.clientX - rect.left;
+    Global.mouse.y = event.clientY - rect.top;
+    if(!Global.isCapturing && !Global.isGalagaMerging){
+		//console.log("derp");
+        if (Global.mouse.x < Game.player.scaledWidth()) {
+			console.log("Mouse is less than scaled width?");
+			Game.player.x = Game.player.scaledWidth();
+		} else if (Global.mouse.x > Global.GALAGA_CANVAS.width - Game.player.scaledWidth()) {
+			Game.player.x = Global.GALAGA_CANVAS.width - Game.player.scaledWidth();
+		} else {
+			Game.player.x = Global.mouse.x;
+		}
+    }
+    if (Options.gameTypeClassic) {
+        Game.player.y = Global.GALAGA_CANVAS.height - Game.player.scaledHeight();
+    } else {
+        Game.player.y = Global.mouse.y;
+    }
 }

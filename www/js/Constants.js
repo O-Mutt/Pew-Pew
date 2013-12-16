@@ -14,6 +14,8 @@ var Constants = new function(){
 	this.FIRECHANCENUMERATOR = 998;
 	this.BULLETHEIGHT = 8;
 	this.BULLETWIDTH = 3;
+	this.GUYHEIGHT = 20;
+	this.GUYWIDTH = 20;
 
 	this.BARRIER_LIFE_LIMIT = 70;
 	this.LUCKY_LIFE_LIMIT = 50;

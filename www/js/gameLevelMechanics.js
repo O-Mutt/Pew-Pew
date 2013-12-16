@@ -24,7 +24,7 @@ function setEndGame(str) {
         Global.badBullets.length = 0;
         clearInterval(Global.intervalLoop);
         Global.intervalLoop = 0;
-        setPreGame();
+        Game.InitForTitleScreen();
     } else {
         if (Constants.DEBUG) {
             alert("Game Over! because [" + str + "]");
@@ -39,8 +39,8 @@ function setEndGame(str) {
         Global.badBullets.length = 0;
         clearInterval(Global.intervalLoop);
         Global.intervalLoop = 0;
-        setPreGame();
-        Global.sound8.play();
+        Game.InitForTitleScreen();
+        Global.playSound(Global.sound8);
     }
 }
 
@@ -50,7 +50,7 @@ function setPostLevel() {
     Global.bullets.length = 0;
     clearInterval(Global.intervalLoop);
     Global.intervalLoop = 0;
-    setPreGame();
+    Game.InitForTitleScreen();
     delete Game.clonePlayer;
     console.log("set PostLevel");
 }
@@ -59,25 +59,25 @@ function standByGalaga(){
     if( Game.clonePlayer.y <= Game.player.y ){
         Game.clonePlayer.y +=2;
     }
-    if( Game.clonePlayer.x < (Game.player.x + Game.player.scaledWidth/2) ){ // Game.player is on the right
+    if( Game.clonePlayer.x < (Game.player.x + Game.player.scaledWidth()/2) ){ // Game.player is on the right
         if(!stopThere){
             Game.clonePlayer.x -=2;
         }
-        if( Game.clonePlayer.x > (Game.player.x + Game.player.scaledWidth) ){
+        if( Game.clonePlayer.x > (Game.player.x + Game.player.scaledWidth()) ){
             stopThere=true;
         }
-        if( Game.clonePlayer.y >= Game.player.y && Game.player.x >= (Game.clonePlayer.x+ Game.cloneplayer.scaledWidth) ){
+        if( Game.clonePlayer.y >= Game.player.y && Game.player.x >= (Game.clonePlayer.x+ Game.cloneplayer.scaledWidth()) ){
             completeStandBy();
             stopThere=false;
         }
-    }else if ( (Game.player.x + Game.player.scaledWidth/2) < Game.clonePlayer.x ){ // Game.player is on the left
+    }else if ( (Game.player.x + Game.player.scaledWidth()/2) < Game.clonePlayer.x ){ // Game.player is on the left
         if(!stopThere){
             Game.clonePlayer.x +=2;
         }
-        if( (Game.clonePlayer.x + Game.cloneplayer.scaledWidth) < Game.player.x ){
+        if( (Game.clonePlayer.x + Game.cloneplayer.scaledWidth()) < Game.player.x ){
             stopThere=true;
         }
-        if( Game.clonePlayer.y >= Game.player.y && (Game.player.x + Game.player.scaledWidth) <= Game.clonePlayer.x ){
+        if( Game.clonePlayer.y >= Game.player.y && (Game.player.x + Game.player.scaledWidth()) <= Game.clonePlayer.x ){
             completeStandBy();
             stopThere=false;
         }

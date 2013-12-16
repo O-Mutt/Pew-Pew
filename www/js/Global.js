@@ -24,14 +24,12 @@ var Global = new function() {
 	
 	var GALAGA_CANVAS;
 	var GALAGA_CONTEXT;
-	this.scalingX = function() {
-		return this.GALAGA_CANVAS.width / 200;
-	}
-	this.scalingY = function() {
-		return this.GALAGA_CANVAS.height / 200;
-	}
+	this.scaling = function() {
+		return this.GALAGA_CANVAS.width / 400;
+	};
 	this.intervalLoop = 0;
 
+	this.isSoundEnabled = false;
 	this.sound0;
 	this.sound1;
 	this.sound2;
@@ -48,7 +46,11 @@ var Global = new function() {
 	this.sound13;
 	this.sound14;
 	
-	this.mouse;
+	this.playSound = function(sound) {
+		if (this.isSoundEnabled) sound.play();
+	};
+	
+	this.mouse = new Mouse();;
 	this.bad1;
 	this.bad2;
 	this.bad3;
