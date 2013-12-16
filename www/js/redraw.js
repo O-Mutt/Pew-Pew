@@ -24,23 +24,23 @@
     }
     if (Constants.isCapturing) {
         tmpYPos -= 2;
-        Global.GALAGA_CONTEXT.drawImage(Game.player.img, Global.spider.x, tmpYPos - Constants.GUYOFFSET, Game.player.height, Game.player.width);
+        Global.GALAGA_CONTEXT.drawImage(Game.player.img, Global.spider.x, tmpYPos - Game.player.offset(), Game.player.height, Game.player.width);
         if ( tmpYPos <= Global.spider.y-(Global.spider.height/2) ) {
             Constants.isCapturing = false;
             isCaptured = true;
         }
 
     } else if (Global.isGalagaMerging) {
-        Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.x - Constants.GUYOFFSET, Game.player.y - Constants.GUYOFFSET, Game.player.height, Game.player.width);
+        Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.x - Game.player.offset(), Game.player.y - Game.player.offset(), Game.player.height, Game.player.width);
         // if(!clonePlayer){
         //     clonePlayer = new Guy(Global.spider.x, Global.spider.y-(Global.spider.height/2), good, 0, GUYWIDTH, GUYHEIGHT, 0, 5);
         // }
-        Global.GALAGA_CONTEXT.drawImage(Game.player.img, clonePlayer.x - Constants.GUYOFFSET, clonePlayer.y - Constants.GUYOFFSET, clonePlayer.height, clonePlayer.width);
+        Global.GALAGA_CONTEXT.drawImage(Game.player.img, clonePlayer.x - Game.player.offset(), clonePlayer.y - Game.player.offset(), clonePlayer.height, clonePlayer.width);
     } else if (Global.isGalagaMerged) {
-		Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.x - Constants.GUYOFFSET*2, Game.player.y - Constants.GUYOFFSET, Game.player.height, Game.player.width);
-		Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.x, Game.player.y - Constants.GUYOFFSET, Game.player.height, Game.player.width);
+		Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.x - Game.player.offset()*2, Game.player.y - Game.player.offset(), Game.player.height, Game.player.width);
+		Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.x, Game.player.y - Game.player.offset(), Game.player.height, Game.player.width);
     } else {
-		Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.x - Constants.GUYOFFSET, Game.player.y - Constants.GUYOFFSET, Game.player.height, Game.player.width);
+		Global.GALAGA_CONTEXT.drawImage(Game.player.img, Game.player.x - Game.player.offset(), Game.player.y - Game.player.offset(), Game.player.height, Game.player.width);
     }
 
 
@@ -57,7 +57,7 @@
     if (Game.player != undefined && Game.player.x != undefined && Global.badGuys) {
         $.each(Global.badGuys, function(index, badGuy) {
             if (intersect(badGuy)) {
-                Global.GALAGA_CONTEXT.drawImage(explosion, Game.player.x - Constants.GUYOFFSET, Game.player.y - Constants.GUYOFFSET, 32, 32);
+                Global.GALAGA_CONTEXT.drawImage(explosion, Game.player.x - Game.player.offset(), Game.player.y - Game.player.offset(), 32, 32);
                 Global.sound7.play();
                 if( Global.isGalagaMerged ){
                     Global.numOfGalaga--;
@@ -71,7 +71,7 @@
 }
 
 function redrawBadGuys() {
-	if (Constants.DEBUG) console.log("redraw badGuys");
+	console.log("redraw badGuys");
     $.each(Global.badGuys, function(index, badGuy) {
         if (Constants.DEBUG) {
             Global.GALAGA_CONTEXT.fillStyle = "White";
@@ -82,7 +82,7 @@ function redrawBadGuys() {
 }
 
 function redrawBullets() {
-	if (Constants.DEBUG) console.log("redraw bullets");
+	console.log("redraw bullets");
     redrawPlayerBullets();
     redrawBadGuyBullets();
     redrawBarrierBullets();
@@ -122,7 +122,7 @@ function redrawBadGuyBullets() {
                         endLaser = 400;
                     }
                     for(start = startLaser;start<=endLaser;start++){
-                        Global.GALAGA_CONTEXT.drawImage(laser, badGuy.x - Constants.GUYOFFSET+15, start - Constants.GUYOFFSET+60, 40, 24);    
+                        Global.GALAGA_CONTEXT.drawImage(laser, badGuy.x - badGuy.offset() + 15, start - badGuy.offset() + 60, 40, 24);    
                     }
                 }
                 
@@ -170,7 +170,7 @@ function redrawPlayerBullets() {
             Global.GALAGA_CONTEXT.fillStyle = "White";
             Global.GALAGA_CONTEXT.fillRect(bullet.x, bullet.y, bullet.width, bullet.height); //X, Y, width, height
             if (bullet.y < 0) {
-                bullets.splice(index, 1);
+                Global.bullets.splice(index, 1);
             }
         }
     });

@@ -1,4 +1,3 @@
-
 var Game = new function(){
 	this.pressedKeys = {};
 	this.player;

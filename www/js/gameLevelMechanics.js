@@ -51,7 +51,7 @@ function setStartGame() {
 }
 
 function setPreGame() {
-	if (Constants.DEBUG) console.log("Set pre");
+	console.log("Set pre");
     initPlayer(false);
 }
 
@@ -63,7 +63,7 @@ function setPostLevel() {
     Global.intervalLoop = 0;
     setPreGame();
     delete Game.clonePlayer;
-    if (Constants.DEBUG) console.log("set PostLevel");
+    console.log("set PostLevel");
 }
 
 function standByGalaga(){
@@ -99,7 +99,7 @@ function standByGalaga(){
 
 function completeStandBy(){
     console.log("completed merging.");
-    isGalagaMerging = false;
-    isGalagaMerged = true;
+    Global.isGalagaMerging = false;
+    Global.isGalagaMerged = true;
     Global.numOfGalaga = 2;
 }

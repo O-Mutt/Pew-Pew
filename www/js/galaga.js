@@ -49,10 +49,10 @@ function doKeyAction() {
             if (Global.luckyLife
                 || (Global.bullets.length < maxBulletsNum && Global.barrierBullets.length == 0) ){
                 if (Global.isGalagaMerged) {
-                    Global.bullets.push(new Bullet(Game.player.x - 1 - Constants.GUYOFFSET, Game.player.y - Constants.GUYOFFSET, Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0));
-                    Global.bullets.push(new Bullet(Game.player.x + 1 + Constants.GUYOFFSET, Game.player.y - Constants.GUYOFFSET, Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0));
+                    Global.bullets.push(new Bullet(Game.player.x - 1 - Game.player.offset(), Game.player.y - Game.player.offset(), Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0));
+                    Global.bullets.push(new Bullet(Game.player.x + 1 + Game.player.offset(), Game.player.y - Game.player.offset(), Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0));
                 } else {
-                    Global.bullets.push(new Bullet(Game.player.x - 1, Game.player.y - Constants.GUYOFFSET, Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0));
+                    Global.bullets.push(new Bullet(Game.player.x - 1, Game.player.y - Game.player.offset(), Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0));
                 }
                 Global.sound11.play();
             }
@@ -60,22 +60,22 @@ function doKeyAction() {
     } else if (Game.pressedKeys[88]) { // X - Shot Gun
         if (Global.luckyLife
                 || (Global.bullets.length  == 0 && Global.barrierBullets.length == 0)) {
-            Global.bullets.push(new Bullet(Game.player.x - 15, Game.player.y - Constants.GUYOFFSET, Constants.BULLETHEIGHT, Constants.BULLETWIDTH, -1));
-            Global.bullets.push(new Bullet(Game.player.x - 5, Game.player.y - Constants.GUYOFFSET, Constants.BULLETHEIGHT, Constants.BULLETWIDTH, -0.5));
-            Global.bullets.push(new Bullet(Game.player.x  + 5, Game.player.y - Constants.GUYOFFSET, Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0.5));
-            Global.bullets.push(new Bullet(Game.player.x  + 15, Game.player.y - Constants.GUYOFFSET, Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 1));
+            Global.bullets.push(new Bullet(Game.player.x - 15, Game.player.y - Game.player.offset(), Constants.BULLETHEIGHT, Constants.BULLETWIDTH, -1));
+            Global.bullets.push(new Bullet(Game.player.x - 5, Game.player.y - Game.player.offset(), Constants.BULLETHEIGHT, Constants.BULLETWIDTH, -0.5));
+            Global.bullets.push(new Bullet(Game.player.x  + 5, Game.player.y - Game.player.offset(), Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0.5));
+            Global.bullets.push(new Bullet(Game.player.x  + 15, Game.player.y - Game.player.offset(), Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 1));
         }
     } else if (Game.pressedKeys[90]) { // Z - Bomb
         if (Global.luckyLife
                 || (Global.bullets.length == 0 && Global.barrierBullets.length == 0)) {
-            Global.bullets.push(new Bullet(Game.player.x  + 15, Game.player.y - Constants.GUYOFFSET, Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0, "bomb"));
+            Global.bullets.push(new Bullet(Game.player.x  + 15, Game.player.y - Game.player.offset(), Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0, "bomb"));
         }
 
     } else if (Game.pressedKeys[67]) { // C - Barrier
         if (Global.luckyLife
                 || (Global.barrierBullets.length == 0)) {
             barrierBullet = new Bullet(Game.player.x - Constants.BULLETWIDTH * 20,
-                    Game.player.y - Constants.GUYOFFSET - 30, Constants.BULLETHEIGHT, Constants.BULLETWIDTH * 40);
+                    Game.player.y - Game.player.offset() - 30, Constants.BULLETHEIGHT, Constants.BULLETWIDTH * 40);
             barrierBullet.life = BARRIER_LIFE_LIMIT;
             Global.barrierBullets.push(barrierBullet);
         }
@@ -257,7 +257,7 @@ function collisionCheckBullets() {
 
             jQuery.each(badGuy.suriArr, function(index, badBullet) {
                 if (badBullet != undefined && intersect(badBullet)) {
-                    Global.GALAGA_CONTEXT.drawImage(explosion, Game.player.x - Constants.GUYOFFSET, Game.player.y - Constants.GUYOFFSET, 32, 32);
+                    Global.GALAGA_CONTEXT.drawImage(explosion, Game.player.x - Game.player.offset(), Game.player.y - Game.player.offset(), 32, 32);
                     Global.sound7.play();
                     if( Global.isGalagaMerged ){
                         Global.numOfGalaga--;
@@ -289,7 +289,7 @@ function collisionCheckBullets() {
                             Game.clonePlayer.x = Global.spider.x;
                             Game.clonePlayer.y = Global.spider.y-(Global.spider.height/2);
                         }
-                    }else if (!Global.isCaptured && badGuy.isSpider && (spiderCount <= Constants.MAXSPIDERCOUNT) ){
+                    }else if (!Global.isCaptured && badGuy.isSpider && (Global.spiderCount <= Constants.MAXSPIDERCOUNT) ){
                         selectSpider();
                     }
                     Global.badGuys.splice(indexGuy, 1);
@@ -306,11 +306,11 @@ function collisionCheckBullets() {
     jQuery.each(Global.badBullets, function(index, badBullet) {
         if (badBullet != undefined && intersect(badBullet)) {
             if (badBullet.bulletType == "lucky") {
-                Global.luckyLife += LUCKY_LIFE_LIMIT;
+                Global.luckyLife += Constants.LUCKY_LIFE_LIMIT;
             }else if ( Global.luckyLife <= 0) {
-                if( isGalagaMerged){
+                if( Global.isGalagaMerged){
                     Global.numOfGalaga--;
-                    isGalagaMerged = false;
+                    Global.isGalagaMerged = false;
                 } else {
                     setEndGame("Collision with bad bullet");
                 }
@@ -360,7 +360,7 @@ function moveBadGuys() {
                 }
             }
             if (Global.isCaptured) {
-                Global.GALAGA_CONTEXT.drawImage(Game.player.img, badGuy.x, badGuy.y - Constants.GUYOFFSET*2, Game.player.height, Game.player.width);
+                Global.GALAGA_CONTEXT.drawImage(Game.player.img, badGuy.x, badGuy.y - Game.player.offset()*2, Game.player.height, Game.player.width);
             }
         }
     });
