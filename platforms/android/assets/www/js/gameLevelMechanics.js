@@ -59,25 +59,25 @@ function standByGalaga(){
     if( Game.clonePlayer.y <= Game.player.y ){
         Game.clonePlayer.y +=2;
     }
-    if( Game.clonePlayer.x < (Game.player.x + Game.player.scaledWidth()/2) ){ // Game.player is on the right
+    if( Game.clonePlayer.x < (Game.player.x + Game.player.width/2) ){ // Game.player is on the right
         if(!stopThere){
             Game.clonePlayer.x -=2;
         }
-        if( Game.clonePlayer.x > (Game.player.x + Game.player.scaledWidth()) ){
+        if( Game.clonePlayer.x > (Game.player.x + Game.player.width) ){
             stopThere=true;
         }
-        if( Game.clonePlayer.y >= Game.player.y && Game.player.x >= (Game.clonePlayer.x+ Game.cloneplayer.scaledWidth()) ){
+        if( Game.clonePlayer.y >= Game.player.y && Game.player.x >= (Game.clonePlayer.x+ Game.cloneplayer.width) ){
             completeStandBy();
             stopThere=false;
         }
-    }else if ( (Game.player.x + Game.player.scaledWidth()/2) < Game.clonePlayer.x ){ // Game.player is on the left
+    }else if ( (Game.player.x + Game.player.width/2) < Game.clonePlayer.x ){ // Game.player is on the left
         if(!stopThere){
             Game.clonePlayer.x +=2;
         }
-        if( (Game.clonePlayer.x + Game.cloneplayer.scaledWidth()) < Game.player.x ){
+        if( (Game.clonePlayer.x + Game.cloneplayer.width) < Game.player.x ){
             stopThere=true;
         }
-        if( Game.clonePlayer.y >= Game.player.y && (Game.player.x + Game.player.scaledWidth()) <= Game.clonePlayer.x ){
+        if( Game.clonePlayer.y >= Game.player.y && (Game.player.x + Game.player.width) <= Game.clonePlayer.x ){
             completeStandBy();
             stopThere=false;
         }

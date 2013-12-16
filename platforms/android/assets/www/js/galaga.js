@@ -27,11 +27,11 @@ function shoot(){
 function doKeyAction() {
     if(!Constants.isGalagaMerging && !Constants.isCapturing){
         if (Game.pressedKeys[37]) { // left
-            if(Global.mouse.x >= Game.player.scaledWidth()) processArrow([-4,0]);
+            if(Global.mouse.x >= Game.player.width) processArrow([-4,0]);
         } else if (Game.pressedKeys[38]) { // up
             processArrow([0,-3]);
         } else if (Game.pressedKeys[39]) { // right
-            if (Global.mouse.x <= 400- Game.player.scaledWidth()) processArrow([4,0]);
+            if (Global.mouse.x <= 400- Game.player.width) processArrow([4,0]);
         } else if (Game.pressedKeys[40]) { // down
             Game.processArrow([0,3]);
         }
@@ -101,7 +101,7 @@ function initGalaga() {
 //Guy(x, y, img, velocity, height, width, points, hp, isSpider, type)
     if (Game.level % 3 != 0) {
         for (var i = 0; i < 10; i++) {
-            Global.badGuys.push(new Guy(i * (Global.scaling() * Constants.GUYWIDTH + (2 + Global.scaling())), 0, Global.bad1, .5, (Global.scaling() * Constants.GUYHEIGHT + (2 + Global.scaling())), (Global.scaling() * Constants.GUYWIDTH), Game.level * 20, 1, false, 'bad1'));
+            Global.badGuys.push(new Guy(i * (Global.scaling() * Constants.GUYWIDTH + (2 + Global.scaling())), 0, Global.bad1, .5, (Global.scaling() * Constants.GUYHEIGHT), (Global.scaling() * Constants.GUYWIDTH), Game.level * 20, 1, false, 'bad1'));
         }
         for ( i = 0; i < 10; i++) {
             Global.badGuys.push(new Guy(i * (Global.scaling() * Constants.GUYWIDTH + (2 + Global.scaling())), Global.scaling() + (1 * (Global.scaling() * Constants.GUYWIDTH + (2 + Global.scaling()))), Global.bad2, .5, (Global.scaling() * Constants.GUYHEIGHT), (Global.scaling() * Constants.GUYWIDTH), Game.level * 10, 1, false, null));
@@ -126,7 +126,7 @@ function initGalaga() {
  */
 function initPlayer(isGame) {
 	if(Constants.DEBUG) console.log("Init Player, real game [" + isGame + "]");
-	Game.player = new Guy(0, 0, Global.good, 0, Constants.GUYWIDTH, Constants.GUYWIDTH, 0, 5, false, "");
+	Game.player = new Guy(0, 0, Global.good, 0, (Constants.GUYHEIGHT * Global.scaling()), (Constants.GUYWIDTH * Global.scaling()), 0, 5, false, "");
 	console.log(Game.player);
     if (!isGame) {
         Global.fakeGame = setInterval(redrawTitleScreen, 20);
@@ -186,7 +186,7 @@ function collisionCheckBullets() {
             }
 
             jQuery.each(badGuy.suriArr, function(index, badBullet) {
-                if (badBullet != undefined && intersect(badBullet)) {
+                if (intersect(Game.player, badBullet)) {
                     Global.GALAGA_CONTEXT.drawImage(explosion, Game.player.x - Game.player.offset(), Game.player.centerY(), 32, 32);
                     Global.playSound(Global.sound7);
                     if( Global.isGalagaMerged ){
@@ -201,7 +201,7 @@ function collisionCheckBullets() {
         }
 
         jQuery.each(Global.bullets, function(indexBullet, bullet) {
-            if ((bullet != undefined && badGuy != undefined) && intersectOther(badGuy, bullet)) {
+            if (intersect(badGuy, bullet)) {
                 if (bullet.bulletType == "bomb") {
                     Global.bullets.push(new Bullet(bullet.x, bullet.y, Constants.BULLETHEIGHT * 5, Constants.BULLETWIDTH * 30, 0, "bomb"));
                 }
@@ -233,8 +233,9 @@ function collisionCheckBullets() {
             }
         });
     });
+	
     jQuery.each(Global.badBullets, function(index, badBullet) {
-        if (badBullet != undefined && intersect(badBullet)) {
+        if (intersect(Game.player, badBullet)) {
             if (badBullet.bulletType == "lucky") {
                 Global.luckyLife += Constants.LUCKY_LIFE_LIMIT;
             }else if ( Global.luckyLife <= 0) {
@@ -251,8 +252,7 @@ function collisionCheckBullets() {
 
     jQuery.each(Global.barrierBullets, function(indexBarrierBullet, barrierBullet) {
         jQuery.each(Global.badBullets, function(indexBadBullet, badBullet) {
-            if ((badBullet != undefined && barrierBullet != undefined)
-                    && intersectOther(badBullet, barrierBullet)) {
+			if (intersect(badBullet, barrierBullet)) {
                 Global.badBullets.splice(indexBadBullet, 1);
                 return false;
             }
@@ -290,7 +290,7 @@ function moveBadGuys() {
                 }
             }
             if (Global.isCaptured) {
-                Global.GALAGA_CONTEXT.drawImage(Game.player.img, badGuy.x, badGuy.centerY()*2, Game.player.scaledHeight, Game.player.scaledWidth());
+                Global.GALAGA_CONTEXT.drawImage(Game.player.img, badGuy.x, badGuy.centerY()*2, Game.player.scaledHeight, Game.player.width);
             }
         }
     });
