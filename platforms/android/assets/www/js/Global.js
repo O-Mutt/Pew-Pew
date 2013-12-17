@@ -25,7 +25,7 @@ var Global = new function() {
 	var GALAGA_CANVAS;
 	var GALAGA_CONTEXT;
 	this.scaling = function() {
-		return this.GALAGA_CANVAS.width / 800;
+		return this.GALAGA_CANVAS.height / 600;
 	};
 	this.intervalLoop = 0;
 

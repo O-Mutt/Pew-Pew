@@ -49,10 +49,10 @@ function doKeyAction() {
             if (Global.luckyLife
                 || (Global.bullets.length < maxBulletsNum && Global.barrierBullets.length == 0) ){
                 if (Global.isGalagaMerged) {
-                    Global.bullets.push(new Bullet(Game.player.centerX(), Game.player.centerY(), Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0));
-                    Global.bullets.push(new Bullet(Game.player.centerX(), Game.player.centerY(), Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0));
+                    Global.bullets.push(new Bullet(Game.player.centerX(), Game.player.centerY(), (Constants.BULLETHEIGHT * Global.scaling()), (Constants.BULLETWIDTH * Global.scaling() / 2), 0));
+                    Global.bullets.push(new Bullet(Game.player.centerX(), Game.player.centerY(), (Constants.BULLETHEIGHT * Global.scaling()), (Constants.BULLETWIDTH * Global.scaling() / 2), 0));
                 } else {
-                    Global.bullets.push(new Bullet(Game.player.centerX(), Game.player.centerY(), Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0));
+                    Global.bullets.push(new Bullet(Game.player.centerX(), Game.player.centerY(), (Constants.BULLETHEIGHT * Global.scaling()), (Constants.BULLETWIDTH * Global.scaling() / 2), 0));
                 }
                 Global.playSound(Global.sound11);
             }
@@ -60,15 +60,15 @@ function doKeyAction() {
     } else if (Game.pressedKeys[88]) { // X - Shot Gun
         if (Global.luckyLife
                 || (Global.bullets.length  == 0 && Global.barrierBullets.length == 0)) {
-            Global.bullets.push(new Bullet(Game.player.centerX(), Game.player.centerY(), Constants.BULLETHEIGHT, Constants.BULLETWIDTH, -1));
-            Global.bullets.push(new Bullet(Game.player.centerX(), Game.player.centerY(), Constants.BULLETHEIGHT, Constants.BULLETWIDTH, -0.5));
-            Global.bullets.push(new Bullet(Game.player.centerX(), Game.player.centerY(), Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0.5));
-            Global.bullets.push(new Bullet(Game.player.centerX(), Game.player.centerY(), Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 1));
+            Global.bullets.push(new Bullet(Game.player.centerX(), Game.player.centerY(), (Constants.BULLETHEIGHT * Global.scaling()), (Constants.BULLETWIDTH * Global.scaling() / 2), -1));
+            Global.bullets.push(new Bullet(Game.player.centerX(), Game.player.centerY(), (Constants.BULLETHEIGHT * Global.scaling()), (Constants.BULLETWIDTH * Global.scaling() / 2), -0.5));
+            Global.bullets.push(new Bullet(Game.player.centerX(), Game.player.centerY(), (Constants.BULLETHEIGHT * Global.scaling()), (Constants.BULLETWIDTH * Global.scaling() / 2), 0.5));
+            Global.bullets.push(new Bullet(Game.player.centerX(), Game.player.centerY(), (Constants.BULLETHEIGHT * Global.scaling()), (Constants.BULLETWIDTH * Global.scaling() / 2), 1));
         }
     } else if (Game.pressedKeys[90]) { // Z - Bomb
         if (Global.luckyLife
                 || (Global.bullets.length == 0 && Global.barrierBullets.length == 0)) {
-            Global.bullets.push(new Bullet(Game.player.centerX(), Game.player.centerY(), Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0, "bomb"));
+            Global.bullets.push(new Bullet(Game.player.centerX(), Game.player.centerY(), (Constants.BULLETHEIGHT * Global.scaling()), (Constants.BULLETWIDTH * Global.scaling() / 2), 0, "bomb"));
         }
 
     } else if (Game.pressedKeys[67]) { // C - Barrier
@@ -126,7 +126,7 @@ function initGalaga() {
  */
 function initPlayer(isGame) {
 	if(Constants.DEBUG) console.log("Init Player, real game [" + isGame + "]");
-	Game.player = new Guy(0, 0, Global.good, 0, (Constants.GUYHEIGHT * Global.scaling()), (Constants.GUYWIDTH * Global.scaling()), 0, 5, false, "");
+	Game.player = new Guy(Global.GALAGA_CANVAS.height - (Constants.GUYHEIGHT * Global.scaling()), (Global.GALAGA_CANVAS.width / 2), Global.good, 0, (Constants.GUYHEIGHT * Global.scaling()), (Constants.GUYWIDTH * Global.scaling()), 0, 5, false, "");
 	console.log(Game.player);
     if (!isGame) {
         Global.fakeGame = setInterval(redrawTitleScreen, 20);
@@ -160,7 +160,7 @@ function badGuysTryFire() {
                 // badGuy.shoot();
             } else {
             	var badBullet = new Bullet(badGuy.x + (badGuy.width / 2),
-                	badGuy.bottom(), Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0);
+                	badGuy.bottom(), (Constants.BULLETHEIGHT * Global.scaling()), (Constants.BULLETWIDTH * Global.scaling() / 2), 0);
             	if 	(Math.random() * 1000 % 100 < 20) {
                 	badBullet.bulletType = "lucky";
             	}

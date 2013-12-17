@@ -75,4 +75,5 @@ function Guy(x, y, img, velocity, height, width, points, hp, isSpider, type) {
     this.cusType = function() {
         return this.type;
     };
-} /************* End Objects *************/
+}
+/************* End Objects *************/

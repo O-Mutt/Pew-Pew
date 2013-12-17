@@ -31,7 +31,7 @@ function setEndGame(str) {
         } else {
             alert("Game Over!");
         }
-        Game.lives = Constants.PLAYERLIVES;
+        Game.lives = Game.PLAYERLIVES;
         Game.level = 1;
         Game.playerScore = 0;
         Global.badGuys.length = 0;

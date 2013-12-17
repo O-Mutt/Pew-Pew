@@ -16,7 +16,7 @@ var Events = {
 	},
 	
 	SizeChanged: function() {
-		console.log("Resize window");
+		console.log("Resize window width [" + window.innerWidth + "] height [" + window.innerHeight + "]");
 		Global.GALAGA_CANVAS.width = window.innerWidth;
 		Global.GALAGA_CANVAS.height = window.innerHeight;
 	},
@@ -56,10 +56,10 @@ var Events = {
 				}
 				if (Global.bullets && Global.bullets.length < maxBulletsNum) {
 					if (Global.isGalagaMerged) {
-						Global.bullets.push(new Bullet(Game.player.x, Game.player.centerY(), Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0));
-						Global.bullets.push(new Bullet(Game.player.x, Game.player.centerY(), Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0));
+						Global.bullets.push(new Bullet(Game.player.x, Game.player.centerY(), (Constants.BULLETHEIGHT * Global.scaling()), (Constants.BULLETWIDTH * Global.scaling() / 2), 0));
+						Global.bullets.push(new Bullet(Game.player.x, Game.player.centerY(), (Constants.BULLETHEIGHT * Global.scaling()), (Constants.BULLETWIDTH * Global.scaling() / 2), 0));
 					} else {
-						Global.bullets.push(new Bullet(Game.player.x - 1, Game.player.centerY(), Constants.BULLETHEIGHT, Constants.BULLETWIDTH, 0));
+						Global.bullets.push(new Bullet(Game.player.x - 1, Game.player.centerY(), (Constants.BULLETHEIGHT * Global.scaling()), (Constants.BULLETWIDTH * Global.scaling() / 2), 0));
 					}
 					Global.playSound(Global.sound11);
 				}

@@ -36,10 +36,11 @@
 
 
     Global.GALAGA_CONTEXT.fillStyle = "White";
+	Global.GALAGA_CONTEXT.font = 50 * Global.scaling() + "px";
 	if (str) { 
-		Global.GALAGA_CONTEXT.fillText("PlayerScore: [" + Game.playerScore + "] Level: [" + Game.level + "] " + str, 20, Global.GALAGA_CANVAS.height - 10);
+		Global.GALAGA_CONTEXT.fillText("PlayerScore: [" + Game.playerScore + "] Level: [" + Game.level + "] " + str, 10, Global.GALAGA_CANVAS.height - 10, Global.GALAGA_CANVAS.width / 3);
 	} else {
-		Global.GALAGA_CONTEXT.fillText("PlayerScore: [" + Game.playerScore + "] Level: [" + Game.level + "]", 20, Global.GALAGA_CANVAS.height - 10);
+		Global.GALAGA_CONTEXT.fillText("PlayerScore: [" + Game.playerScore + "] Level: [" + Game.level + "]", 10, Global.GALAGA_CANVAS.height - 10, Global.GALAGA_CANVAS.width / 3);
 	}
     for (var i = 1; i < Game.lives; i++) {
         Global.GALAGA_CONTEXT.drawImage(Game.player.img, Global.GALAGA_CANVAS.width - (i * (17 * Global.scaling())), Global.GALAGA_CANVAS.height - 20, 15, 15);
@@ -73,7 +74,7 @@ function redrawBadGuyBullets() {
 	//Bad guy bullets
     $.each(Global.badBullets, function(index, badBullet) {
         if (badBullet != undefined) {
-            badBullet.y += 3+ (Game.level * 0.1);  //Move bullet up
+            badBullet.y += (2 * Global.scaling()) + (Game.level * 0.1);  //Move bullet up
             if (badBullet.bulletType == "lucky") {
                 Global.GALAGA_CONTEXT.fillStyle = "Green";
             } else {
@@ -95,7 +96,6 @@ function redrawBadGuyBullets() {
                 var endLaser = (badGuy.top() + badGuy.increaseLaserHeight());
 //                console.log("laser fire-->"+endLaser);
                 
-
                 if(endLaser >= 2000){
                     badGuy.stopLaser();
                 } else{
@@ -123,7 +123,6 @@ function redrawBadGuyBullets() {
                 }catch(e){
                     console.log("suri error -> " + suri);
                 }
-                
             });
 		}
 	});
@@ -142,7 +141,7 @@ function redrawBarrierBullets() {
 function redrawPlayerBullets() {
 	$.each(Global.bullets, function(index, bullet) {
         if (bullet != undefined) {
-            bullet.y -= 3 + (Game.level * 0.1); //Move bullet up
+            bullet.y -= (2 * Global.scaling()) + (Game.level * 0.1); //Move bullet up
             bullet.x += bullet.xdiff;
 
             bullet.x += bulletsControl[0];

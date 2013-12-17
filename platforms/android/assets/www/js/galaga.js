@@ -126,7 +126,7 @@ function initGalaga() {
  */
 function initPlayer(isGame) {
 	if(Constants.DEBUG) console.log("Init Player, real game [" + isGame + "]");
-	Game.player = new Guy(0, 0, Global.good, 0, (Constants.GUYHEIGHT * Global.scaling()), (Constants.GUYWIDTH * Global.scaling()), 0, 5, false, "");
+	Game.player = new Guy(Global.GALAGA_CANVAS.height - (Constants.GUYHEIGHT * Global.scaling()), (Global.GALAGA_CANVAS.width / 2), Global.good, 0, (Constants.GUYHEIGHT * Global.scaling()), (Constants.GUYWIDTH * Global.scaling()), 0, 5, false, "");
 	console.log(Game.player);
     if (!isGame) {
         Global.fakeGame = setInterval(redrawTitleScreen, 20);

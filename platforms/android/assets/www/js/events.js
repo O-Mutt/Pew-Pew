@@ -16,7 +16,7 @@ var Events = {
 	},
 	
 	SizeChanged: function() {
-		console.log("Resize window");
+		console.log("Resize window width [" + window.innerWidth + "] height [" + window.innerHeight + "]");
 		Global.GALAGA_CANVAS.width = window.innerWidth;
 		Global.GALAGA_CANVAS.height = window.innerHeight;
 	},

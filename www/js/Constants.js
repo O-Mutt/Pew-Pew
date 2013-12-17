@@ -16,6 +16,7 @@ var Constants = new function(){
 	this.BULLETWIDTH = 3;
 	this.GUYHEIGHT = 20;
 	this.GUYWIDTH = 20;
+	this.PLAYERLIVES = 5;
 
 	this.BARRIER_LIFE_LIMIT = 70;
 	this.LUCKY_LIFE_LIMIT = 50;
