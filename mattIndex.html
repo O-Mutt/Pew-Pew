@@ -1,0 +1,133 @@
+<!--
+ * Copyright (c) 2012, Matthew Erickson (Matt@MattErickson.ME)
+ * All rights reserved.
+ * 
+ * Please see copyright.txt for full license details
+ -->
+<link href="https://raw.github.com/Mutmatt/galaga_html5/master/css/bootstrap-responsive.min.css" type="spreadsheet">
+<link href='http://fonts.googleapis.com/css?family=Iceland' rel='stylesheet' type='text/css'>
+<script type="text/javascript" src="https://raw.github.com/Mutmatt/galaga_html5/master/js/galaga.js"></script>
+<script type="text/javascript" src="https://raw.github.com/Mutmatt/galaga_html5/master/js/boss_weapon.js"></script>
+<script type="text/javascript" src="https://raw.github.com/Mutmatt/galaga_html5/master/js/bootstrap.min.js"></script>
+
+<style>
+.main_text{
+  font-variant: normal;
+  font-style: normal;
+  font-weight: normal;
+  text-align: center;
+  padding : 10px 0 10px;
+  font-family: 'Iceland', cursive;
+}
+.main_title{
+  font-size : 70px;
+}
+.main_description{
+  font-size : 20px;
+}
+.footer{
+  font-family: 'Iceland', cursive;
+}
+</style>
+<div class="container footer" align="center">
+    <h1 class="text-info">Key Buttons</h1>
+    <p style="font-size : 75%;">
+      <b style="color:red;">Arrow Keys or Mouse</b>: Move <br>
+      '<b style="color:red;">Space</b>': Bullet <br>
+      '<b style="color:red;">z</b>': Bomb <br>
+      '<b style="color:red;">x</b>': Shutgun <br>
+      '<b style="color:red;">c</b>': Shild <br>
+      '<b style="color:red;">Shift</b>' + '<b style="color:red;">Arrow</b>': Bullet Control<br />
+    </p>
+  </div>
+  <canvas id="galaga_canvas" width="400" height="400" style="background-color:black;"></canvas><br />
+
+  <div id="img_source" style="display:none;">
+    <img id="bad1" src="http://matterickson.me/wp-content/uploads/2013/03/bad2.png">
+    <img id="bad2" src="http://matterickson.me/wp-content/uploads/2013/03/bad3.png">
+    <img id="bad3" src="http://matterickson.me/wp-content/uploads/2013/03/bad1.png">
+    <img id="good" src="http://matterickson.me/wp-content/uploads/2013/03/good.png">
+    <img id="suri" src="http://matterickson.me/wp-content/uploads/2013/03/suri.png">
+    <img id="vim" src="http://matterickson.me/wp-content/uploads/2013/03/vim.png">
+    <img id="laser" src="http://matterickson.me/wp-content/uploads/2013/03/laser11.png" width="40" height="24">
+    <img id="boss" src="http://matterickson.me/wp-content/uploads/2013/03/bc.png" width="90" height="70">
+    <img id="explosion" src="http://matterickson.me/wp-content/uploads/2013/03/explosion1.png">
+  </div>
+    <audio id="sound0">
+      <source src="http://matterickson.me/wp-content/uploads/2013/03/galaga0.mp3"></source>
+      <source src="http://matterickson.me/wp-content/uploads/2013/03/galaga0.wav"></source>
+      Your browser doesn't support our audio files
+  </audio>
+  <audio id="sound1">
+      <source src="http://matterickson.me/wp-content/uploads/2013/03/galaga1.mp3"></source>
+      <source src="http://matterickson.me/wp-content/uploads/2013/03/galaga1.wav"></source>
+      Your browser doesn't support our audio files
+  </audio>
+  <audio id="sound2">
+      <source src="http://matterickson.me/wp-content/uploads/2013/03/galaga2.mp3"></source>
+      <source src="http://matterickson.me/wp-content/uploads/2013/03/galaga2.wav"></source>
+      Your browser doesn't support our audio files
+  </audio>
+  <audio id="sound3">
+      <source src="http://matterickson.me/wp-content/uploads/2013/03/galaga3.mp3"></source>
+      <source src="http://matterickson.me/wp-content/uploads/2013/03/galaga3.wav"></source>
+      Your browser doesn't support our audio files
+  </audio>
+  <audio id="sound4">
+      <source src="http://matterickson.me/wp-content/uploads/2013/03/galaga4.mp3"></source>
+      <source src="http://matterickson.me/wp-content/uploads/2013/03/galaga4.wav"></source>
+      Your browser doesn't support our audio files
+  </audio>
+  <audio id="sound5">
+      <source src="http://matterickson.me/wp-content/uploads/2013/03/galaga5.mp3"></source>
+      <source src="http://matterickson.me/wp-content/uploads/2013/03/galaga5.wav"></source>
+      Your browser doesn't support our audio files
+  </audio>
+  <audio id="sound6">
+      <source src="http://matterickson.me/wp-content/uploads/2013/03/galaga6.mp3"></source>
+      <source src="http://matterickson.me/wp-content/uploads/2013/03/galaga6.wav"></source>
+      Your browser doesn't support our audio files
+  </audio>
+  <audio id="sound7">
+      <source src="http://matterickson.me/wp-content/uploads/2013/03/galaga7.mp3"></source>
+      <source src="http://matterickson.me/wp-content/uploads/2013/03/galaga7.wav"></source>
+      Your browser doesn't support our audio files
+  </audio>
+  <audio id="sound8">
+      <source src="http://matterickson.me/wp-content/uploads/2013/03/galaga8.mp3"></source>
+      <source src="http://matterickson.me/wp-content/uploads/2013/03/galaga8.wav"></source>
+      Your browser doesn't support our audio files
+  </audio>
+  <audio id="sound9">
+      <source src="http://matterickson.me/wp-content/uploads/2013/03/galaga9.mp3"></source>
+      <source src="http://matterickson.me/wp-content/uploads/2013/03/galaga9.wav"></source>
+      Your browser doesn't support our audio files
+  </audio>
+  <audio id="sound11">
+      <source src="http://matterickson.me/wp-content/uploads/2013/03/galaga11.mp3"></source>
+      <source src="http://matterickson.me/wp-content/uploads/2013/03/galaga11.wav"></source>
+      Your browser doesn't support our audio files
+  </audio>
+  <audio id="sound12">
+      <source src="http://matterickson.me/wp-content/uploads/2013/03/galaga12.mp3"></source>
+      <source src="http://matterickson.me/wp-content/uploads/2013/03/galaga12.wav"></source>
+      Your browser doesn't support our audio files
+  </audio>
+  <audio id="sound13">
+      <source src="http://matterickson.me/wp-content/uploads/2013/03/galaga13.mp3"></source>
+      <source src="http://matterickson.me/wp-content/uploads/2013/03/galaga13.wav"></source>
+      Your browser doesn't support our audio files
+  </audio>
+  <audio id="sound14">
+      <source src="http://matterickson.me/wp-content/uploads/2013/03/galaga14.mp3"></source>
+      <source src="http://matterickson.me/wp-content/uploads/2013/03/galaga14.wav"></source>
+      Your browser doesn't support our audio files
+  </audio>
+
+This project is also available on <a href="https://github.com/Mutmatt/galaga_html5" title="HTML5 Galaga" rel="external" target="_blank">GitHub:Mutmatt/galga_html5</a><br /><br />
+
+Special thanks go out to:
+Weapon Ugarade : <a href="https://plus.google.com/111302679105358219806/about" target="_blank">SeongJae Park</a><br>
+Sound Effect : <a href="https://plus.google.com/106958385030616827332/about" target="_blank">Haebin Yoon</a><br>
+Recover The Original Motion : <a href="https://plus.google.com/111516089306509884557/about" target="_blank">JongYoon Lim</a><br>
+Boss Stage : <a href="https://plus.google.com/107621265594457706915/about" target="_blank">Lee WonJae</a><br>
