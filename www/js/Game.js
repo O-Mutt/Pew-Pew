@@ -9,7 +9,7 @@ Game.playerScore = 0;
 Game.level = 1;
 Game.lives;
 Game.stopThere = false;
-Game.Init = function() {
+Game.Create = function() {
 	//html $(Global.PEWPEW_CANVAS) object
 	Global.PEWPEW_CANVAS = document.createElement('canvas');
 	Global.PEWPEW_CANVAS.id = 'PEWPEW_CANVAS';
@@ -72,10 +72,10 @@ Game.Init = function() {
 	Global.explosion = document.getElementById('explosion');
 	Global.vim = document.getElementById('vim');
 	//Sets up the pregame to show the good ship and message to start
-	Game.InitForTitleScreen();
+	Game.CreateForTitleScreen();
 	login.trySilentAuth();
 },
-Game.InitForTitleScreen = function() {
+Game.CreateForTitleScreen = function() {
 	console.log('Set pre');
 	initPlayer(false);
 }

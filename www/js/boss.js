@@ -73,7 +73,7 @@ function Boss(x, y, img, velocity, height, width, points, hp) {
 }
 
 function Suri(x, y, idx, suriNumber){
-	this.img = jQuery('#suri').get(0);
+	this.img = document.getElementById('suri');
 	this.age = 0;
 	this.startX = x;
 	this.startY = y;

@@ -24,7 +24,7 @@ function setEndGame(str) {
         Global.badBullets.length = 0;
         clearInterval(Global.intervalLoop);
         Global.intervalLoop = 0;
-        Game.InitForTitleScreen();
+        Game.CreateForTitleScreen();
     } else {
         if (Constants.DEBUG) {
             alert("Game Over! because [" + str + "]");
@@ -39,7 +39,7 @@ function setEndGame(str) {
         Global.badBullets.length = 0;
         clearInterval(Global.intervalLoop);
         Global.intervalLoop = 0;
-        Game.InitForTitleScreen();
+        Game.CreateForTitleScreen();
         Global.playSound(Global.sound8);
     }
 }
@@ -50,7 +50,7 @@ function setPostLevel() {
     Global.bullets.length = 0;
     clearInterval(Global.intervalLoop);
     Global.intervalLoop = 0;
-    Game.InitForTitleScreen();
+    Game.CreateForTitleScreen();
     delete Game.clonePlayer;
     console.log("set PostLevel");
 }
