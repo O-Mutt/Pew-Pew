@@ -43,7 +43,7 @@ var Events = {
 	
 	initClick: function() {
 		console.log("Init click");
-		$(Global.PEWPEW_CANVAS).on('click', function(e) {
+		$(Global.PEWPEW_CANVAS).on('click touchstart', function(e) {
 			e.preventDefault();
 	
 			if (Global.intervalLoop == 0) {
