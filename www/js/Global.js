@@ -10,9 +10,9 @@ var Global = new function() {
 	// for capture
 	this.isCaptured = false;
 	this.isCapturing = false;
-	this.isGalagaMerged = false;
-	this.isGalagaMerging = false;
-	this.numOfGalaga = 1;
+	this.isPewPewMerged = false;
+	this.isPewPewMerging = false;
+	this.numOfPewPew = 1;
 	this.isSpiderMove = false;
 	this.hasSpider = false;
 	this.spider;
@@ -22,10 +22,10 @@ var Global = new function() {
 	this.oriPosY;
 	this.vim;
 	
-	var GALAGA_CANVAS;
-	var GALAGA_CONTEXT;
+	var PEWPEW_CANVAS;
+	var PEWPEW_CONTEXT;
 	this.scaling = function() {
-		return this.GALAGA_CANVAS.height / 450;
+		return this.PEWPEW_CANVAS.height / 450;
 	};
 	this.intervalLoop = 0;
 

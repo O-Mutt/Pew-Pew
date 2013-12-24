@@ -25,7 +25,7 @@ function shoot(){
 }
 
 function doKeyAction() {
-    if(!Constants.isGalagaMerging && !Constants.isCapturing){
+    if(!Constants.isPewPewMerging && !Constants.isCapturing){
         if (Game.pressedKeys[37]) { // left
             if(Global.mouse.x >= Game.player.width) processArrow([-4,0]);
         } else if (Game.pressedKeys[38]) { // up
@@ -41,14 +41,14 @@ function doKeyAction() {
         if (Global.intervalLoop == 0) {
             Game.Start();
             Global.mouse.x = 50;
-            redrawPlayerGalaga();
+            redrawPlayerPewPew();
         } else {
             var maxBulletsNum = 4;
-            if (Global.isGalagaMerged)
-                maxBulletsNum *= Global.numOfGalaga;
+            if (Global.isPewPewMerged)
+                maxBulletsNum *= Global.numOfPewPew;
             if (Global.luckyLife
                 || (Global.bullets.length < maxBulletsNum && Global.barrierBullets.length == 0) ){
-                if (Global.isGalagaMerged) {
+                if (Global.isPewPewMerged) {
                     Global.bullets.push(new Bullet(Game.player.centerX(), Game.player.centerY(), (Constants.BULLETHEIGHT * Global.scaling()), (Constants.BULLETWIDTH * Global.scaling() / 2), 0));
                     Global.bullets.push(new Bullet(Game.player.centerX(), Game.player.centerY(), (Constants.BULLETHEIGHT * Global.scaling()), (Constants.BULLETWIDTH * Global.scaling() / 2), 0));
                 } else {
@@ -87,9 +87,9 @@ function doKeyAction() {
 /**
  * Initializes the game
  */
-function initGalaga() {
-	if (Global.GALAGA_CONTEXT != undefined) {
-		Global.GALAGA_CONTEXT.clearRect(0, 0, Global.GALAGA_CANVAS.width, Global.GALAGA_CANVAS.height);
+function initPewPew() {
+	if (Global.PEWPEW_CONTEXT != undefined) {
+		Global.PEWPEW_CONTEXT.clearRect(0, 0, Global.PEWPEW_CANVAS.width, Global.PEWPEW_CANVAS.height);
 	}
     Global.badGuys = [];
     Game.player = null;
@@ -114,11 +114,11 @@ function initGalaga() {
         Constants.FIRECHANCENUMERATOR -= .5;
         Global.badGuys.push(new Boss(1 * 35, 0, Global.boss, .5, 50, 50, Game.level * 100, 10));
     }
-    if (!Global.isGalagaMerged) {
+    if (!Global.isPewPewMerged) {
         selectSpider();
     }
 
-    Global.intervalLoop = setInterval(drawGalaga, 20);
+    Global.intervalLoop = setInterval(drawPewPew, 20);
 }
 
 /**
@@ -126,14 +126,14 @@ function initGalaga() {
  */
 function initPlayer(isGame) {
 	if(Constants.DEBUG) console.log("Init Player, real game [" + isGame + "]");
-	Game.player = new Guy(Global.GALAGA_CANVAS.height - (Constants.GUYHEIGHT * Global.scaling()), (Global.GALAGA_CANVAS.width / 2), Global.good, 0, (Constants.GUYHEIGHT * Global.scaling()), (Constants.GUYWIDTH * Global.scaling()), 0, 5, false, "");
+	Game.player = new Guy(Global.PEWPEW_CANVAS.height - (Constants.GUYHEIGHT * Global.scaling()), (Global.PEWPEW_CANVAS.width / 2), Global.good, 0, (Constants.GUYHEIGHT * Global.scaling()), (Constants.GUYWIDTH * Global.scaling()), 0, 5, false, "");
 	console.log(Game.player);
     if (!isGame) {
         Global.fakeGame = setInterval(redrawTitleScreen, 20);
     }
 }
 
-function checkGalagaCaptured() {
+function checkPewPewCaptured() {
     if (Game.player.x <= Global.spider.x + 20 && Game.player.x >= Global.spider.x - 20) {
         Constants.isCapturing = true;
     }
@@ -175,9 +175,9 @@ function collisionCheckBullets() {
         if(badGuy instanceof Boss){
             if(badGuy.isFiredLaser && (badGuy.getLaserHeight() + badGuy.top()) > 380){
                 if(badGuy.left()+15 < Game.player.right() && badGuy.left()+55 > Game.player.left()){
-                    if( Global.isGalagaMerged ){
-                        Global.numOfGalaga--;
-                        Global.isGalagaMerged = false;
+                    if( Global.isPewPewMerged ){
+                        Global.numOfPewPew--;
+                        Global.isPewPewMerged = false;
                     } else {
                         setEndGame("Game.player is killed by laser");
                     }
@@ -187,11 +187,11 @@ function collisionCheckBullets() {
 
             jQuery.each(badGuy.suriArr, function(index, badBullet) {
                 if (intersect(Game.player, badBullet)) {
-                    Global.GALAGA_CONTEXT.drawImage(explosion, Game.player.x - Game.player.offset(), Game.player.centerY(), 32, 32);
+                    Global.PEWPEW_CONTEXT.drawImage(explosion, Game.player.x - Game.player.offset(), Game.player.centerY(), 32, 32);
                     Global.playSound(Global.sound7);
-                    if( Global.isGalagaMerged ){
-                        Global.numOfGalaga--;
-                        Global.isGalagaMerged = false;
+                    if( Global.isPewPewMerged ){
+                        Global.numOfPewPew--;
+                        Global.isPewPewMerged = false;
                     } else {
                         setEndGame("Collision with bad suri");
                     }
@@ -209,8 +209,8 @@ function collisionCheckBullets() {
                     badGuy.hp--;
                     Game.playerScore += badGuy.points;
                     if ( Global.isCaptured && badGuy.isSpider) {
-                        Global.isGalagaMerging = true;
-                        Global.isGalagaMerged = false;
+                        Global.isPewPewMerging = true;
+                        Global.isPewPewMerged = false;
                         Global.isCaptured = false;
                         if(!Game.clonePlayer){
                             Game.clonePlayer = new Guy(Global.spider.x, Global.spider.y-(Global.spider.height/2), good, 0, Constants.GUYWIDTH, Constants.GUYHEIGHT, 0, 5);
@@ -223,7 +223,7 @@ function collisionCheckBullets() {
                         selectSpider();
                     }
                     Global.badGuys.splice(indexGuy, 1);
-                    Global.GALAGA_CONTEXT.drawImage(explosion, badGuy.x, badGuy.y, 32, 32);
+                    Global.PEWPEW_CONTEXT.drawImage(explosion, badGuy.x, badGuy.y, 32, 32);
                     Global.bullets.splice(indexBullet, 1);
                     return false;
                 } else {
@@ -239,9 +239,9 @@ function collisionCheckBullets() {
             if (badBullet.bulletType == "lucky") {
                 Global.luckyLife += Constants.LUCKY_LIFE_LIMIT;
             }else if ( Global.luckyLife <= 0) {
-                if( Global.isGalagaMerged){
-                    Global.numOfGalaga--;
-                    Global.isGalagaMerged = false;
+                if( Global.isPewPewMerged){
+                    Global.numOfPewPew--;
+                    Global.isPewPewMerged = false;
                 } else {
                     setEndGame("Collision with bad bullet");
                 }
@@ -267,7 +267,7 @@ function moveBadGuys() {
     var isWall = false;
     jQuery.each(Global.badGuys, function(index, badGuy) {
         vel = badGuy.vel;
-        if ((badGuy.x + badGuy.width) > $(Global.GALAGA_CANVAS).width() && badGuy.direction) { //moving right hit a wall?
+        if ((badGuy.x + badGuy.width) > $(Global.PEWPEW_CANVAS).width() && badGuy.direction) { //moving right hit a wall?
             isWall = true;
             badGuy.x += badGuy.velocity;
         } else if (badGuy.x < 0 && !badGuy.direction) { //moving left hit a wall?
@@ -282,7 +282,7 @@ function moveBadGuys() {
         }
         if (badGuy.isSpider) {
             if (!Global.isSpiderMove && !Global.isCaptured) {
-                if (badGuy.y > $(Global.GALAGA_CANVAS).height/4) {
+                if (badGuy.y > $(Global.PEWPEW_CANVAS).height/4) {
                     Global.isSpiderMove = true;
                     Global.spider = badGuy;
                     oriPosX = badGuy.x;
@@ -290,7 +290,7 @@ function moveBadGuys() {
                 }
             }
             if (Global.isCaptured) {
-                Global.GALAGA_CONTEXT.drawImage(Game.player.img, badGuy.x, badGuy.centerY()*2, Game.player.scaledHeight, Game.player.width);
+                Global.PEWPEW_CONTEXT.drawImage(Game.player.img, badGuy.x, badGuy.centerY()*2, Game.player.scaledHeight, Game.player.width);
             }
         }
     });
@@ -310,11 +310,11 @@ function moveBadGuys() {
 
             //Check if bad guy hit the bottom
             if (Constants.DEBUG) {
-		console.log("BadGuy Bottom [" + badGuy.bottom() + "] Canvas bottom [" + $(Global.GALAGA_CANVAS).height + "]");
+		console.log("BadGuy Bottom [" + badGuy.bottom() + "] Canvas bottom [" + $(Global.PEWPEW_CANVAS).height + "]");
 	    }
-            if (badGuy.bottom() > $(Global.GALAGA_CANVAS).height) {
+            if (badGuy.bottom() > $(Global.PEWPEW_CANVAS).height) {
                 Global.playSound(Global.sound7);
-                setEndGame("Bad guys hit the bottom of the $(Global.GALAGA_CANVAS)");
+                setEndGame("Bad guys hit the bottom of the $(Global.PEWPEW_CANVAS)");
                 return false;
             }
         });

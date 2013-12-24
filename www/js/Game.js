@@ -10,14 +10,14 @@ Game.level = 1;
 Game.lives;
 Game.stopThere = false;
 Game.Init = function() {
-	//html $(Global.GALAGA_CANVAS) object
-	Global.GALAGA_CANVAS = document.createElement('canvas');
-	Global.GALAGA_CANVAS.id = 'GALAGA_CANVAS';
-	Global.GALAGA_CANVAS.display = 'block';
-	Global.GALAGA_CANVAS.style.background = 'black';
-	$('body').append(Global.GALAGA_CANVAS);
-	//html5 context of the $(Global.GALAGA_CANVAS)
-	Global.GALAGA_CONTEXT = Global.GALAGA_CANVAS.getContext('2d');
+	//html $(Global.PEWPEW_CANVAS) object
+	Global.PEWPEW_CANVAS = document.createElement('canvas');
+	Global.PEWPEW_CANVAS.id = 'PEWPEW_CANVAS';
+	Global.PEWPEW_CANVAS.display = 'block';
+	Global.PEWPEW_CANVAS.style.background = 'black';
+	$('body').append(Global.PEWPEW_CANVAS);
+	//html5 context of the $(Global.PEWPEW_CANVAS)
+	Global.PEWPEW_CONTEXT = Global.PEWPEW_CANVAS.getContext('2d');
 	Events.SizeChanged();
 	
 	//Can't access jquery $ outside of scope
@@ -82,5 +82,5 @@ Game.InitForTitleScreen = function() {
 Game.Start = function() {
 	clearInterval(Global.fakeGame); //Clear the pregame
 	Global.fakeGame = 0; //Remove pregame interval id
-	initGalaga(); //init the game!
+	initPewPew(); //init the game!
 }

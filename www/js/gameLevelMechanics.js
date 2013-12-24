@@ -55,7 +55,7 @@ function setPostLevel() {
     console.log("set PostLevel");
 }
 
-function standByGalaga(){
+function standByPewPew(){
     if( Game.clonePlayer.y <= Game.player.y ){
         Game.clonePlayer.y +=2;
     }
@@ -88,7 +88,7 @@ function standByGalaga(){
 
 function completeStandBy(){
     console.log("completed merging.");
-    Global.isGalagaMerging = false;
-    Global.isGalagaMerged = true;
-    Global.numOfGalaga = 2;
+    Global.isPewPewMerging = false;
+    Global.isPewPewMerged = true;
+    Global.numOfPewPew = 2;
 }

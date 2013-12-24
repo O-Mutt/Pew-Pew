@@ -25,13 +25,13 @@ function goBackSpider() {
     } else {
         Global.isSpiderMove = false;
         Global.isViming = false;
-        Game.player.x = $(Global.GALAGA_CANVAS).width/2;
+        Game.player.x = $(Global.PEWPEW_CANVAS).width/2;
         Game.player.y = 370;
     }
 }
 
 function moveSpider() {
-    if (Global.spider.y < ($(Global.GALAGA_CANVAS).height*4)/5) {
+    if (Global.spider.y < ($(Global.PEWPEW_CANVAS).height*4)/5) {
         Global.spider.y += 2;
     } else {
         Game.isViming = true;
