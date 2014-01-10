@@ -29,7 +29,7 @@
 * Rename CHANGELOG.md -> RELEASENOTES.md
 * [CB-4752] Incremented plugin version on dev branch.
 
- ### 0.2.3 (Oct 28, 2013)
+### 0.2.3 (Oct 28, 2013)
 * tweak scoping
 * fixed the scope
 * properly stop watching...

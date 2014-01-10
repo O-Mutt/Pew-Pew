@@ -39,11 +39,54 @@ function Mouse() {
 /**
  * Any moving object that can collide with a bullet
  */
-function Guy(x, y, img, velocity, height, width, points, hp, isSpider, type) {
+function BadGuy(x, y, img, velocity, points, hp, isSpider, type) {
     this.x = x;
     this.y = y;
     this.img = img;
     this.velocity = velocity;
+	this.acceleration;
+    this.width = (Global.scaling() * Constants.GUYWIDTH);
+	this.height = (Global.scaling() * Constants.GUYHEIGHT);
+    this.direction = true; //true is right, false is left
+    this.points = Game.level * points;
+    this.hp = hp;
+    this.isSpider = isSpider;
+    this.type = type;
+
+    this.top = function() {
+        return this.y;
+    };
+    this.bottom = function() {
+        return this.y + this.height;
+    };
+    this.left = function() {
+        return this.x;
+    };
+    this.right = function() {
+        return this.x + this.width;
+    };
+	
+	this.centerX = function() {
+		return this.x - (this.width / 2);
+	};
+	this.centerY = function() {
+		return this.y - (this.height / 2);
+	};
+	
+    this.cusType = function() {
+        return this.type;
+    };
+}
+
+/**
+ * Any moving object that can collide with a bullet
+ */
+function GoodGuy(x, y, img, velocity, height, width, points, hp, isSpider, type) {
+    this.x = x;
+    this.y = y;
+    this.img = img;
+    this.velocity = velocity;
+	this.acceleration;
     this.width = width;
 	this.height = height;
     this.direction = true; //true is right, false is left
@@ -75,4 +118,5 @@ function Guy(x, y, img, velocity, height, width, points, hp, isSpider, type) {
     this.cusType = function() {
         return this.type;
     };
-} /************* End Objects *************/
+}
+/************* End Objects *************/

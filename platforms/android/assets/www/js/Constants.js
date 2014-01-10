@@ -5,22 +5,25 @@
  * Please see copyright.txt for full license details
  **/
 
-var Constants = new function(){
-	this.DEBUG = true;//debug flag for helping figure out what is going on
-	this.LOGGING_LEVEL = Logging.LOG;
-	this.REDRAW_LOGGING = false;
-	// CONSTANTS
-	this.FIRECHANCEDENOMINATOR = 1000;
-	this.FIRECHANCENUMERATOR = 998;
-	this.BULLETHEIGHT = 8;
-	this.BULLETWIDTH = 3;
-	this.GUYHEIGHT = 20;
-	this.GUYWIDTH = 20;
+var Constants = Constants || {}
 
-	this.BARRIER_LIFE_LIMIT = 70;
-	this.LUCKY_LIFE_LIMIT = 50;
-	this.tmpYPos = 370;
-	this.tempVimImgY = 0;
-	this.maxVimImgY = 40;
-	this.MAXSPIDERCOUNT = 2;
-};
+//Logging
+Constants.DEBUG = true;//debug flag for helping figure out what is going on
+Constants.LOGGING_LEVEL = Logging.LOG;
+Constants.REDRAW_LOGGING = false;
+
+// CONSTANTS
+Constants.FIRECHANCEDENOMINATOR = 1000;
+Constants.FIRECHANCENUMERATOR = 998;
+Constants.BULLETHEIGHT = 8;
+Constants.BULLETWIDTH = 3;
+Constants.GUYHEIGHT = 20;
+Constants.GUYWIDTH = 20;
+Constants.PLAYERLIVES = 5;
+
+Constants.BARRIER_LIFE_LIMIT = 70;
+Constants.LUCKY_LIFE_LIMIT = 50;
+Constants.tmpYPos = 370;
+Constants.tempVimImgY = 0;
+Constants.maxVimImgY = 40;
+Constants.MAXSPIDERCOUNT = 2;

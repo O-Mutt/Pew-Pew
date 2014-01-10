@@ -20,6 +20,7 @@
 var app = {
     // Application Constructor
     initialize: function() {
+		//$.noConflict(true);
         this.bindEvents();
     },
     // Bind Event Listeners
@@ -34,6 +35,8 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-		Game.Ready();
+		console.log("On Device Ready");
+		Options.ControllerType = Controller.MOUSE;
+		Game.Create();
     }
 };

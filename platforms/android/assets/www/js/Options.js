@@ -1,4 +1,4 @@
+var Options = Options || {};
 
-var Options = new function(){
-	var gameTypeClassic;
-};
+Options.GameTypeClassic;
+Options.ControllerType;

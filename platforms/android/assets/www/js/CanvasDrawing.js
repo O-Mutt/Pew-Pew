@@ -1,27 +1,27 @@
 function redrawTitleScreen() {
-    //Clean $(Global.GALAGA_CANVAS)
-    Global.GALAGA_CONTEXT.clearRect(0, 0, Global.GALAGA_CANVAS.width, Global.GALAGA_CANVAS.height);
+    //Clean $(Global.PEWPEW_CANVAS)
+    Global.PEWPEW_CONTEXT.clearRect(0, 0, Global.PEWPEW_CANVAS.width, Global.PEWPEW_CANVAS.height);
     //Move Game.player to Global.mouse
-    redrawPlayerGalaga("Click or Space To Start!");
+    redrawPlayerPewPew("Click or Space To Start!");
 }
 
 /**
- * clears the $(Global.GALAGA_CANVAS) and calls a bunch of helper methods to redraw and check collisions.
+ * clears the $(Global.PEWPEW_CANVAS) and calls a bunch of helper methods to redraw and check collisions.
  * This method is where most of the "heavy lifting" is done
  */
 var sound2PlayCount = 0;
-function drawGalaga() {
-    //Clean $(Global.GALAGA_CANVAS)
-    Global.GALAGA_CONTEXT.clearRect(0, 0, Global.GALAGA_CANVAS.width, Global.GALAGA_CANVAS.height);
-    // console.log("->"+isSpiderMove+"->"+isGalagaMerging);
+function drawPewPew() {
+    //Clean $(Global.PEWPEW_CANVAS)
+    Global.PEWPEW_CONTEXT.clearRect(0, 0, Global.PEWPEW_CANVAS.width, Global.PEWPEW_CANVAS.height);
+    // console.log("->"+isSpiderMove+"->"+isPewPewMerging);
     //Move Game.player to Global.mouse
-    redrawPlayerGalaga();
+    redrawPlayerPewPew();
     if (!Global.isViming)
       collisionCheckBullets();
     if (!Global.isSpiderMove) {
-        if(Global.isGalagaMerging){
+        if(Global.isPewPewMerging){
             redrawBadGuys();
-            standByGalaga();
+            standByPewPew();
         } else {
             moveBadGuys();
             redrawBadGuys();
@@ -32,14 +32,14 @@ function drawGalaga() {
         if (!Global.isViming) {
             moveSpider();
         } else {
-            checkGalagaCaptured();
+            checkPewPewCaptured();
             if (Global.isCaptured) {
                 goBackSpider();
                 sound2PlayCount =0;
             }else if(Global.isCapturing){
                 if(Constants.tempVimImgY >= 0){
                     Global.playSound(Global.sound3);
-                    Global.GALAGA_CONTEXT.drawImage(vim, Global.spider.x - 24, Global.spider.y + 20, 70, tempVimImgY);
+                    Global.PEWPEW_CONTEXT.drawImage(vim, Global.spider.x - 24, Global.spider.y + 20, 70, tempVimImgY);
                     Constants.tempVimImgY -= 1;
                 }
             }else {
@@ -48,17 +48,17 @@ function drawGalaga() {
                     sound2PlayCount++;
                 }
                 if(Constants.tempVimImgY <= maxVimImgY){
-                    Global.GALAGA_CONTEXT.drawImage(vim, Global.spider.x - 24, Global.spider.y + 20, 70, Constants.tempVimImgY);
+                    Global.PEWPEW_CONTEXT.drawImage(vim, Global.spider.x - 24, Global.spider.y + 20, 70, Constants.tempVimImgY);
                     Constants.tempVimImgY += 1;
                 } else {
-                    Global.GALAGA_CONTEXT.drawImage(vim, Global.spider.x - 24, Global.spider.y + 20, 70, Constants.maxVimImgY);
+                    Global.PEWPEW_CONTEXT.drawImage(vim, Global.spider.x - 24, Global.spider.y + 20, 70, Constants.maxVimImgY);
                 }
             }
         }
 
     }
     redrawBullets();
-    checkLevelFinished();
+    Game.Mechanics.CheckLevelFinished();
     doKeyAction();
     if (Global.luckyLife > 0) {
         Global.luckyLife--;
