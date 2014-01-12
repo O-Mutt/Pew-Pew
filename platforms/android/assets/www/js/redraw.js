@@ -4,8 +4,15 @@
  * 
  * Please see copyright.txt for full license details
  **/
+var Redraw = Redraw || {};
+ 
 
- function redrawPlayerPewPew(str) {
+ Redraw.redrawPlayerPewPew = function(str) {
+	if (Game.player.acceleration) {
+		console.log("ACCELERATE");
+		Game.player.x += Game.player.acceleration;
+	} 
+ 
     if (Global.luckLife > 0) {
         Global.PEWPEW_CONTEXT.fillStyle = "GRAY";
         Global.PEWPEW_CONTEXT.fillRect(0, 350, Global.PEWPEW_CANVAS.width, Global.PEWPEW_CANVAS.height); //X, Y, width, height
@@ -30,13 +37,13 @@
 		Global.PEWPEW_CONTEXT.drawImage(Game.player.img, Game.player.x - Game.player.offset() * 2, Game.player.y - Game.player.offset(), Game.player.width, Game.player.height);
 		Global.PEWPEW_CONTEXT.drawImage(Game.player.img, Game.player.centerX(), Game.player.centerY(), Game.player.width, Game.player.height);
     } else {
-		Global.PEWPEW_CONTEXT.drawImage(Game.player.img, Game.player.centerX(), Game.player.centerY(),  Game.player.width, Game.player.height);
+		Global.PEWPEW_CONTEXT.drawImage(Game.player.img, Game.player.centerX(), Game.player.centerY() - Game.player.height,  Game.player.width, Game.player.height);
     }
 
 
 
     Global.PEWPEW_CONTEXT.fillStyle = "White";
-	Global.PEWPEW_CONTEXT.font = 20 * Global.scaling() + "px sans-serif";
+	Global.PEWPEW_CONTEXT.font = 10 * Global.scaling() + "px sans-serif";
 	if (str) { 
 		Global.PEWPEW_CONTEXT.fillText("PlayerScore: [" + Game.playerScore + "] Level: [" + Game.level + "] " + str, 10, Global.PEWPEW_CANVAS.height - 10, Global.PEWPEW_CANVAS.width / 3);
 	} else {
@@ -52,7 +59,7 @@
 	checkBadGuyIntersection();
 }
 
-function redrawBadGuys() {
+Redraw.redrawBadGuys = function() {
 	if (Constants.REDRAW_LOGGING) console.log("redraw badGuys");
     $.each(Global.badGuys, function(index, badGuy) {
         if (Constants.DEBUG) {
@@ -64,14 +71,14 @@ function redrawBadGuys() {
     });
 }
 
-function redrawBullets() {
+Redraw.redrawBullets = function() {
 	if (Constants.REDRAW_LOGGING) console.log("redraw bullets");
-    redrawPlayerBullets();
-    redrawBadGuyBullets();
-    redrawBarrierBullets();
+    Redraw.redrawPlayerBullets();
+    Redraw.redrawBadGuyBullets();
+    Redraw.redrawBarrierBullets();
 }
 
-function redrawBadGuyBullets() {
+Redraw.redrawBadGuyBullets = function() {
 	//Bad guy bullets
     $.each(Global.badBullets, function(index, badBullet) {
         if (badBullet != undefined) {
@@ -129,7 +136,7 @@ function redrawBadGuyBullets() {
 	});
 }
 
-function redrawBarrierBullets() {
+Redraw.redrawBarrierBullets = function() {
     $.each(Global.barrierBullets, function(index, barrierBullet) {
         if (barrierBullet != undefined) {
             Global.PEWPEW_CONTEXT.fillStyle = "Blue";
@@ -139,7 +146,7 @@ function redrawBarrierBullets() {
     });
 }
 
-function redrawPlayerBullets() {
+Redraw.redrawPlayerBullets = function() {
 	$.each(Global.bullets, function(index, bullet) {
         if (bullet != undefined) {
             bullet.y -= (2 * Global.scaling()) + (Game.level * 0.1); //Move bullet up
@@ -157,4 +164,3 @@ function redrawPlayerBullets() {
     });
     bulletsControl = [0,0];
 }
-	

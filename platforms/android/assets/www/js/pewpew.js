@@ -41,7 +41,7 @@ function doKeyAction() {
         if (Global.intervalLoop == 0) {
             Game.Start();
             Global.mouse.x = 50;
-            redrawPlayerPewPew();
+            Redraw.redrawPlayerPewPew();
         } else {
             var maxBulletsNum = 4;
             if (Global.isPewPewMerged)

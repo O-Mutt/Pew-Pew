@@ -1,8 +1,10 @@
-function redrawTitleScreen() {
+Redraw.Canvas = Redraw.Canvas || {};
+
+Redraw.Canvas.redrawTitleScreen = function() {
     //Clean $(Global.PEWPEW_CANVAS)
     Global.PEWPEW_CONTEXT.clearRect(0, 0, Global.PEWPEW_CANVAS.width, Global.PEWPEW_CANVAS.height);
     //Move Game.player to Global.mouse
-    redrawPlayerPewPew("Click or Space To Start!");
+    Redraw.redrawPlayerPewPew("Click or Space To Start!");
 }
 
 /**
@@ -15,7 +17,7 @@ function drawPewPew() {
     Global.PEWPEW_CONTEXT.clearRect(0, 0, Global.PEWPEW_CANVAS.width, Global.PEWPEW_CANVAS.height);
     // console.log("->"+isSpiderMove+"->"+isPewPewMerging);
     //Move Game.player to Global.mouse
-    redrawPlayerPewPew();
+    Redraw.redrawPlayerPewPew();
     if (!Global.isViming)
       collisionCheckBullets();
     if (!Global.isSpiderMove) {

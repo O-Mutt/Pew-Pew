@@ -72,7 +72,7 @@ Game.Mechanics.FinishLevel = function() {
 
 Game.Mechanics.CreateTitleScreen = function() {
 	Game.Mechanics.CreatePlayer();
-	Global.fakeGame = setInterval(redrawTitleScreen, 20);
+	Global.fakeGame = setInterval(Redraw.Canvas.redrawTitleScreen, 20);
 }
 
 Game.Mechanics.Start = function() {

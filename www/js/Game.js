@@ -39,6 +39,7 @@ Game.Create = function() {
 	Global.sound13 = document.getElementById('sound13');
 	Global.sound14 = document.getElementById('sound14');
 
+	console.log("init listeners");
 	Events.initListeners();
 
    /* jQuery('#classicOrFree').dialog({
