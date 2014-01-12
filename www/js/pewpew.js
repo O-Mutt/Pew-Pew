@@ -108,7 +108,7 @@ function badGuysTryFire() {
                 badGuy.startLaser();
                 // badGuy.shoot();
             } else {
-            	var badBullet = new Bullet(badGuy.x + (badGuy.width / 2),
+            	var badBullet = new Bullet(badGuy.center(),
                 	badGuy.bottom(), (Constants.BULLETHEIGHT * Global.scaling()), (Constants.BULLETWIDTH * Global.scaling() / 2), 0);
             	if 	(Math.random() * 1000 % 100 < 20) {
                 	badBullet.bulletType = "lucky";
@@ -248,18 +248,18 @@ function moveBadGuys() {
         jQuery.each(Global.badGuys, function(index, badGuy) {
             badGuy.velocity = badGuy.velocity + .1;
             if (badGuy.direction) {
-                badGuy.y += 15;
+                badGuy.y += badGuy.height/2;
                 badGuy.x -= badGuy.velocity;
                 badGuy.direction = !badGuy.direction;
             } else {
-                badGuy.y += 15;
+                badGuy.y += badGuy.height/2;
                 badGuy.x += badGuy.velocity;
                 badGuy.direction = !badGuy.direction;
             }
 
             //Check if bad guy hit the bottom
             if (Constants.DEBUG) {
-				console.log("BadGuy Bottom [" + badGuy.bottom() + "] Canvas bottom [" + $(Global.PEWPEW_CANVAS).height + "]");
+				console.log("BadGuy Bottom [" + badGuy.bottom() + "]");
 			}
             if (badGuy.bottom() > $(Global.PEWPEW_CANVAS).height) {
                 Global.playSound(Global.sound7);

@@ -10,6 +10,8 @@ Game.level = 1;
 Game.lives;
 Game.stopThere = false;
 Game.Create = function() {
+	Options.ControllerType = Controller.ACCELEROMETER;
+
 	//html $(Global.PEWPEW_CANVAS) object
 	Global.PEWPEW_CANVAS = document.createElement('canvas');
 	Global.PEWPEW_CANVAS.id = 'PEWPEW_CANVAS';

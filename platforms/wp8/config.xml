@@ -73,4 +73,7 @@
     <feature name="Notification">
         <param name="wp-package" value="Notification" />
     </feature>
+    <feature name="Device">
+        <param name="wp-package" value="Device" />
+    </feature>
 </widget>

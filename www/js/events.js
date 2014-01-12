@@ -143,6 +143,7 @@ function HandleMouseMove(event) {
 }
 
 function HandleAccelerometer(accelerometer) {
+	console.log("Handle accelerometer");
 	if (!Game.player.x) {
 		Game.player.x = 0;
 	}

@@ -45,8 +45,8 @@ function BadGuy(x, y, img, velocity, points, hp, isSpider, type) {
     this.img = img;
     this.velocity = velocity;
 	this.acceleration;
-    this.width = (Global.scaling() * Constants.GUYWIDTH);
-	this.height = (Global.scaling() * Constants.GUYHEIGHT);
+    this.width = width;
+	this.height = height;
     this.direction = true; //true is right, false is left
     this.points = Game.level * points;
     this.hp = hp;

@@ -36,7 +36,6 @@ var app = {
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
 		console.log("On Device Ready");
-		Options.ControllerType = Controller.MOUSE;
 		Game.Create();
     }
 };
