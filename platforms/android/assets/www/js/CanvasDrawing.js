@@ -4,33 +4,33 @@ Redraw.Canvas.redrawTitleScreen = function() {
     //Clean $(Global.PEWPEW_CANVAS)
     Global.PEWPEW_CONTEXT.clearRect(0, 0, Global.PEWPEW_CANVAS.width, Global.PEWPEW_CANVAS.height);
     //Move Game.player to Global.mouse
-    Redraw.redrawPlayerPewPew("Click or Space To Start!");
-}
+    Redraw.GoodGuy.redrawPlayerPewPew("Click or Space To Start!");
+};
 
 /**
  * clears the $(Global.PEWPEW_CANVAS) and calls a bunch of helper methods to redraw and check collisions.
  * This method is where most of the "heavy lifting" is done
  */
 var sound2PlayCount = 0;
-function drawPewPew() {
+Redraw.Canvas.DrawPewPew = function() {
     //Clean $(Global.PEWPEW_CANVAS)
     Global.PEWPEW_CONTEXT.clearRect(0, 0, Global.PEWPEW_CANVAS.width, Global.PEWPEW_CANVAS.height);
     // console.log("->"+isSpiderMove+"->"+isPewPewMerging);
     //Move Game.player to Global.mouse
-    Redraw.redrawPlayerPewPew();
+    Redraw.GoodGuy.redrawPlayerPewPew();
     if (!Global.isViming)
       collisionCheckBullets();
     if (!Global.isSpiderMove) {
         if(Global.isPewPewMerging){
-            redrawBadGuys();
+            Redraw.BadGuys.redrawBadGuys();
             standByPewPew();
         } else {
             moveBadGuys();
-            redrawBadGuys();
+            Redraw.BadGuys.redrawBadGuys();
             badGuysTryFire();
         }
     } else {
-        redrawBadGuys();
+        Redraw.BadGuys.redrawBadGuys();
         if (!Global.isViming) {
             moveSpider();
         } else {
@@ -59,10 +59,10 @@ function drawPewPew() {
         }
 
     }
-    redrawBullets();
+    Redraw.Bullets.redrawBullets();
     Game.Mechanics.CheckLevelFinished();
     doKeyAction();
     if (Global.luckyLife > 0) {
         Global.luckyLife--;
     }
-}
+};

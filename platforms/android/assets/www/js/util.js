@@ -15,7 +15,7 @@ function intersect(a, b) {
 	}
 	var isIntersect = (a.left() <= b.right() && b.left() <= a.right() && a.top() <= b.bottom() && b.top() <= a.bottom());
     if (isIntersect) {
-		return isIntersect
+		return isIntersect;
 	} else {
 		return false;
 	}

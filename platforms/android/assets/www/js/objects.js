@@ -8,6 +8,12 @@
  /************* Objects *************/
 /**
  * Bullets fired
+ * @param x x location
+ * @param y y location
+ * @param height height of the bullet
+ * @param width the width of the bullet
+ * @param xdiff DERPPP lul what?
+ * @bulletType maybe if the bullet is a god mode bullet or not?!?
  */
 function Bullet(x, y, height, width, xdiff, bulletType) {
     this.x = x;
@@ -38,8 +44,18 @@ function Mouse() {
 
 /**
  * Any moving object that can collide with a bullet
+ * @param x x location of the object
+ * @param y x location of the object
+ * @param img the image in the dom that will show the bad guy
+ * @param velocity the initial velocity of the 'badguy'
+ * @param height the height of the image
+ * @param width the width of the img
+ * @param points the amount of points a player will earn when they kill this 'badguy'
+ * @param hp the amount of hp this 'badguy' has
+ * @param isSpider whether or not this 'badguy' is a spider
+ * @param type what type of 'badguy' this object is
  */
-function BadGuy(x, y, img, velocity, points, hp, isSpider, type) {
+function BadGuy(x, y, img, velocity, height, width, points, hp, isSpider, type) {
     this.x = x;
     this.y = y;
     this.img = img;
@@ -81,19 +97,17 @@ function BadGuy(x, y, img, velocity, points, hp, isSpider, type) {
 /**
  * Any moving object that can collide with a bullet
  */
-function GoodGuy(x, y, img, velocity, height, width, points, hp, isSpider, type) {
+function GoodGuy(x, y, img, height, width, hp) {
     this.x = x;
     this.y = y;
     this.img = img;
-    this.velocity = velocity;
+    this.velocity;
 	this.acceleration;
     this.width = width;
 	this.height = height;
     this.direction = true; //true is right, false is left
-    this.points = points;
+    this.points;
     this.hp = hp;
-    this.isSpider = isSpider;
-    this.type = type;
 
     this.top = function() {
         return this.y;
@@ -114,9 +128,5 @@ function GoodGuy(x, y, img, velocity, height, width, points, hp, isSpider, type)
 	this.centerY = function() {
 		return this.y - (this.height / 2);
 	};
-	
-    this.cusType = function() {
-        return this.type;
-    };
 }
 /************* End Objects *************/

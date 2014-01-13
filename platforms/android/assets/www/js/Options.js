@@ -2,4 +2,6 @@ var Options = Options || {};
 
 Options.GameTypeClassic;
 Options.ControllerType;
-Options.AccelerometerFrequency = 500;
+Options.AccelerometerOptions = {
+	Frequency: 500
+};

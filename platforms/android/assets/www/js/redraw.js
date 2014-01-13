@@ -5,9 +5,12 @@
  * Please see copyright.txt for full license details
  **/
 var Redraw = Redraw || {};
+Redraw.GoodGuy = Redraw.GoodGuy || {};
+Redraw.BadGuys = Redraw.BadGuys || {};
+Redraw.Bullets = Redraw.Bullets || {};
  
 
- Redraw.redrawPlayerPewPew = function(str) {
+ Redraw.GoodGuy.redrawPlayerPewPew = function(str) {
 	if (Game.player.acceleration) {
 		console.log("ACCELERATE");
 		Game.player.x += Game.player.acceleration;
@@ -57,9 +60,9 @@ var Redraw = Redraw || {};
     }
 
 	checkBadGuyIntersection();
-}
+};
 
-Redraw.redrawBadGuys = function() {
+Redraw.BadGuys.redrawBadGuys = function() {
 	if (Constants.REDRAW_LOGGING) console.log("redraw badGuys");
     $.each(Global.badGuys, function(index, badGuy) {
         if (Constants.DEBUG) {
@@ -69,14 +72,14 @@ Redraw.redrawBadGuys = function() {
         }
         Global.PEWPEW_CONTEXT.drawImage(badGuy.img, badGuy.x, badGuy.y, badGuy.width, badGuy.height);
     });
-}
+};
 
-Redraw.redrawBullets = function() {
+Redraw.Bullets.redrawBullets = function() {
 	if (Constants.REDRAW_LOGGING) console.log("redraw bullets");
     Redraw.redrawPlayerBullets();
     Redraw.redrawBadGuyBullets();
     Redraw.redrawBarrierBullets();
-}
+};
 
 Redraw.redrawBadGuyBullets = function() {
 	//Bad guy bullets
@@ -134,7 +137,7 @@ Redraw.redrawBadGuyBullets = function() {
             });
 		}
 	});
-}
+};
 
 Redraw.redrawBarrierBullets = function() {
     $.each(Global.barrierBullets, function(index, barrierBullet) {

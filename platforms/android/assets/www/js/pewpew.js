@@ -41,7 +41,7 @@ function doKeyAction() {
         if (Global.intervalLoop == 0) {
             Game.Start();
             Global.mouse.x = 50;
-            Redraw.redrawPlayerPewPew();
+            Redraw.GoodGuy.redrawPlayerPewPew();
         } else {
             var maxBulletsNum = 4;
             if (Global.isPewPewMerged)
@@ -108,8 +108,12 @@ function badGuysTryFire() {
                 badGuy.startLaser();
                 // badGuy.shoot();
             } else {
-            	var badBullet = new Bullet(badGuy.center(),
-                	badGuy.bottom(), (Constants.BULLETHEIGHT * Global.scaling()), (Constants.BULLETWIDTH * Global.scaling() / 2), 0);
+            	var badBullet = new Bullet(
+            							badGuy.centerX(),
+                						badGuy.bottom(),
+                						(Constants.BULLETHEIGHT * Global.scaling()),
+                						(Constants.BULLETWIDTH * Global.scaling() / 2),
+                						0);
             	if 	(Math.random() * 1000 % 100 < 20) {
                 	badBullet.bulletType = "lucky";
             	}

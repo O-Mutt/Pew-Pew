@@ -43,21 +43,21 @@ function Boss(x, y, img, velocity, height, width, points, hp) {
     	} else {
     		return 0;
     	}
-    }
+    };
 
     this.getLaserHeight = function(){
     	return this.laserLength;
-    }
+    };
 
     this.startLaser = function(){
     	this.isFiredLaser = true;
-    }
+    };
 
     this.stopLaser = function(){
     	this.isFiredLaser = false;
     	this.laserLength = 0;
-    }
-
+    };
+    
     var skipIdx = Math.floor(Math.random() * 100) % 11;
     this.shoot = function(){
 //    	console.log("suri fire!");
@@ -69,7 +69,7 @@ function Boss(x, y, img, velocity, height, width, points, hp) {
 //    		console.log("suri added->"+i);
             }
     	}
-    }
+   };
 }
 
 function Suri(x, y, idx, suriNumber){
@@ -89,21 +89,21 @@ function Suri(x, y, idx, suriNumber){
 		this.posY = this.startY + (this.age*2);
 		this.posX = this.startX + ((this.idx/this.suriNumber)*(this.posY-this.startY));
 		//console.log(this.startX+":"+this.startY+"->"+this.posX+":"+this.posY);
-	}
+	};
 
 	this.left = function(){		
 		return this.posX;
-	}
+	};
 	this.right = function(){
 		return this.posX + 13;
-	}
+	};
 	this.top = function(){
 		return this.posY;
-	}
+	};
 
 	this.bottom = function(){
 		return this.posY + 13;
-	}
+	};
 } 
 
 

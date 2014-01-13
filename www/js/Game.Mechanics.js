@@ -11,7 +11,7 @@
         Game.Mechanics.FinishLevel();
         return false;
     }
-}
+};
 
 function standByPewPew(){
     if( Game.player.y <= Game.player.y ){
@@ -42,14 +42,14 @@ function standByPewPew(){
     } else {
         console.log("??");
     }
-}
+};
 
 function completeStandBy(){
     console.log("completed merging.");
     Global.isPewPewMerging = false;
     Global.isPewPewMerged = true;
     Global.numOfPewPew = 2;
-}
+};
 
 
 
@@ -61,19 +61,19 @@ Game.Mechanics.ResetLevel = function() {
 	Global.badGuys.length = 0;
 	Global.bullets.length = 0;
 	Global.badBullets.length = 0;
-}
+};
 
 Game.Mechanics.FinishLevel = function() {
     Game.level++;
     clearInterval(Global.intervalLoop);
     Global.intervalLoop = 0;
     Game.Mechanics.CreateTitleScreen();
-}
+};
 
 Game.Mechanics.CreateTitleScreen = function() {
 	Game.Mechanics.CreatePlayer();
 	Global.fakeGame = setInterval(Redraw.Canvas.redrawTitleScreen, 20);
-}
+};
 
 Game.Mechanics.Start = function() {
 	clearInterval(Global.fakeGame); //Clear the pregame
@@ -84,33 +84,60 @@ Game.Mechanics.Start = function() {
 
     if (Game.level % 3 != 0) {
         for (var i = 0; i < 10; i++) {
-            Global.badGuys.push(new BadGuy(i * (Global.scaling() * Constants.GUYWIDTH + (2 + Global.scaling())),
-										0, Global.bad1,	.5, 20,
-										1, false, 'bad1'));
+            Global.badGuys.push(new BadGuy(
+        							i * (Global.scaling() * Constants.GUYWIDTH + (2 + Global.scaling())),
+									0,
+									Global.bad1,
+									.5,
+									(Global.scaling() * Constants.GUYHEIGHT),
+									(Global.scaling() * Constants.GUYWIDTH),
+									20,
+									1,
+									false,
+									'bad1')
+								);
+		}
+        for ( i = 0; i < 10; i++) {
+            Global.badGuys.push(new BadGuy(
+            						i * (Global.scaling() * Constants.GUYWIDTH + (2 + Global.scaling())),
+									Global.scaling() + (1 * (Global.scaling() * Constants.GUYWIDTH + (2 + Global.scaling()))),
+									Global.bad2,
+									.5,
+									(Global.scaling() * Constants.GUYHEIGHT),
+									(Global.scaling() * Constants.GUYWIDTH),
+									10,
+									1,
+									false,
+									null)
+								);
         }
         for ( i = 0; i < 10; i++) {
-            Global.badGuys.push(new BadGuy(i * (Global.scaling() * Constants.GUYWIDTH + (2 + Global.scaling())),
-										Global.scaling() + (1 * (Global.scaling() * Constants.GUYWIDTH + (2 + Global.scaling()))),
-										Global.bad2, .5, 10,
-										1, false, null));
-        }
-        for ( i = 0; i < 10; i++) {
-            Global.badGuys.push(new BadGuy(i * (Global.scaling() * Constants.GUYWIDTH + (2 + Global.scaling())),
-										Global.scaling() + (2 * (Global.scaling() * Constants.GUYWIDTH + (2 + Global.scaling()))),
-										Global.bad3, .5, 5,
-										1, false, null));
+            Global.badGuys.push(new BadGuy(
+            						i * (Global.scaling() * Constants.GUYWIDTH + (2 + Global.scaling())),
+									Global.scaling() + (2 * (Global.scaling() * Constants.GUYWIDTH + (2 + Global.scaling()))),
+									Global.bad3,
+									.5,
+									(Global.scaling() * Constants.GUYHEIGHT),
+									(Global.scaling() * Constants.GUYWIDTH),
+									5,
+									1,
+									false,
+									null)
+								);
         }
         Global.playSound(Global.sound0);
     } else {
         Constants.FIRECHANCENUMERATOR -= .5;
+        //TODO Scale this guy correctly
         Global.badGuys.push(new Boss(1 * 35, 0, Global.boss, .5, 50, 50, Game.level * 100, 10));
     }
     if (!Global.isPewPewMerged) {
         selectSpider();
     }
 
-    Global.intervalLoop = setInterval(drawPewPew, 20);
-}
+    Global.intervalLoop = setInterval(Redraw.Canvas.DrawPewPew, 20);
+};
+
 Game.Mechanics.EndGame = function(reason) {
 	if (Constants.DEBUG) {
 		alert("Game Over! because [" + reason + "]");
@@ -125,10 +152,11 @@ Game.Mechanics.EndGame = function(reason) {
 	Global.intervalLoop = 0;
 	Game.Mechanics.CreateTitleScreen();
 	Global.playSound(Global.sound8);
-}
+};
+
 Game.Mechanics.EndLevel = function() {
 //Do some stuff at the end of a level
-}
+};
 
 Game.Mechanics.PlayerDead = function(reason) {
 	if (Game.lives > 1) {
@@ -142,9 +170,9 @@ Game.Mechanics.PlayerDead = function(reason) {
 	} else {
 		Game.Mechanics.EndGame(reason);
 	}
-}
+};
 
 Game.Mechanics.CreatePlayer = function() {
 	delete Game.player;
-	Game.player = new GoodGuy(Global.PEWPEW_CANVAS.height - (Constants.GUYHEIGHT * Global.scaling()), (Global.PEWPEW_CANVAS.width / 2), Global.good, 0, (Constants.GUYHEIGHT * Global.scaling()), (Constants.GUYWIDTH * Global.scaling()), 0, 5, false, "");
-}
+	Game.player = new GoodGuy(Global.PEWPEW_CANVAS.height - (Constants.GUYHEIGHT * Global.scaling()), (Global.PEWPEW_CANVAS.width / 2), Global.good, (Constants.GUYHEIGHT * Global.scaling()), (Constants.GUYWIDTH * Global.scaling()), 1);
+};

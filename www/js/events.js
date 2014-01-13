@@ -85,7 +85,7 @@ var Events = {
 	
 	/** Accelerometer controller **/
 	accellerometerWatcherStart: function() {
-        Global.AccelorometerWatcherId = navigator.accelerometer.watchAcceleration(HandleAccelerometer, null, Options.AccelerometerFrequency);
+        Global.AccelorometerWatcherId = navigator.accelerometer.watchAcceleration(HandleAccelerometer, HandleAccelerometerError, Options.AccelerometerOptions);
 	},
 	accellerometerWatcherStop: function() {
 		if (Global.AccelorometerWatcherId) {
@@ -100,7 +100,7 @@ var Events = {
 			if (event.which == 32 && Global.intervalLoop == 0) {
 				Game.Start();
 				Global.mouse.x = 50;
-				Redraw.redrawPlayerPewPew();
+				Redraw.GoodGuy.redrawPlayerPewPew();
 			}
 			if (!Constants.isCapturing){
 				Game.pressedKeys[event.which] = true;
@@ -116,7 +116,7 @@ var Events = {
 			Game.pressedKeys[event.which] = false;
 		});
 	}
-}
+};
 
 function HandleMouseMove(event) {
     var rect = Global.PEWPEW_CANVAS.getBoundingClientRect();
@@ -149,4 +149,8 @@ function HandleAccelerometer(accelerometer) {
 	console.log(accelerometer);
 	
 	Game.player.acceleration += accelerometer.x;
+}
+
+function HandleAccelerometerError() {
+	console.log("accelerometer error");
 }
