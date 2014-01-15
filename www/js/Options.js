@@ -1,7 +1,7 @@
 var Options = Options || {};
 
-Options.GameTypeClassic;
-Options.ControllerType;
+Options.GameType; //GameTypes enum
+Options.ControllerType; //Controller enum
 Options.AccelerometerOptions = {
-	Frequency: 500
+	Frequency: 500 //TODO move this into a setting and not a constant value
 };

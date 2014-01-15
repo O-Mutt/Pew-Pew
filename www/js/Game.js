@@ -48,18 +48,18 @@ Game.Create = function() {
 		modal: true,
 		buttons: {
 			'Classic': function() {
-				Options.gameTypeClassic = true;
+				Options.GameType = GameTypes.CLASSIC;
 				ready();
 				jQuery(this).dialog('close');
 			},
 			'Free-Flight': function() {
-				Options.gameTypeClassic = false;
+				Options.GameType = GameTypes.FREE;
 				ready();
 				jQuery(this).dialog('close');
 			}
 		}
 	});*/
-	Options.gameTypeClassic = true;
+	Options.GameType = GameTypes.CLASSIC;
 	
 	
 	//Game wide options

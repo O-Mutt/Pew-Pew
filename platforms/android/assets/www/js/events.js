@@ -85,7 +85,7 @@ var Events = {
 	
 	/** Accelerometer controller **/
 	accellerometerWatcherStart: function() {
-        Global.AccelorometerWatcherId = navigator.accelerometer.watchAcceleration(HandleAccelerometer, HandleAccelerometerError, Options.AccelerometerOptions);
+        Global.AccelorometerWatcherId = navigator.accelerometer.watchAcceleration(HandleAccelerometerSuccess, HandleAccelerometerError, Options.AccelerometerOptions);
 	},
 	accellerometerWatcherStop: function() {
 		if (Global.AccelorometerWatcherId) {
@@ -133,15 +133,12 @@ function HandleMouseMove(event) {
 			Game.player.x = Global.mouse.x;
 		}
     }
-    if (Options.gameTypeClassic) {
-        Game.player.y = Global.PEWPEW_CANVAS.height - (Game.player.height * 2);//leave space for the player finger/score
-    } else {
-        Game.player.y = Global.mouse.y;
-    }
+    setPlayerY();
 }
 
-function HandleAccelerometer(accelerometer) {
+function HandleAccelerometerSuccess(accelerometer) {
 	console.log("Handle accelerometer");
+	setPlayerY();
 	if (!Game.player.x) {
 		Game.player.x = 0;
 	}
@@ -153,4 +150,13 @@ function HandleAccelerometer(accelerometer) {
 
 function HandleAccelerometerError() {
 	console.log("accelerometer error");
+}
+
+function setPlayerY() {
+	if (Options.GameTypeClassic) {
+    	console.log(Global.PEWPEW_CANVAS.height);
+        Game.player.y = Global.PEWPEW_CANVAS.height - (Game.player.height * 2);//leave space for the player finger/score
+    } else {
+        Game.player.y = Global.mouse.y;
+    }
 }
