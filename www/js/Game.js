@@ -10,19 +10,15 @@ Game.level = 1;
 Game.lives;
 Game.stopThere = false;
 Game.Create = function() {
-	Options.ControllerType = Controller.ACCELEROMETER;
 
 	//html $(Global.PEWPEW_CANVAS) object
 	Global.PEWPEW_CANVAS = document.createElement('canvas');
 	Global.PEWPEW_CANVAS.id = 'PEWPEW_CANVAS';
 	Global.PEWPEW_CANVAS.display = 'block';
 	Global.PEWPEW_CANVAS.style.background = 'black';
-	$('body').append(Global.PEWPEW_CANVAS);
+	document.getElementsByTagName('body')[0].appendChild(Global.PEWPEW_CANVAS);
 	//html5 context of the $(Global.PEWPEW_CANVAS)
 	Global.PEWPEW_CONTEXT = Global.PEWPEW_CANVAS.getContext('2d');
-	Events.SizeChanged();
-	
-	//Can't access jquery $ outside of scope
 	Global.sound0 = document.getElementById('sound0');
 	Global.sound1 = document.getElementById('sound1');
 	Global.sound2 = document.getElementById('sound2');
@@ -38,33 +34,6 @@ Game.Create = function() {
 	Global.sound12 = document.getElementById('sound12');
 	Global.sound13 = document.getElementById('sound13');
 	Global.sound14 = document.getElementById('sound14');
-
-	console.log("init listeners");
-	Events.initListeners();
-
-   /* jQuery('#classicOrFree').dialog({
-		resizable: false,
-		height: 140,
-		modal: true,
-		buttons: {
-			'Classic': function() {
-				Options.GameType = GameTypes.CLASSIC;
-				ready();
-				jQuery(this).dialog('close');
-			},
-			'Free-Flight': function() {
-				Options.GameType = GameTypes.FREE;
-				ready();
-				jQuery(this).dialog('close');
-			}
-		}
-	});*/
-	Options.GameType = GameTypes.CLASSIC;
-	
-	
-	//Game wide options
-	Game.lives = Constants.PLAYERLIVES;
-
 	//page images
 	Global.bad1 = document.getElementById('bad1');
 	Global.bad2 = document.getElementById('bad2');
@@ -74,7 +43,20 @@ Game.Create = function() {
 	Global.laser = document.getElementById('laser');
 	Global.explosion = document.getElementById('explosion');
 	Global.vim = document.getElementById('vim');
+	
+	
+	
+	Options.GameType = GameTypes.CLASSIC;
+	Options.ControllerType = Controller.ACCELEROMETER;
+
+	console.log("init listeners");
+	Events.initListeners();
+	Events.SizeChanged();
+	
+	//Game wide options
+	Game.lives = Constants.PLAYERLIVES;
+
 	//Sets up the pregame to show the good ship and message to start
 	Game.Mechanics.CreateTitleScreen();
 	login.trySilentAuth();
-}
+};

@@ -128,5 +128,12 @@ function GoodGuy(x, y, img, height, width, hp) {
 	this.centerY = function() {
 		return this.y - (this.height / 2);
 	};
+	this.movePlayerY = function() {
+		if (Options.GameType === GameTypes.CLASSIC) {
+	        this.y = Global.PEWPEW_CANVAS.height - (this.height * 2);//leave space for the player finger/score
+	    } else if (Options.GameType === GameTypes.FREE) {
+	        this.y = Global.mouse.y;
+	    }
+	};
 }
 /************* End Objects *************/

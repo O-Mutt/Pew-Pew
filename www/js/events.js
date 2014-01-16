@@ -14,8 +14,6 @@ var Events = {
 		}
 		this.keyDown();
 		this.initWindowResize();
-		//first run we want to make sure that the player is set
-		Player.setPlayerY();
 	},
 	
 	initWindowResize: function() {
@@ -117,7 +115,7 @@ var Events = {
 		$(Global.PEWPEW_CANVAS).on('keyup', function(event) {
 			Game.pressedKeys[event.which] = false;
 		});
-	}
+	},
 };
 
 function HandleMouseMove(event) {
@@ -135,12 +133,12 @@ function HandleMouseMove(event) {
 			Game.player.x = Global.mouse.x;
 		}
     }
-    setPlayerY();
+	Game.player.movePlayerY();
 }
 
 function HandleAccelerometerSuccess(accelerometer) {
 	console.log("Handle accelerometer");
-	setPlayerY();
+	Game.player.movePlayerY();
 	if (!Game.player.x) {
 		Game.player.x = 0;
 	}
@@ -152,13 +150,4 @@ function HandleAccelerometerSuccess(accelerometer) {
 
 function HandleAccelerometerError() {
 	console.log("accelerometer error");
-}
-
-function setPlayerY() {
-	if (Options.GameType == GameTypes.CLASSIC) {
-    	console.log(Global.PEWPEW_CANVAS.height);
-        Game.player.y = Global.PEWPEW_CANVAS.height - (Game.player.height * 2);//leave space for the player finger/score
-    } else {
-        Game.player.y = Global.mouse.y;
-    }
 }
