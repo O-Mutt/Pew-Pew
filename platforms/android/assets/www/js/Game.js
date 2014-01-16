@@ -48,18 +48,18 @@ Game.Create = function() {
 		modal: true,
 		buttons: {
 			'Classic': function() {
-				Options.GameTypeClassic = true;
+				Options.GameType = GameTypes.CLASSIC;
 				ready();
 				jQuery(this).dialog('close');
 			},
 			'Free-Flight': function() {
-				Options.GameTypeClassic = false;
+				Options.GameType = GameTypes.FREE;
 				ready();
 				jQuery(this).dialog('close');
 			}
 		}
 	});*/
-	Options.GameType = GameTypes.Classic;
+	Options.GameType = GameTypes.CLASSIC;
 	
 	
 	//Game wide options
@@ -77,4 +77,4 @@ Game.Create = function() {
 	//Sets up the pregame to show the good ship and message to start
 	Game.Mechanics.CreateTitleScreen();
 	login.trySilentAuth();
-};
+}

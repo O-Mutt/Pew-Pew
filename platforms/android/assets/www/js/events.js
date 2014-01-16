@@ -153,7 +153,7 @@ function HandleAccelerometerError() {
 }
 
 function setPlayerY() {
-	if (Options.GameTypeClassic) {
+	if (Options.GameType == GameTypes.CLASSIC) {
     	console.log(Global.PEWPEW_CANVAS.height);
         Game.player.y = Global.PEWPEW_CANVAS.height - (Game.player.height * 2);//leave space for the player finger/score
     } else {

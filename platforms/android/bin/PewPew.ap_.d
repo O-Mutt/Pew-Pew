@@ -50,8 +50,8 @@ c:\Users\MutMatt\git\pew-pew\platforms\android\assets\www\img\vim.png \
 c:\Users\MutMatt\git\pew-pew\platforms\android\assets\www\js\boss.js \
 c:\Users\MutMatt\git\pew-pew\platforms\android\assets\www\js\CanvasDrawing.js \
 c:\Users\MutMatt\git\pew-pew\platforms\android\assets\www\js\Constants.js \
-c:\Users\MutMatt\git\pew-pew\platforms\android\assets\www\js\Controller.js \
 c:\Users\MutMatt\git\pew-pew\platforms\android\assets\www\js\debug.js \
+c:\Users\MutMatt\git\pew-pew\platforms\android\assets\www\js\enums \
 c:\Users\MutMatt\git\pew-pew\platforms\android\assets\www\js\events.js \
 c:\Users\MutMatt\git\pew-pew\platforms\android\assets\www\js\FastCanvas.js \
 c:\Users\MutMatt\git\pew-pew\platforms\android\assets\www\js\Game.js \
@@ -67,6 +67,8 @@ c:\Users\MutMatt\git\pew-pew\platforms\android\assets\www\js\pewpew.js \
 c:\Users\MutMatt\git\pew-pew\platforms\android\assets\www\js\redraw.js \
 c:\Users\MutMatt\git\pew-pew\platforms\android\assets\www\js\spiders.js \
 c:\Users\MutMatt\git\pew-pew\platforms\android\assets\www\js\util.js \
+c:\Users\MutMatt\git\pew-pew\platforms\android\assets\www\js\enums\Controller.js \
+c:\Users\MutMatt\git\pew-pew\platforms\android\assets\www\js\enums\GameTypes.js \
 c:\Users\MutMatt\git\pew-pew\platforms\android\assets\www\libs\bootstrap.js \
 c:\Users\MutMatt\git\pew-pew\platforms\android\assets\www\libs\bootstrap.min.js \
 c:\Users\MutMatt\git\pew-pew\platforms\android\assets\www\libs\google \
