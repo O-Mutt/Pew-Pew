@@ -14,6 +14,8 @@ var Events = {
 		}
 		this.keyDown();
 		this.initWindowResize();
+		//first run we want to make sure that the player is set
+		Player.setPlayerY();
 	},
 	
 	initWindowResize: function() {
