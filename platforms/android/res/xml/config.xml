@@ -22,10 +22,15 @@
     <description>
         An application that simulates the 80's game 'Galaga'.
     </description>
+    <name>Pew Pew</name>
+    <description>
+        An application that simulates the 80's game 'Galaga'.
+    </description>
     <author email="Matt@MattErickson.ME" href="http://MattErickson.me">
         MattErickson.ME
     </author>
     <feature name="http://api.phonegap.com/1.0/device" />
+    <preference name="phonegap-version" value="3.1.0" />
     <preference name="permissions" value="none" />
     <preference name="orientation" value="portrait" />
     <preference name="target-device" value="universal" />
@@ -41,6 +46,7 @@
     <preference name="disable-cursor" value="false" />
     <preference name="android-minSdkVersion" value="7" />
     <preference name="android-installLocation" value="auto" />
+    <gap:plugin name="org.apache.cordova.device-motion" />
     <icon src="icon.png" />
     <icon gap:density="ldpi" gap:platform="android" src="res/icon/android/icon-36-ldpi.png" />
     <icon gap:density="mdpi" gap:platform="android" src="res/icon/android/icon-48-mdpi.png" />

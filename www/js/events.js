@@ -6,7 +6,7 @@ var Events = {
 		this.initClick();
 		switch (Options.ControllerType) {
 			case Controller.ACCELEROMETER:
-				this.accellerometerWatcherStart();
+				this.accelerometerWatcherStart();
 				break;
 			case Controller.MOUSE:
 				this.mouseMove();
@@ -84,7 +84,8 @@ var Events = {
 	},
 	
 	/** Accelerometer controller **/
-	accellerometerWatcherStart: function() {
+	accelerometerWatcherStart: function() {
+		console.log("Start accelerometer " + Options.AccelerometerOptions);
         Global.AccelorometerWatcherId = navigator.accelerometer.watchAcceleration(HandleAccelerometerSuccess, HandleAccelerometerError, Options.AccelerometerOptions);
 	},
 	accellerometerWatcherStop: function() {
