@@ -13,6 +13,9 @@ Moving on to the setup:
 		d) PATH = (KEEP OLD PATH INFO) + %JAVA_HOME%\jre;%JAVA_HOME%;%JAVA_HOME%\bin;%JAVA_HOME%\lib;
 										%ANT_HOME%\bin;%ANDROID_HOME%\platform-tools;%ANDROID_HOME%\tools;
 										%ANDROID_HOME%\platforms
+			I.E. PATH = DerpDerpDerp/Derp.bat;%JAVA_HOME%\jre;%JAVA_HOME%;%JAVA_HOME%\bin;%JAVA_HOME%\lib;
+										%ANT_HOME%\bin;%ANDROID_HOME%\platform-tools;%ANDROID_HOME%\tools;
+										%ANDROID_HOME%\platforms
 	5) Open git bash/other CLI
 		a) npm install -g phonegap
 		b) npm install -g cordova
