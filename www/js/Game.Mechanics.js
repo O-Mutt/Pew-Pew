@@ -174,6 +174,6 @@ Game.Mechanics.PlayerDead = function(reason) {
 
 Game.Mechanics.CreatePlayer = function() {
 	delete Game.player;
-	Game.player = new GoodGuy(Global.PEWPEW_CANVAS.height - (Constants.GUYHEIGHT * Global.scaling()), (Global.PEWPEW_CANVAS.width / 2), Global.good, (Constants.GUYHEIGHT * Global.scaling()), (Constants.GUYWIDTH * Global.scaling()), 1);
+	Game.player = new GoodGuy((Global.PEWPEW_CANVAS.width / 2), Global.PEWPEW_CANVAS.height - (Constants.GUYHEIGHT * Global.scaling()), Global.good, (Constants.GUYHEIGHT * Global.scaling()), (Constants.GUYWIDTH * Global.scaling()), 1);
 	Game.player.movePlayerY();
 };

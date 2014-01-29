@@ -49,7 +49,7 @@ var Events = {
 	
 	initClick: function() {
 		console.log("Init click");
-		$(Global.PEWPEW_CANVAS).on('click touchstart', function(e) {
+		$(Global.PEWPEW_CANVAS).on('click', function(e) {
 			e.preventDefault();
 	
 			if (Global.intervalLoop == 0) {
@@ -76,6 +76,7 @@ var Events = {
     
 	mouseMove: function() {
 		console.log("Init move");
+		this.accelerometerWatcherStop();
 		$(Global.PEWPEW_CANVAS).off('mousemove');
 		//Mouse listener
 		$(Global.PEWPEW_CANVAS).on('mousemove', function(event) {
@@ -85,13 +86,15 @@ var Events = {
 	
 	/** Accelerometer controller **/
 	accelerometerWatcherStart: function() {
-		console.log("Start accelerometer " + Options.AccelerometerOptions);
-        Global.AccelorometerWatcherId = navigator.accelerometer.watchAcceleration(HandleAccelerometerSuccess, HandleAccelerometerError, Options.AccelerometerOptions);
+		$(Global.PEWPEW_CANVAS).off('mousemove');
+		console.log("Start accelerometer");
+        Global.AccelerometerWatcherId = navigator.accelerometer.watchAcceleration(HandleAccelerometerSuccess, HandleAccelerometerError, Options.AccelerometerOptions);
+        console.log(Global.AccelerometerWatcherId);
 	},
-	accellerometerWatcherStop: function() {
-		if (Global.AccelorometerWatcherId) {
-            navigator.accelerometer.clearWatch(Global.AccelorometerWatcherId);
-            Global.AccelorometerWatcherId = null;
+	accelerometerWatcherStop: function() {
+		if (Global.AccelerometerWatcherId) {
+            navigator.accelerometer.clearWatch(Global.AccelerometerWatcherId);
+            Global.AccelerometerWatcherId = null;
         }
 	},
 
@@ -101,7 +104,7 @@ var Events = {
 			if (event.which == 32 && Global.intervalLoop == 0) {
 				Game.Start();
 				Global.mouse.x = 50;
-				Redraw.GoodGuy.redrawPlayerPewPew();
+				Redraw.GoodGuy.RedrawPlayer();
 			}
 			if (!Constants.isCapturing){
 				Game.pressedKeys[event.which] = true;

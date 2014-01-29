@@ -6,7 +6,7 @@ var Events = {
 		this.initClick();
 		switch (Options.ControllerType) {
 			case Controller.ACCELEROMETER:
-				this.accellerometerWatcherStart();
+				this.accelerometerWatcherStart();
 				break;
 			case Controller.MOUSE:
 				this.mouseMove();
@@ -49,7 +49,7 @@ var Events = {
 	
 	initClick: function() {
 		console.log("Init click");
-		$(Global.PEWPEW_CANVAS).on('click touchstart', function(e) {
+		$(Global.PEWPEW_CANVAS).on('click', function(e) {
 			e.preventDefault();
 	
 			if (Global.intervalLoop == 0) {
@@ -76,6 +76,7 @@ var Events = {
     
 	mouseMove: function() {
 		console.log("Init move");
+		this.accelerometerWatcherStop();
 		$(Global.PEWPEW_CANVAS).off('mousemove');
 		//Mouse listener
 		$(Global.PEWPEW_CANVAS).on('mousemove', function(event) {
@@ -84,13 +85,16 @@ var Events = {
 	},
 	
 	/** Accelerometer controller **/
-	accellerometerWatcherStart: function() {
-        Global.AccelorometerWatcherId = navigator.accelerometer.watchAcceleration(HandleAccelerometerSuccess, HandleAccelerometerError, Options.AccelerometerOptions);
+	accelerometerWatcherStart: function() {
+		$(Global.PEWPEW_CANVAS).off('mousemove');
+		console.log("Start accelerometer");
+		console.log(Options.AccelerometerOptions);
+        Global.AccelerometerWatcherId = navigator.accelerometer.watchAcceleration(HandleAccelerometerSuccess, HandleAccelerometerError, Options.AccelerometerOptions);
 	},
-	accellerometerWatcherStop: function() {
-		if (Global.AccelorometerWatcherId) {
-            navigator.accelerometer.clearWatch(Global.AccelorometerWatcherId);
-            Global.AccelorometerWatcherId = null;
+	accelerometerWatcherStop: function() {
+		if (Global.AccelerometerWatcherId) {
+            navigator.accelerometer.clearWatch(Global.AccelerometerWatcherId);
+            Global.AccelerometerWatcherId = null;
         }
 	},
 

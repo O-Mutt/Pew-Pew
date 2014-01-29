@@ -26,11 +26,16 @@
     <description>
         An application that simulates the 80's game 'Galaga'.
     </description>
+    <preference name="phonegap-version" value="3.1.0" />
+    <name>Pew Pew</name>
+    <description>
+        An application that simulates the 80's game 'Galaga'.
+    </description>
     <author email="Matt@MattErickson.ME" href="http://MattErickson.me">
         MattErickson.ME
     </author>
     <feature name="http://api.phonegap.com/1.0/device" />
-    <preference name="phonegap-version" value="3.1.0" />
+    <preference name="phonegap-version" value="3.3.0" />
     <preference name="permissions" value="none" />
     <preference name="orientation" value="portrait" />
     <preference name="target-device" value="universal" />
