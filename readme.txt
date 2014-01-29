@@ -36,3 +36,8 @@ Build and Run:
    		Note: '&' adds "run as service" so you can continue to recompile the app with new changes and then you don't have to continue
    		spinning up new servers each time (i.e. you can run 'phonegap build android' AFTER this command and then just refresh the page)
 This will build and serve a cordova/phonegap webserver at localhost:8000
+
+Also in testing locally (in a browser) I have found it infinately useful to use a chrome short cut with a special param:
+
+Most likely target:
+C:\Users\**INSERT USER NAME**\AppData\Local\Google\Chrome\Application\chrome.exe --allow-file-access-from-files --disable-web-security
