@@ -4,6 +4,7 @@
  * 
  * Please see copyright.txt for full license details
  **/
+
 galaga_html5
 ============
 
