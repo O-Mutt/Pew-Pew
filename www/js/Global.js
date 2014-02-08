@@ -1,69 +1,69 @@
-var Global = new function() {
-	//Multiple inits
-	this.bullets = new Array();////bullets fired by player
-	this.barrierBullets = new Array();
-	this.badGuys = new Array(); //the bad guys
-	this.bossFire = new Array(); //Important interval handler!
-	this.fakeGame = 0;
-	this.bulletsControl = {};	
-	this.luckyLife = 0;
-	// for capture
-	this.isCaptured = false;
-	this.isCapturing = false;
-	this.isPewPewMerged = false;
-	this.isPewPewMerging = false;
-	this.numOfPewPew = 1;
-	this.isSpiderMove = false;
-	this.hasSpider = false;
-	this.spider;
-	this.spiderCount = 0;
-	this.isViming = false;
-	this.oriPosX;
-	this.oriPosY;
-	this.vim;
-	
-	var PEWPEW_CANVAS;
-	var PEWPEW_CONTEXT;
-	this.scaling = function() {
-		return this.PEWPEW_CANVAS.height / 450;
-	};
-	
-	this.lives_height = function() {
-		return 20 * Global.scaling();
-	};
-	this.lives_width = function() {
-		return 20 * Global.scaling();
-	};
-	this.intervalLoop = 0;
+var Global = Global || {};
 
-	this.isSoundEnabled = false;
-	this.sound0;
-	this.sound1;
-	this.sound2;
-	this.sound3;
-	this.sound4;
-	this.sound5;
-	this.sound6;
-	this.sound7;
-	this.sound8;
-	this.sound9;
-	this.sound10;
-	this.sound11;
-	this.sound12;
-	this.sound13;
-	this.sound14;
-	
-	this.playSound = function(sound) {
-		if (this.isSoundEnabled) sound.play();
-	};
-	
-	this.mouse = new Mouse();;
-	this.bad1;
-	this.bad2;
-	this.bad3;
-	this.good;
-	this.boss;
-	this.explosion;
-	this.laser;
-	this.AccelerometerWatcherId;
+//Multiple inits
+Global.bullets = new Array();////bullets fired by player
+Global.barrierBullets = new Array();
+Global.badGuys = new Array(); //the bad guys
+Global.bossFire = new Array(); //Important interval handler!
+Global.fakeGame = 0;
+Global.bulletsControl = {};	
+Global.luckyLife = 0;
+// for capture
+Global.isCaptured = false;
+Global.isCapturing = false;
+Global.isPewPewMerged = false;
+Global.isPewPewMerging = false;
+Global.numOfPewPew = 1;
+Global.isSpiderMove = false;
+Global.hasSpider = false;
+Global.spider;
+Global.spiderCount = 0;
+Global.isViming = false;
+Global.oriPosX;
+Global.oriPosY;
+Global.vim;
+
+Global.PEWPEW_CANVAS;
+Global.PEWPEW_CONTEXT;
+Global.scaling = function() {
+	return Global.PEWPEW_CANVAS.height / 450;
 };
+
+Global.lives_height = function() {
+	return 20 * Global.scaling();
+};
+Global.lives_width = function() {
+	return 20 * Global.scaling();
+};
+Global.intervalLoop = 0;
+
+Global.isSoundEnabled = false;
+Global.sound0;
+Global.sound1;
+Global.sound2;
+Global.sound3;
+Global.sound4;
+Global.sound5;
+Global.sound6;
+Global.sound7;
+Global.sound8;
+Global.sound9;
+Global.sound10;
+Global.sound11;
+Global.sound12;
+Global.sound13;
+Global.sound14;
+
+Global.playSound = function(sound) {
+	if (Global.isSoundEnabled) sound.play();
+};
+
+Global.mouse = new Mouse();;
+Global.bad1;
+Global.bad2;
+Global.bad3;
+Global.good;
+Global.boss;
+Global.explosion;
+Global.laser;
+Global.AccelerometerWatcherId;

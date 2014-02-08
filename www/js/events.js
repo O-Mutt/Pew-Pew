@@ -49,7 +49,7 @@ var Events = {
 	
 	initClick: function() {
 		console.log("Init click");
-		$(Global.PEWPEW_CANVAS).on('click', function(e) {
+		Global.PEWPEW_CANVAS.addEventListener('touchstart', function(e) {
 			e.preventDefault();
 	
 			if (Global.intervalLoop == 0) {
@@ -65,7 +65,7 @@ var Events = {
 						Global.bullets.push(new Bullet(Game.player.x, Game.player.centerY(), (Constants.BULLETHEIGHT * Global.scaling()), (Constants.BULLETWIDTH * Global.scaling() / 2), 0));
 						Global.bullets.push(new Bullet(Game.player.x, Game.player.centerY(), (Constants.BULLETHEIGHT * Global.scaling()), (Constants.BULLETWIDTH * Global.scaling() / 2), 0));
 					} else {
-						Global.bullets.push(new Bullet(Game.player.x - 1, Game.player.centerY(), (Constants.BULLETHEIGHT * Global.scaling()), (Constants.BULLETWIDTH * Global.scaling() / 2), 0));
+						Global.bullets.push(new Bullet(Game.player.x - 1, Game.player.top(), (Constants.BULLETHEIGHT * Global.scaling()), (Constants.BULLETWIDTH * Global.scaling() / 2), 0));
 					}
 					Global.playSound(Global.sound11);
 				}

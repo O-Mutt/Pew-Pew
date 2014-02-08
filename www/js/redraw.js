@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012, Matthew Erickson (Matt@MattErickson.ME)
+ * Copyright (c) 2014, Matthew Erickson (Matt@MattErickson.ME)
  * All rights reserved.
  *
  * Please see copyright.txt for full license details
@@ -10,11 +10,10 @@ Redraw.BadGuys = Redraw.BadGuys || {};
 Redraw.Bullets = Redraw.Bullets || {};
 
 Redraw.GoodGuy.RedrawPlayerPregame = function() {
-	if (Game.player.acceleration) {
-		console.log("ACCELERATE");
-		Game.player.x += Game.player.acceleration;
-	}
-	
+	if (Constants.REDRAW_LOGGING)
+		console.log("Move Player for pregame");
+	Game.player.move();
+		
 	Global.PEWPEW_CONTEXT.drawImage(Game.player.img, Game.player.x, Game.player.y - Game.player.height, Game.player.width, Game.player.height);
 	
 	Global.PEWPEW_CONTEXT.fillStyle = "White";
@@ -27,10 +26,9 @@ Redraw.GoodGuy.RedrawPlayerPregame = function() {
 };
 
 Redraw.GoodGuy.RedrawPlayer = function() {
-	if (Game.player.acceleration) {
-		console.log("ACCELERATE");
-		Game.player.x += Game.player.acceleration;
-	}
+	if (Constants.REDRAW_LOGGING)
+		console.log("Move Player for game");
+	Game.player.move();
 
 	if (Global.luckLife > 0) {
 		Global.PEWPEW_CONTEXT.fillStyle = "GRAY";
@@ -57,7 +55,7 @@ Redraw.GoodGuy.RedrawPlayer = function() {
 		Global.PEWPEW_CONTEXT.drawImage(Game.player.img, Game.player.x - Game.player.offset() * 2, Game.player.y - Game.player.offset(), Game.player.width, Game.player.height);
 		Global.PEWPEW_CONTEXT.drawImage(Game.player.img, Game.player.centerX(), Game.player.centerY(), Game.player.width, Game.player.height);
 	} else {
-		Global.PEWPEW_CONTEXT.drawImage(Game.player.img, Game.player.x, Game.player.y - Game.player.height, Game.player.width, Game.player.height);
+		Global.PEWPEW_CONTEXT.drawImage(Game.player.img, Game.player.centerX(), Game.player.centerY() - Game.player.height, Game.player.width, Game.player.height);
 	}
 
 	Global.PEWPEW_CONTEXT.fillStyle = "White";
@@ -78,14 +76,15 @@ Redraw.GoodGuy.RedrawPlayer = function() {
 Redraw.BadGuys.redrawBadGuys = function() {
 	if (Constants.REDRAW_LOGGING)
 		console.log("redraw badGuys");
-	$.each(Global.badGuys, function(index, badGuy) {
+	for (var i = Global.badGuys.length - 1; i >= 0; i--) {
+		var badGuy = Global.badGuys[i];
 		if (Constants.DEBUG) {
 			Global.PEWPEW_CONTEXT.fillStyle = "White";
 			Global.PEWPEW_CONTEXT.font = 5 * Global.scaling() + "px sans-serif";
 			Global.PEWPEW_CONTEXT.fillText("HP: [" + badGuy.hp + "]", badGuy.x, badGuy.y - 2);
 		}
 		Global.PEWPEW_CONTEXT.drawImage(badGuy.img, badGuy.x, badGuy.y, badGuy.width, badGuy.height);
-	});
+	};
 };
 
 Redraw.Bullets.redrawBullets = function() {
@@ -98,7 +97,8 @@ Redraw.Bullets.redrawBullets = function() {
 
 Redraw.redrawBadGuyBullets = function() {
 	//Bad guy bullets
-	$.each(Global.badBullets, function(index, badBullet) {
+	for (var a = Global.badBullets.length - 1; a >= 0; a--) {
+		var badBullet = Global.badBullets[a];
 		if (badBullet != undefined) {
 			badBullet.y += (2 * Global.scaling()) + (Game.level * 0.1);
 			//Move bullet up
@@ -113,10 +113,11 @@ Redraw.redrawBadGuyBullets = function() {
 				Global.badBullets.splice(index, 1);
 			}
 		}
-	});
+	};
 
-	//? what does this do?
-	$.each(Global.badGuys, function(index, badGuy) {
+	//TODO: there has to be a better way than to check if this guy is a boss like this... this is a dirty hack [ME]
+	for (var b = Global.badGuys.length - 1; b >= 0; b--) {
+		var badGuy = Global.badGuys[b];
 		if ( badGuy instanceof Boss) {
 			if (badGuy.isFiredLaser) {
 
@@ -137,7 +138,8 @@ Redraw.redrawBadGuyBullets = function() {
 
 			}
 
-			$.each(badGuy.suriArr, function(index, suri) {
+			for (var c = badGuy.suriArr.length - 1; c >= 0; c--) {
+				var suri = badGuy.suriArr[i];
 				try {
 					suri.move();
 
@@ -151,28 +153,32 @@ Redraw.redrawBadGuyBullets = function() {
 				} catch(e) {
 					console.log("suri error -> " + suri);
 				}
-			});
+			};
 		}
-	});
+	}
 };
 
 Redraw.redrawBarrierBullets = function() {
-	$.each(Global.barrierBullets, function(index, barrierBullet) {
+	for (var i = Global.barrierBullets.length - 1; i >= 0; i--) {
+		var barrierBullet = Global.barrierBullets[i];
 		if (barrierBullet != undefined) {
 			Global.PEWPEW_CONTEXT.fillStyle = "Blue";
 			Global.PEWPEW_CONTEXT.fillRect(barrierBullet.x, barrierBullet.y, barrierBullet.width, barrierBullet.height);
 			//X, Y, width, height
 		}
-	});
+	}
 };
 
 Redraw.redrawPlayerBullets = function() {
-	$.each(Global.bullets, function(index, bullet) {
+	for (var i = Global.bullets.length - 1; i >= 0; i--) {
+		var bullet = Global.bullets[i];
 		if (bullet != undefined) {
-			bullet.y -= (2 * Global.scaling()) + (Game.level * 0.1);
+			bullet.move();
+			
 			//Move bullet up
 			bullet.x += bullet.xdiff;
 
+			//This is custom bullet control... and i don't like it
 			bullet.x += bulletsControl[0];
 			bullet.y += bulletsControl[1];
 
@@ -180,9 +186,9 @@ Redraw.redrawPlayerBullets = function() {
 			Global.PEWPEW_CONTEXT.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
 			//X, Y, width, height
 			if (bullet.y < 0) {
-				Global.bullets.splice(index, 1);
+				Global.bullets.splice(i, 1);
 			}
 		}
-	});
+	}
 	bulletsControl = [0, 0];
 };

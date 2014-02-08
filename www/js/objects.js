@@ -35,6 +35,9 @@ function Bullet(x, y, height, width, xdiff, bulletType) {
     this.right = function() {
         return this.x + this.width;
     };
+    this.move = function() {
+    	this.y -= (2 * Global.scaling()) + (Game.level * 0.1);
+    };
 }
 
 function Mouse() {
@@ -97,43 +100,63 @@ function BadGuy(x, y, img, velocity, height, width, points, hp, isSpider, type) 
 /**
  * Any moving object that can collide with a bullet
  */
-function GoodGuy(x, y, img, height, width, hp) {
-    this.x = x;
-    this.y = y;
-    this.img = img;
-    this.velocity;
-	this.acceleration;
-    this.width = width;
-	this.height = height;
-    this.direction = true; //true is right, false is left
-    this.points;
-    this.hp = hp;
+var GoodGuy = GoodGuy || {};
+GoodGuy.x;
+GoodGuy.y;
+GoodGuy.img;
+GoodGuy.velocity;
+GoodGuy.acceleration;
+GoodGuy.width;
+GoodGuy.height;
+GoodGuy.direction; //true is right, false is left
+GoodGuy.points;
+GoodGuy.hp;
 
-    this.top = function() {
-        return this.y;
-    };
-    this.bottom = function() {
-        return this.y + this.height;
-    };
-    this.left = function() {
-        return this.x;
-    };
-    this.right = function() {
-        return this.x + this.width;
-    };
-	
-	this.centerX = function() {
-		return this.x - (this.width / 2);
-	};
-	this.centerY = function() {
-		return this.y - (this.height / 2);
-	};
-	this.movePlayerY = function() {
-		if (Options.GameType === GameTypes.CLASSIC) {
-	        this.y = Global.PEWPEW_CANVAS.height - (this.height * 2);//leave space for the player finger/score
-	    } else if (Options.GameType === GameTypes.FREE) {
-	        this.y = Global.mouse.y;
-	    }
-	};
-}
+GoodGuy.top = function() {
+    return this.y;
+};
+GoodGuy.bottom = function() {
+    return this.y + this.height;
+};
+GoodGuy.left = function() {
+    return this.x;
+};
+GoodGuy.right = function() {
+    return this.x + this.width;
+};
+
+GoodGuy.centerX = function() {
+	return this.x - (this.width / 2);
+};
+GoodGuy.centerY = function() {
+	return this.y - (this.height / 2);
+};
+GoodGuy.move = function() {
+	this.moveX();
+	this.moveY();
+};
+GoodGuy.moveY = function() {
+	if (Options.GameType === GameTypes.CLASSIC) {
+        this.y = Global.PEWPEW_CANVAS.height - (this.height * 2);//leave space for the player finger/score
+    } else if (Options.GameType === GameTypes.FREE) {
+        this.y = Global.mouse.y;
+    }
+};
+GoodGuy.moveX = function() {
+	if (Options.ControllerType == Controller.ACCELEROMETER) {
+		if (this.acceleration && this.acceleration != 0) {
+			this.x += this.acceleration;
+		}
+	} else {
+		this.x = Global.mouse.x;
+	}
+};
+GoodGuy.init = function () {
+	this.x = (Global.PEWPEW_CANVAS.width / 2);
+	this.y = Global.PEWPEW_CANVAS.height - (Constants.GUYHEIGHT * Global.scaling());
+	this.img = Global.good;
+	this.height = (Constants.GUYHEIGHT * Global.scaling());
+	this.width = (Constants.GUYWIDTH * Global.scaling());
+	this.hp = 1;
+};
 /************* End Objects *************/
