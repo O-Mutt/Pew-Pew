@@ -1,4 +1,4 @@
-Copyright (c) 2012, Matthew Erickson (Matt@MattErickson.ME)
+Copyright (c) 2014, Matthew Erickson (Matt@MattErickson.ME)
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

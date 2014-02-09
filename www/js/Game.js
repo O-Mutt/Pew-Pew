@@ -53,7 +53,7 @@ Game.Create = function() {
 	
 	
 	Options.GameType = GameTypes.CLASSIC;
-	Options.ControllerType = Controller.ACCELEROMETER;
+	Options.ControllerType = Controller.TOUCH;
 
 	console.log("init listeners");
 	Events.initListeners();

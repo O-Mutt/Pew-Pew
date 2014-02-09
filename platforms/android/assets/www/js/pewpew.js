@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012, Matthew Erickson (Matt@MattErickson.ME)
+ * Copyright (c) 2014, Matthew Erickson (Matt@MattErickson.ME)
  * All rights reserved.
  * 
  * Please see copyright.txt for full license details
@@ -16,6 +16,7 @@ function processArrow(diff) {
     }
 }
 
+//TODO lulwut? this doesn't even make sense
 function shoot(){
     jQuery.each(Global.badGuys, function(index, badGuy){
         if(badGuy instanceof Boss){
@@ -24,6 +25,7 @@ function shoot(){
     });
 }
 
+//TODO remove what is no longer needed, mobile doesn't have these controls
 function doKeyAction() {
     if(!Constants.isPewPewMerging && !Constants.isCapturing){
         if (Game.pressedKeys[37]) { // left
@@ -41,7 +43,7 @@ function doKeyAction() {
         if (Global.intervalLoop == 0) {
             Game.Start();
             Global.mouse.x = 50;
-            Redraw.GoodGuy.redrawPlayerPewPew();
+            Redraw.GoodGuy.RedrawPlayer();
         } else {
             var maxBulletsNum = 4;
             if (Global.isPewPewMerged)
@@ -94,7 +96,8 @@ function checkPewPewCaptured() {
 var isBossSuriFired = false;
 
 function badGuysTryFire() {
-    $.each(Global.badGuys, function(index, badGuy) {
+    for(var w = Global.badGuys.length - 1; w >= 0; w--) {
+		var badGuy = Global.badGuys[w];
         //Chance to fire
         if(badGuy instanceof Boss && !isBossSuriFired){
             badGuy.shoot();
@@ -119,12 +122,13 @@ function badGuysTryFire() {
             	}
             	Global.badBullets.push(badBullet);
         	}
-	}
-    });
+		}
+    }
 }
 
 function collisionCheckBullets() {
-    jQuery.each(Global.badGuys, function(indexGuy, badGuy) {
+    for(var w = Global.badGuys.length - 1; w >= 0; w--) {
+		var badGuy = Global.badGuys[w];
         if(badGuy instanceof Boss){
             if(badGuy.isFiredLaser && (badGuy.getLaserHeight() + badGuy.top()) > 380){
                 if(badGuy.left()+15 < Game.player.right() && badGuy.left()+55 > Game.player.left()){
@@ -138,8 +142,10 @@ function collisionCheckBullets() {
                 }
             }
 
-            jQuery.each(badGuy.suriArr, function(index, badBullet) {
-                if (intersect(Game.player, badBullet)) {
+            
+        	for(var s = Global.suriArr.length - 1; s >= 0; s--) {
+    			var badBullet = Global.suriArr[s];
+                if (Util.intersect(Game.player, badBullet)) {
                     Global.PEWPEW_CONTEXT.drawImage(explosion, Game.player.x - Game.player.offset(), Game.player.centerY(), 32, 32);
                     Global.playSound(Global.sound7);
                     if( Global.isPewPewMerged ){
@@ -150,11 +156,12 @@ function collisionCheckBullets() {
                     }
                     return false;
                 }
-            });
+            }
         }
 
-        jQuery.each(Global.bullets, function(indexBullet, bullet) {
-            if (intersect(badGuy, bullet)) {
+        for(var d = Global.bullets.length - 1; d >= 0; d--) {
+    		var bullet = Global.bullets[d];
+            if (Util.intersect(badGuy, bullet)) {
                 if (bullet.bulletType == "bomb") {
                     Global.bullets.push(new Bullet(bullet.x, bullet.y, Constants.BULLETHEIGHT * 5, Constants.BULLETWIDTH * 30, 0, "bomb"));
                 }
@@ -184,11 +191,12 @@ function collisionCheckBullets() {
                     Global.bullets.splice(indexBullet, 1);
                 }
             }
-        });
-    });
+        }
+    }
 	
-    jQuery.each(Global.badBullets, function(index, badBullet) {
-        if (intersect(Game.player, badBullet)) {
+    for(var c = Global.badBullets.length - 1; c >= 0; c--) {
+		var badBullet = Global.badBullets[c];
+        if (Util.intersect(Game.player, badBullet)) {
             if (badBullet.bulletType == "lucky") {
                 Global.luckyLife += Constants.LUCKY_LIFE_LIMIT;
             }else if ( Global.luckyLife <= 0) {
@@ -201,41 +209,44 @@ function collisionCheckBullets() {
             }
             return false;
         }
-    });
+    }
 
-    jQuery.each(Global.barrierBullets, function(indexBarrierBullet, barrierBullet) {
-        jQuery.each(Global.badBullets, function(indexBadBullet, badBullet) {
-			if (intersect(badBullet, barrierBullet)) {
+	for(var a = Global.barrierBullets.length - 1; a >= 0; a--) {
+    	var barrierBullet = Global.barrierBullets[a];
+    	for(var b = Global.badBullets.length - 1; b >= 0; b--) {
+    		var badBullet = Global.badBullets[b];
+			if (Util.intersect(badBullet, barrierBullet)) {
                 Global.badBullets.splice(indexBadBullet, 1);
                 return false;
             }
-        });
+        }
         if (barrierBullet != undefined && barrierBullet.life-- < 0) {
             Global.barrierBullets.splice(indexBarrierBullet, 1);
         }
-    });
+    }
 }
 
 function moveBadGuys() {
     var isWall = false;
-    jQuery.each(Global.badGuys, function(index, badGuy) {
-        vel = badGuy.vel;
-        if ((badGuy.x + badGuy.width) > $(Global.PEWPEW_CANVAS).width() && badGuy.direction) { //moving right hit a wall?
+	for(var a = Global.badGuys.length - 1; a >= 0; a--) {
+    	var badGuy = Global.badGuys[a],
+    		velocity = badGuy.velocity;
+        if ((badGuy.x + badGuy.width) > Global.PEWPEW_CANVAS.width && badGuy.direction) { //moving right hit a wall?
             isWall = true;
-            badGuy.x += badGuy.velocity;
+            badGuy.x += velocity;
         } else if (badGuy.x < 0 && !badGuy.direction) { //moving left hit a wall?
             isWall = true;
-            badGuy.x -= badGuy.velocity;
+            badGuy.x -= velocity;
         } else { //no walls GO
             if (badGuy.direction) { //right
-                badGuy.x += badGuy.velocity;
+                badGuy.x += velocity;
             } else { //left
-                badGuy.x -= badGuy.velocity;
+                badGuy.x -= velocity;
             }
         }
         if (badGuy.isSpider) {
             if (!Global.isSpiderMove && !Global.isCaptured) {
-                if (badGuy.y > $(Global.PEWPEW_CANVAS).height/4) {
+                if (badGuy.y > Global.PEWPEW_CANVAS.height/4) {
                     Global.isSpiderMove = true;
                     Global.spider = badGuy;
                     oriPosX = badGuy.x;
@@ -246,10 +257,12 @@ function moveBadGuys() {
                 Global.PEWPEW_CONTEXT.drawImage(Game.player.img, badGuy.x, badGuy.centerY()*2, Game.player.scaledHeight, Game.player.width);
             }
         }
-    });
+    };
 
-    if (isWall) { //hit a wall, gotta reset and move back the other way
-        jQuery.each(Global.badGuys, function(index, badGuy) {
+	//hit a wall, gotta reset and move back the other way
+    if (isWall) {
+    	for(var b = Global.badGuys.length - 1; b >= 0; b--) {
+        	var badGuy = Global.badGuys[b];
             badGuy.velocity = badGuy.velocity + .1;
             if (badGuy.direction) {
                 badGuy.y += badGuy.height/2;
@@ -270,7 +283,7 @@ function moveBadGuys() {
                 Game.Mechanics.PlayerDead("Bad guys hit the bottom of the $(Global.PEWPEW_CANVAS)");
                 return false;
             }
-        });
+        };
         isWall = false;
     }
 }

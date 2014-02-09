@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012, Matthew Erickson (Matt@MattErickson.ME)
+ * Copyright (c) 2014, Matthew Erickson (Matt@MattErickson.ME)
  * All rights reserved.
  * 
  * Please see copyright.txt for full license details
@@ -14,9 +14,6 @@
 };
 
 function standByPewPew(){
-    if( Game.player.y <= Game.player.y ){
-        Game.player.y +=2;
-    }
     if( Game.player.x < (Game.player.x + Game.player.width/2) ){ // Game.player is on the right
         if(!stopThere){
             Game.player.x -=2;
@@ -174,6 +171,7 @@ Game.Mechanics.PlayerDead = function(reason) {
 
 Game.Mechanics.CreatePlayer = function() {
 	delete Game.player;
-	Game.player = new GoodGuy(Global.PEWPEW_CANVAS.height - (Constants.GUYHEIGHT * Global.scaling()), (Global.PEWPEW_CANVAS.width / 2), Global.good, (Constants.GUYHEIGHT * Global.scaling()), (Constants.GUYWIDTH * Global.scaling()), 1);
+	Game.player = GoodGuy;
+	Game.player.init();
 	Game.player.move();
 };

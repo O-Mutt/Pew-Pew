@@ -127,8 +127,8 @@ function badGuysTryFire() {
 }
 
 function collisionCheckBullets() {
-    for(var w = Global.badGuys.length - 1; w >= 0; w--) {
-		var badGuy = Global.badGuys[w];
+    for(var badGuyIndex = Global.badGuys.length - 1; badGuyIndex >= 0; badGuyIndex--) {
+		var badGuy = Global.badGuys[badGuyIndex];
         if(badGuy instanceof Boss){
             if(badGuy.isFiredLaser && (badGuy.getLaserHeight() + badGuy.top()) > 380){
                 if(badGuy.left()+15 < Game.player.right() && badGuy.left()+55 > Game.player.left()){
@@ -182,13 +182,14 @@ function collisionCheckBullets() {
                     }else if (!Global.isCaptured && badGuy.isSpider && (Global.spiderCount <= Constants.MAXSPIDERCOUNT) ){
                         selectSpider();
                     }
-                    Global.badGuys.splice(indexGuy, 1);
+                    //Bullet collision remove badGuy at index 'badGuyIndex' and bullet at index 'd'
+                    Global.badGuys.splice(badGuyIndex, 1);
                     Global.PEWPEW_CONTEXT.drawImage(explosion, badGuy.x, badGuy.y, 32, 32);
-                    Global.bullets.splice(indexBullet, 1);
+                    Global.bullets.splice(d, 1);
                     return false;
                 } else {
                     badGuy.hp--;
-                    Global.bullets.splice(indexBullet, 1);
+                    Global.bullets.splice(d, 1);
                 }
             }
         }

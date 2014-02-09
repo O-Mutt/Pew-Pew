@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012, Matthew Erickson (Matt@MattErickson.ME)
+ * Copyright (c) 2014, Matthew Erickson (Matt@MattErickson.ME)
  * All rights reserved.
  * 
  * Please see copyright.txt for full license details
@@ -9,7 +9,8 @@
 /**
  * Check intersections of two objects (a and b)
  */
-function intersect(a, b) {
+var Util = Util || {};
+Util.intersect = function(a, b) {
 	if (!a || !b) {
 		return false;
 	}
@@ -19,4 +20,21 @@ function intersect(a, b) {
 	} else {
 		return false;
 	}
-} /************* End Helpers *************/
+};
+
+Util.checkBadGuyIntersection = function() {
+	for(var i = Global.badGuys.length - 1; i >= 0; i--) {
+		var badGuy = Global.badGuys[i];
+		if (intersect(Game.player, badGuy)) {
+			Global.PEWPEW_CONTEXT.drawImage(explosion, Game.player.centerX(), Game.player.centerY(), Game.player.width, Game.player.height);
+			Global.playSound(Global.sound7);
+			if( Global.isPewPewMerged ){
+				Global.numOfPewPew--;
+				Global.isPewPewMerged = false;
+			} else {
+				Game.Mechanics.PlayerDead("Collision in Redraw Player");
+			}
+		}
+	}
+};
+/************* End Helpers *************/

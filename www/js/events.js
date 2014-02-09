@@ -14,6 +14,9 @@ var Events = {
 			case Controller.ACCELEROMETER:
 				this.accelerometerWatcherStart();
 				break;
+			case Controller.TOUCH:
+				this.touchMove();
+				break;
 			case Controller.MOUSE:
 				this.mouseMove();
 				break;
@@ -55,7 +58,7 @@ var Events = {
 	
 	initClick: function() {
 		console.log("Init click");
-		Global.PEWPEW_CANVAS.addEventListener('touchstart', function(e) {
+		Global.PEWPEW_CANVAS.addEventListener('mousedown touchstart', function(e) {
 			e.preventDefault();
 	
 			if (Global.intervalLoop == 0) {
@@ -80,8 +83,15 @@ var Events = {
 		});
 	},
     
+    touchMove: function() {
+    	console.log("Init touch move");
+    	Global.PEWPEW_CANVAS.addEventListener('touchstart', function(e) {
+			Game.player.moveTo = e.touches[0].pageX;
+		});
+    },
+    
 	mouseMove: function() {
-		console.log("Init move");
+		console.log("Init mouse move");
 		this.accelerometerWatcherStop();
 		$(Global.PEWPEW_CANVAS).off('mousemove');
 		//Mouse listener

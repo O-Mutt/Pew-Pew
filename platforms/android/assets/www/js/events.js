@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2014, Matthew Erickson (Matt@MattErickson.ME)
+ * All rights reserved.
+ * 
+ * Please see copyright.txt for full license details
+ **/
 var Events = {
 	initListeners: function() {
 		console.log("Init all the listeners");
@@ -49,7 +55,7 @@ var Events = {
 	
 	initClick: function() {
 		console.log("Init click");
-		$(Global.PEWPEW_CANVAS).on('click', function(e) {
+		Global.PEWPEW_CANVAS.addEventListener('touchstart', function(e) {
 			e.preventDefault();
 	
 			if (Global.intervalLoop == 0) {
@@ -65,7 +71,7 @@ var Events = {
 						Global.bullets.push(new Bullet(Game.player.x, Game.player.centerY(), (Constants.BULLETHEIGHT * Global.scaling()), (Constants.BULLETWIDTH * Global.scaling() / 2), 0));
 						Global.bullets.push(new Bullet(Game.player.x, Game.player.centerY(), (Constants.BULLETHEIGHT * Global.scaling()), (Constants.BULLETWIDTH * Global.scaling() / 2), 0));
 					} else {
-						Global.bullets.push(new Bullet(Game.player.x - 1, Game.player.centerY(), (Constants.BULLETHEIGHT * Global.scaling()), (Constants.BULLETWIDTH * Global.scaling() / 2), 0));
+						Global.bullets.push(new Bullet(Game.player.x - 1, Game.player.top(), (Constants.BULLETHEIGHT * Global.scaling()), (Constants.BULLETWIDTH * Global.scaling() / 2), 0));
 					}
 					Global.playSound(Global.sound11);
 				}
@@ -88,8 +94,8 @@ var Events = {
 	accelerometerWatcherStart: function() {
 		$(Global.PEWPEW_CANVAS).off('mousemove');
 		console.log("Start accelerometer");
-		console.log(Options.AccelerometerOptions);
         Global.AccelerometerWatcherId = navigator.accelerometer.watchAcceleration(HandleAccelerometerSuccess, HandleAccelerometerError, Options.AccelerometerOptions);
+        console.log(Global.AccelerometerWatcherId);
 	},
 	accelerometerWatcherStop: function() {
 		if (Global.AccelerometerWatcherId) {
@@ -104,7 +110,7 @@ var Events = {
 			if (event.which == 32 && Global.intervalLoop == 0) {
 				Game.Start();
 				Global.mouse.x = 50;
-				Redraw.GoodGuy.redrawPlayerPewPew();
+				Redraw.GoodGuy.RedrawPlayer();
 			}
 			if (!Constants.isCapturing){
 				Game.pressedKeys[event.which] = true;

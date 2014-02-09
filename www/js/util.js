@@ -25,7 +25,7 @@ Util.intersect = function(a, b) {
 Util.checkBadGuyIntersection = function() {
 	for(var i = Global.badGuys.length - 1; i >= 0; i--) {
 		var badGuy = Global.badGuys[i];
-		if (intersect(Game.player, badGuy)) {
+		if (Util.intersect(Game.player, badGuy)) {
 			Global.PEWPEW_CONTEXT.drawImage(explosion, Game.player.centerX(), Game.player.centerY(), Game.player.width, Game.player.height);
 			Global.playSound(Global.sound7);
 			if( Global.isPewPewMerged ){
