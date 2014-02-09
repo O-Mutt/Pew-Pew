@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012, Matthew Erickson (Matt@MattErickson.ME)
+ * Copyright (c) 2014, Matthew Erickson (Matt@MattErickson.ME)
  * All rights reserved.
  * 
  * Please see copyright.txt for full license details
@@ -14,9 +14,6 @@
 };
 
 function standByPewPew(){
-    if( Game.player.y <= Game.player.y ){
-        Game.player.y +=2;
-    }
     if( Game.player.x < (Game.player.x + Game.player.width/2) ){ // Game.player is on the right
         if(!stopThere){
             Game.player.x -=2;

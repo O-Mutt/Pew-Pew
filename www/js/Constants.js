@@ -1,11 +1,11 @@
 /**
- * Copyright (c) 2012;Matthew Erickson (Matt@MattErickson.ME)
+ * Copyright (c) 2014;Matthew Erickson (Matt@MattErickson.ME)
  * All rights reserved.
  * 
  * Please see copyright.txt for full license details
  **/
 
-var Constants = Constants || {}
+var Constants = Constants || {};
 
 //Logging
 Constants.DEBUG = true;//debug flag for helping figure out what is going on

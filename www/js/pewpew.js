@@ -145,7 +145,7 @@ function collisionCheckBullets() {
             
         	for(var s = Global.suriArr.length - 1; s >= 0; s--) {
     			var badBullet = Global.suriArr[s];
-                if (intersect(Game.player, badBullet)) {
+                if (Util.intersect(Game.player, badBullet)) {
                     Global.PEWPEW_CONTEXT.drawImage(explosion, Game.player.x - Game.player.offset(), Game.player.centerY(), 32, 32);
                     Global.playSound(Global.sound7);
                     if( Global.isPewPewMerged ){
@@ -161,7 +161,7 @@ function collisionCheckBullets() {
 
         for(var d = Global.bullets.length - 1; d >= 0; d--) {
     		var bullet = Global.bullets[d];
-            if (intersect(badGuy, bullet)) {
+            if (Util.intersect(badGuy, bullet)) {
                 if (bullet.bulletType == "bomb") {
                     Global.bullets.push(new Bullet(bullet.x, bullet.y, Constants.BULLETHEIGHT * 5, Constants.BULLETWIDTH * 30, 0, "bomb"));
                 }
@@ -196,7 +196,7 @@ function collisionCheckBullets() {
 	
     for(var c = Global.badBullets.length - 1; c >= 0; c--) {
 		var badBullet = Global.badBullets[c];
-        if (intersect(Game.player, badBullet)) {
+        if (Util.intersect(Game.player, badBullet)) {
             if (badBullet.bulletType == "lucky") {
                 Global.luckyLife += Constants.LUCKY_LIFE_LIMIT;
             }else if ( Global.luckyLife <= 0) {
@@ -215,7 +215,7 @@ function collisionCheckBullets() {
     	var barrierBullet = Global.barrierBullets[a];
     	for(var b = Global.badBullets.length - 1; b >= 0; b--) {
     		var badBullet = Global.badBullets[b];
-			if (intersect(badBullet, barrierBullet)) {
+			if (Util.intersect(badBullet, barrierBullet)) {
                 Global.badBullets.splice(indexBadBullet, 1);
                 return false;
             }

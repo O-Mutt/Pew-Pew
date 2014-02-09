@@ -70,7 +70,7 @@ Redraw.GoodGuy.RedrawPlayer = function() {
 		//Write other things about the Game.player
 	}
 
-	checkBadGuyIntersection();
+	Util.checkBadGuyIntersection();
 };
 
 Redraw.BadGuys.redrawBadGuys = function() {
