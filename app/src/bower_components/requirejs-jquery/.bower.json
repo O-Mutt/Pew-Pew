@@ -1,0 +1,14 @@
+{
+  "name": "requirejs-jquery",
+  "homepage": "https://github.com/jrburke/require-jquery",
+  "version": "0.25.0",
+  "_release": "0.25.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.25.0",
+    "commit": "06d1504796072e441bed5b8be345cbcf7df1b4b0"
+  },
+  "_source": "git://github.com/jrburke/require-jquery.git",
+  "_target": "~0.25.0",
+  "_originalSource": "requirejs-jquery"
+}

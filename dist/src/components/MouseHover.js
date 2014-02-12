@@ -1,0 +1,1 @@
+Crafty.c("MouseHover",{init:function(){var a=this;return this.requires("Mouse"),a.bind("MouseOver",function(){document.body.style.cursor="pointer"}).bind("MouseOut",function(){document.body.style.cursor="default"}).bind("Remove",function(){document.body.style.cursor="default"}),this}});

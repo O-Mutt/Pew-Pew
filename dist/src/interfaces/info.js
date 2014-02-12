@@ -1,0 +1,1 @@
+Info=BaseEntity.extend({defaults:{text:"Move object with arrows key"},initialize:function(){var a=this,b=Crafty.e("2D, DOM, Text");b.attr({x:50,y:50,z:1e3,w:400}).text(a.get("text")).textColor("#000").textFont({size:"24px",family:"Arial"}).bind("Click",function(){}),a.set({entity:b})}});
