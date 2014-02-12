@@ -6,5 +6,6 @@
  **/
 var Controller = {
 	TOUCH: 0,
-	ACCELEROMETER: 1
+	ACCELEROMETER: 1,
+	MOUSE: 2
 };

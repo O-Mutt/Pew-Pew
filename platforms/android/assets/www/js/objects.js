@@ -108,9 +108,11 @@ GoodGuy.velocity;
 GoodGuy.acceleration;
 GoodGuy.width;
 GoodGuy.height;
-GoodGuy.direction; //true is right, false is left
 GoodGuy.points;
 GoodGuy.hp;
+
+//This is used for touch events, we set an 'end point' and move the ship toward it step by step to remove the 'teleporting' behavior
+GoodGuy.moveTo;
 
 GoodGuy.top = function() {
     return this.y;
@@ -143,12 +145,46 @@ GoodGuy.moveY = function() {
     }
 };
 GoodGuy.moveX = function() {
-	if (Options.ControllerType == Controller.ACCELEROMETER) {
+	switch (Options.ControllerType) {
+	case Controller.ACCELEROMETER:
 		if (this.acceleration && this.acceleration != 0) {
 			this.x += this.acceleration;
 		}
-	} else {
+		break;
+	case Controller.TOUCH:
+		if (!this.moveTo) {
+			return;
+		}
+		//TODO this section needs a touch up so the 'touch' moves the ship to the CENTER, not the left of the player sprite
+		if (this.moveTo >= this.x) {
+			console.log("right of click");
+			if (Constants.REDRAW_LOGGING) {
+				console.log("Move x for touch event " + this.moveTo);
+			}
+			if (this.x + 2 > this.moveTo) {
+				console.log("x " + this.x + " moveto " + this.moveTo);
+				this.x = this.moveTo;
+				delete this.moveTo;
+			} else {
+				this.x += 2;
+			}	
+		} else if (this.moveTo <= this.x) {
+			console.log("left of click");
+			if (Constants.REDRAW_LOGGING) {
+				console.log("Move x for touch event " + this.moveTo);
+			}
+			if (this.x - 2 < this.moveTo) {
+				console.log("centerx " + this.centerX()+ " x " + this.x + " moveto " + this.moveTo);
+				this.x = this.moveTo;
+				delete this.moveTo;
+			} else {
+				this.x -= 2;
+			}	
+		}
+		break;
+	case Controller.MOUSE:
 		this.x = Global.mouse.x;
+		break;
 	}
 };
 GoodGuy.init = function () {

@@ -77,7 +77,7 @@ Game.Mechanics.Start = function() {
 	Global.fakeGame = 0; //Remove pregame interval id
 
 	Game.Mechanics.ResetLevel();
-	//Global.PEWPEW_CONTEXT.clearRect(0, 0, Global.PEWPEW_CANVAS.width, Global.PEWPEW_CANVAS.height);
+	Global.PEWPEW_CONTEXT.clearRect(0, 0, Global.PEWPEW_CANVAS.width, Global.PEWPEW_CANVAS.height);
 
     if (Game.level % 3 != 0) {
         for (var i = 0; i < 10; i++) {

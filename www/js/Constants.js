@@ -11,6 +11,7 @@ var Constants = Constants || {};
 Constants.DEBUG = true;//debug flag for helping figure out what is going on
 Constants.LOGGING_LEVEL = Logging.LOG;
 Constants.REDRAW_LOGGING = false;
+Constants.CONTROLLER_LOGGING = false;
 
 // CONSTANTS
 Constants.FIRECHANCEDENOMINATOR = 1000;

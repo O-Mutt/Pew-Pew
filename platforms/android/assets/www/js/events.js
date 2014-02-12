@@ -68,20 +68,23 @@ var Events = {
 				}
 				if (Global.bullets && Global.bullets.length < maxBulletsNum) {
 					if (Global.isPewPewMerged) {
-						Global.bullets.push(new Bullet(Game.player.x, Game.player.centerY(), (Constants.BULLETHEIGHT * Global.scaling()), (Constants.BULLETWIDTH * Global.scaling() / 2), 0));
-						Global.bullets.push(new Bullet(Game.player.x, Game.player.centerY(), (Constants.BULLETHEIGHT * Global.scaling()), (Constants.BULLETWIDTH * Global.scaling() / 2), 0));
+						Global.bullets.push(new Bullet(Game.player.x, Game.player.top(), (Constants.BULLETHEIGHT * Global.scaling()), (Constants.BULLETWIDTH * Global.scaling() / 2), 0));
+						Global.bullets.push(new Bullet(Game.player.x, Game.player.top(), (Constants.BULLETHEIGHT * Global.scaling()), (Constants.BULLETWIDTH * Global.scaling() / 2), 0));
 					} else {
 						Global.bullets.push(new Bullet(Game.player.x - 1, Game.player.top(), (Constants.BULLETHEIGHT * Global.scaling()), (Constants.BULLETWIDTH * Global.scaling() / 2), 0));
 					}
 					Global.playSound(Global.sound11);
 				}
 			}
+			if (Options.ControllerType == Controller.TOUCH) {
+				Game.player.moveTo = e.touches[0].pageX;
+			}
 			return false;
 		});
 	},
     
 	mouseMove: function() {
-		console.log("Init move");
+		console.log("Init mouse move");
 		this.accelerometerWatcherStop();
 		$(Global.PEWPEW_CANVAS).off('mousemove');
 		//Mouse listener

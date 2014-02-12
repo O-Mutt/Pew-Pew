@@ -113,6 +113,7 @@ GoodGuy.hp;
 
 //This is used for touch events, we set an 'end point' and move the ship toward it step by step to remove the 'teleporting' behavior
 GoodGuy.moveTo;
+GoodGuy.moveToAnimation;
 
 GoodGuy.top = function() {
     return this.y;
@@ -155,37 +156,48 @@ GoodGuy.moveX = function() {
 		if (!this.moveTo) {
 			return;
 		}
-		//TODO this section needs a touch up so the 'touch' moves the ship to the CENTER, not the left of the player sprite
-		if (this.moveTo >= this.x) {
-			console.log("right of click");
-			if (Constants.REDRAW_LOGGING) {
-				console.log("Move x for touch event " + this.moveTo);
-			}
-			if (this.x + 2 > this.moveTo) {
-				console.log("x " + this.x + " moveto " + this.moveTo);
-				this.x = this.moveTo;
-				delete this.moveTo;
-			} else {
-				this.x += 2;
-			}	
-		} else if (this.moveTo <= this.x) {
-			console.log("left of click");
-			if (Constants.REDRAW_LOGGING) {
-				console.log("Move x for touch event " + this.moveTo);
-			}
-			if (this.x - 2 < this.moveTo) {
-				console.log("centerx " + this.centerX()+ " x " + this.x + " moveto " + this.moveTo);
-				this.x = this.moveTo;
-				delete this.moveTo;
-			} else {
-				this.x -= 2;
-			}	
+		
+		if (this.moveToAnimation) {
+			clearInterval(this.moveToAnimation);
+			delete this.moveToAnimation;
 		}
+		this.moveToAnimation = setInterval(this.MoveToCallback, 2);
 		break;
 	case Controller.MOUSE:
 		this.x = Global.mouse.x;
 		break;
 	}
+};
+GoodGuy.MoveToCallback = function() {
+	//TODO this section needs a touch up so the 'touch' moves the ship to the CENTER, not the left of the player sprite
+		if (this.moveTo >= this.x) {
+			if (Constants.CONTROLLER_LOGGING) {
+				console.log("right of click");
+				console.log("Move x for touch event " + this.moveTo);
+			}
+			
+			if (this.x + 1 > this.moveTo) {
+				this.x = this.moveTo;
+				delete this.moveTo;
+				clearInterval(this.moveToAnimation);
+				delete this.moveToAnimation;
+			} else {
+				this.x += 1;
+			}	
+		} else if (this.moveTo <= this.x) {
+			if (Constants.CONTROLLER_LOGGING) {
+				console.log("left of click");
+				console.log("Move x for touch event " + this.moveTo);
+			}
+			if (this.x - 1 < this.moveTo) {
+				this.x = this.moveTo;
+				delete this.moveTo;
+				clearInterval(this.moveToAnimation);
+				delete this.moveToAnimation;
+			} else {
+				this.x -= 1;
+			}	
+		}
 };
 GoodGuy.init = function () {
 	this.x = (Global.PEWPEW_CANVAS.width / 2);

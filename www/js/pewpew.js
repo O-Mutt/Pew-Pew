@@ -229,6 +229,7 @@ function collisionCheckBullets() {
 
 function moveBadGuys() {
     var isWall = false;
+    console.log("move bad guys");
 	for(var a = Global.badGuys.length - 1; a >= 0; a--) {
     	var badGuy = Global.badGuys[a],
     		velocity = badGuy.velocity;
@@ -276,7 +277,7 @@ function moveBadGuys() {
             }
 
             //Check if bad guy hit the bottom
-            if (Constants.DEBUG) {
+            if (Constants.REDRAW_LOGGING) {
 				console.log("BadGuy Bottom [" + badGuy.bottom() + "]");
 			}
             if (badGuy.bottom() > $(Global.PEWPEW_CANVAS).height) {
